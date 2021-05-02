@@ -15,7 +15,6 @@ function App(props) {
 
   const changeView = () => {
     clearTimeout(viewTimer);
-
     viewTimer = setTimeout(() => {
       setMobileView(window.innerWidth < 600);
     }, 400);
