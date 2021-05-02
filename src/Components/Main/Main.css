@@ -1,0 +1,25 @@
+.main {
+  position: relative;
+}
+
+.main_topbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.main_topbar h2 {
+  flex: 10;
+}
+
+.main_topbar_elem {
+  display: flex;
+  margin: 0 5px;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  user-select: none;
+  transition: 300ms;
+}
+.main_topbar_elem_active {
+  background: var(--secondary-color);
+}
