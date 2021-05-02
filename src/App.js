@@ -23,14 +23,14 @@ function App(props) {
 
   useEffect(() => {
     props.mobileViewAction(mobileView);
-  }, [mobileView]);
+  }, [mobileView]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     window.addEventListener("resize", changeView);
     setTimeout(() => {
       props.loadedAction();
     }, 1000);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return props.preloading ? (
     <PreLoader />
