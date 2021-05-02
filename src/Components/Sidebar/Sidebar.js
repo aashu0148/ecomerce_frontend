@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import { Divider } from "@material-ui/core";
@@ -39,9 +40,11 @@ function Sidebar(props) {
       >
         <h1>Explore</h1>
         <ul>
-          <li>
-            <Icon src={newIn} /> <p>New in</p>
-          </li>
+          <Link to="/products">
+            <li>
+              <Icon src={newIn} /> <p>New in</p>
+            </li>
+          </Link>
 
           <li>
             <Icon src={cloth} /> <p>Clothing</p>
