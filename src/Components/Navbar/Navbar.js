@@ -90,7 +90,6 @@ function Navbar(props) {
                   style={{ height: "32px", width: "32px", margin: "0 4px" }}
                   src=""
                 />
-                <h5>Hello</h5>
                 <p
                   onClick={() => setDropdownActive(!dropdownActive)}
                   style={{ cursor: "pointer" }}

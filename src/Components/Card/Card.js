@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   Card,
   CardActionArea,
@@ -12,8 +13,8 @@ function NormalCard(props) {
   return (
     <Card
       style={{
-        width: "250px",
-        boxShadow: "1px -1px 12px rgba(0 0 0 /20%)",
+        width: props.mobileView ? "150px" : "250px",
+        boxShadow: "0px 1px 12px rgba(0 0 0 /20%)",
         margin: "10px",
       }}
       raised
@@ -24,7 +25,7 @@ function NormalCard(props) {
           image={props.image || notFound}
           title={props.imageTitle}
           style={{
-            height: "200px",
+            height: props.mobileView ? "120px" : "200px",
             objectFit: props.image ? "cover" : "contain",
           }}
         />
@@ -47,4 +48,10 @@ function NormalCard(props) {
   );
 }
 
-export default NormalCard;
+const mapStateToProps = (state) => {
+  return {
+    mobileView: state.mobileView,
+  };
+};
+
+export default connect(mapStateToProps)(NormalCard);
