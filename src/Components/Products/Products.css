@@ -83,7 +83,7 @@
   min-height: 80vh;
   height: fit-content;
   width: 0;
-  /* overflow: hidden; */
+  overflow: hidden;
   transition: 300ms;
 }
 .products_filter-box:hover {
