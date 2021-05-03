@@ -46,3 +46,9 @@
 .buttonComp-disabled:hover {
   color: #fff;
 }
+
+@media (max-width: 600px) {
+  .buttonComp {
+    padding: 10px 20px;
+  }
+}
