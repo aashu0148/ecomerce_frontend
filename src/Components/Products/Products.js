@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, IconButton, Divider } from "@material-ui/core";
 import SortIcon from "@material-ui/icons/Sort";
 import FilterIcon from "@material-ui/icons/FilterList";
@@ -7,11 +7,25 @@ import Card from "../Card/Card";
 import man from "../../assets/svg/man-2.svg";
 import woman from "../../assets/svg/woman-2.svg";
 import Icon from "../Icon";
+import ListItem from "../ListItem/ListItem";
 import "./Products.css";
 
 function Products() {
   const [sortBoxOpen, setSortBoxOpen] = useState(false);
   const [filterBoxOpen, setFilterBoxOpen] = useState(false);
+
+  const [filters, setFilters] = useState([
+    "Price",
+    "availability",
+    "Shirt",
+    "lower",
+    "T-shirt",
+  ]);
+  const [filterLeftSelectedIndex, setFilterLeftSelectedIndex] = useState(-1);
+
+  useEffect(() => {
+    console.log("changed to : ", filters[filterLeftSelectedIndex]);
+  }, [filterLeftSelectedIndex]);
 
   return (
     <div className="products">
@@ -38,7 +52,7 @@ function Products() {
         style={{ margin: "0", width: "100%" }}
       >
         <Grid item xs={12} sm={3} md={3} lg={3}>
-          <h1 style={{ whiteSpace: "nowrap" }}>Our Products</h1>
+          <h1 style={{ whiteSpace: "nowrap" }}>Products</h1>
         </Grid>
         <Grid item className="products_topbar" xs={12} sm={9} lg={9} container>
           <IconButton style={{ padding: "0", borderRadius: "15px" }}>
@@ -98,16 +112,16 @@ function Products() {
                 style={{ margin: "0", width: "100%" }}
               >
                 <Grid item xs={4} className="products_filter-box_left">
-                  {" "}
-                  <li>None</li>
-                  <Divider />
-                  <li>Price</li>
-                  <Divider />
-                  <li>Ascending</li>
-                  <Divider />
-                  <li>Descending</li>
-                  <Divider />
-                  <li>Popular</li>
+                  {filters.map((item, i) => (
+                    <ListItem
+                      key={i}
+                      selected={i === filterLeftSelectedIndex}
+                      onClick={() => setFilterLeftSelectedIndex(i)}
+                      last={i === filters.length - 1}
+                    >
+                      {item}
+                    </ListItem>
+                  ))}
                 </Grid>
                 <Grid item xs={8} className="products_filter-box_right"></Grid>
               </Grid>

@@ -66,27 +66,17 @@ function Main() {
           <TextCard text="Kurtas under 500" color="#fff" />
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          <Card
-            title="denim of the year"
-            image="https://cdn.pixabay.com/photo/2016/02/19/10/45/fashion-1209388__340.jpg"
-            price="100"
-          />
-          <Card title="denim of the year" price="100" />
-          <Card
-            title="denim of the year"
-            image="https://cdn.pixabay.com/photo/2016/02/19/10/45/fashion-1209388__340.jpg"
-            price="100"
-          />
-        </Grid>
+        <Card
+          title="denim of the year"
+          image="https://cdn.pixabay.com/photo/2016/02/19/10/45/fashion-1209388__340.jpg"
+          price="100"
+        />
+        <Card title="denim of the year" price="100" />
+        <Card
+          title="denim of the year"
+          image="https://cdn.pixabay.com/photo/2016/02/19/10/45/fashion-1209388__340.jpg"
+          price="100"
+        />
       </Grid>
     </div>
   );
