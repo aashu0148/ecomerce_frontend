@@ -97,7 +97,7 @@ function Products() {
                 spacing={2}
                 style={{ margin: "0", width: "100%" }}
               >
-                <Grid item xs={3} className="products_filter-box_left">
+                <Grid item xs={4} className="products_filter-box_left">
                   {" "}
                   <li>None</li>
                   <Divider />
@@ -109,7 +109,7 @@ function Products() {
                   <Divider />
                   <li>Popular</li>
                 </Grid>
-                <Grid item xs={9} className="products_filter-box_right"></Grid>
+                <Grid item xs={8} className="products_filter-box_right"></Grid>
               </Grid>
             </div>
           </div>
