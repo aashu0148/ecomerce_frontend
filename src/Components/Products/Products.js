@@ -25,7 +25,7 @@ function Products() {
 
   useEffect(() => {
     console.log("changed to : ", filters[filterLeftSelectedIndex]);
-  }, [filterLeftSelectedIndex]);
+  }, [filterLeftSelectedIndex]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="products">
