@@ -252,23 +252,31 @@ function Products() {
                   ))}
                 </Grid>
                 <Grid item xs={8} className="products_filter-box_right">
-                  {filters[filterLeftSelectedIndex].values.map((item, i) => (
-                    <CheckListItem
-                      key={item.value}
-                      id={item.value}
-                      last={
-                        i === filters[filterLeftSelectedIndex].values.length - 1
-                      }
-                      checked={requiredFilters.indexOf(item.value) > -1}
-                      changed={(check) =>
-                        check
-                          ? addToMyFilter(item.value)
-                          : removeToMyFilter(item.value)
-                      }
-                    >
-                      {item.name}
-                    </CheckListItem>
-                  ))}
+                  <div>
+                    {filters[filterLeftSelectedIndex].values.map((item, i) => (
+                      <CheckListItem
+                        key={item.value}
+                        id={item.value}
+                        last={
+                          i ===
+                          filters[filterLeftSelectedIndex].values.length - 1
+                        }
+                        checked={requiredFilters.indexOf(item.value) > -1}
+                        changed={(check) =>
+                          check
+                            ? addToMyFilter(item.value)
+                            : removeToMyFilter(item.value)
+                        }
+                      >
+                        {item.name}
+                      </CheckListItem>
+                    ))}
+                  </div>
+                  <div>
+                    <br />
+                    <Divider />
+                    <button>Apply</button>
+                  </div>
                 </Grid>
               </Grid>
             </div>
