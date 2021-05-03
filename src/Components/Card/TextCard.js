@@ -6,8 +6,8 @@ function TextCard(props) {
   return (
     <Card
       style={{
-        width: props.mobileView ? "274px" : "440px",
-        height: props.mobileView ? "172px" : "260px",
+        width: props.mobileView ? "320px" : "440px",
+        height: props.mobileView ? "200px" : "260px",
         boxShadow: "1px -1px 12px rgba(0 0 0 /15%)",
         display: "flex",
         alignItems: "center",
@@ -23,8 +23,8 @@ function TextCard(props) {
     >
       <CardActionArea
         style={{
-          width: props.mobileView ? "274px" : "440px",
-          height: props.mobileView ? "172px" : "260px",
+          width: props.mobileView ? "320px" : "440px",
+          height: props.mobileView ? "200px" : "260px",
           textAlign: "center",
         }}
       >
