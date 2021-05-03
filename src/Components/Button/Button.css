@@ -1,0 +1,48 @@
+.buttonComp {
+  display: block;
+  width: fit-content;
+  margin: 10px auto;
+  padding: 10px 40px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 15px;
+  font-size: var(--font-medium);
+  font-weight: 600;
+  -webkit-transition-duration: 400ms;
+  transition-duration: 400ms;
+  outline: none !important;
+  border: 1px solid transparent;
+  user-select: none;
+  cursor: pointer;
+}
+
+.buttonComp:hover {
+  background-color: #8c14ee;
+}
+
+.buttonComp-outline {
+  border: 2px solid var(--primary-color);
+  background-color: #fff;
+  color: #000;
+  font-weight: bold;
+}
+
+.buttonComp-outline:hover {
+  background-color: #00000013;
+}
+
+.buttonComp-raised {
+  -webkit-box-shadow: 0 20px 30px 0 rgb(204 37 107 / 20%);
+  box-shadow: 0 20px 30px 0 rgb(204 37 107 / 20%);
+}
+.buttonComp-raised:hover {
+  -webkit-box-shadow: 0 20px 30px 0 rgb(67 37 204 / 20%);
+  box-shadow: 0 20px 30px 0 rgb(67 37 204 / 20%);
+}
+
+.buttonComp-disabled {
+  background: darkgray !important;
+}
+.buttonComp-disabled:hover {
+  color: #fff;
+}

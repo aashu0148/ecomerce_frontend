@@ -8,7 +8,9 @@ function ListItem(props) {
     <>
       <li
         onClick={props.onClick}
-        className={`list-item ${props.selected ? "list-item_active" : ""}`}
+        className={`list-item ${props.selected ? "list-item_active" : ""}${
+          props.noHover ? "list-item_no-hover" : ""
+        }`}
       >
         {props.children}
       </li>

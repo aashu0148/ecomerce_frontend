@@ -6,6 +6,7 @@ import CartIcon from "@material-ui/icons/ShoppingBasketOutlined";
 import DownIcon from "@material-ui/icons/ArrowDropDownOutlined";
 import SearchIcon from "@material-ui/icons/Search";
 
+import ListItem from "../ListItem/ListItem";
 import "./Navbar.css";
 
 function Navbar(props) {
@@ -106,13 +107,11 @@ function Navbar(props) {
                   dropdownActive ? "navbar_dropdown_active" : " "
                 }`}
               >
-                <ul>
-                  <li>Item 1</li>
-                  <hr />
-                  <li>Item 2</li>
-                  <hr />
-                  <li>Item 3</li>
-                </ul>
+                <ListItem noHover>Item</ListItem>
+                <ListItem noHover>Item 2</ListItem>
+                <ListItem noHover last>
+                  Item 3
+                </ListItem>
               </div>
             </div>
           </Grid>

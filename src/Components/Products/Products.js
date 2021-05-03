@@ -8,8 +8,9 @@ import man from "../../assets/svg/man-2.svg";
 import woman from "../../assets/svg/woman-2.svg";
 import Icon from "../Icon";
 import ListItem from "../ListItem/ListItem";
-import "./Products.css";
 import CheckListItem from "../ListItem/CheckListItem";
+import Button from "../Button/Button";
+import "./Products.css";
 
 function Products() {
   const [sortBoxOpen, setSortBoxOpen] = useState(false);
@@ -275,7 +276,21 @@ function Products() {
                   <div>
                     <br />
                     <Divider />
-                    <button>Apply</button>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Button
+                        outline={true}
+                        onClick={() => setFilterBoxOpen(false)}
+                      >
+                        Close
+                      </Button>
+                      <Button style={{ marginLeft: "auto" }}>Apply</Button>
+                    </div>
                   </div>
                 </Grid>
               </Grid>
