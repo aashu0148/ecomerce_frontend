@@ -80,10 +80,10 @@
   top: 40px;
   right: -12px;
   z-index: 100;
-  min-height: fit-content;
-  height: 80vh;
+  min-height: 80vh;
+  height: fit-content;
   width: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: 300ms;
 }
 .products_filter-box:hover {
