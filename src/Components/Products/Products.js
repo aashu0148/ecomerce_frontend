@@ -15,22 +15,145 @@ function Products() {
   const [sortBoxOpen, setSortBoxOpen] = useState(false);
   const [filterBoxOpen, setFilterBoxOpen] = useState(false);
 
+  const [requiredFilters, setRequiredFilters] = useState([]);
+
   const [filters, setFilters] = useState([
-    "Price",
-    "availability",
-    "Shirt",
-    "lower",
-    "T-shirt",
+    {
+      id: "83",
+      name: "Price",
+      values: [
+        {
+          name: "Price Value 1",
+          value: "19",
+        },
+        {
+          name: "Price Value 1",
+          value: "18",
+        },
+        {
+          name: "Price Value 1",
+          value: "17",
+        },
+        {
+          name: "Price Value 1",
+          value: "16",
+        },
+      ],
+    },
+    {
+      id: "23",
+      name: "Shirt",
+      values: [
+        {
+          name: "Shirt Value 1",
+          value: "15",
+        },
+        {
+          name: "Shirt Value 1",
+          value: "14",
+        },
+        {
+          name: "Shirt Value 1",
+          value: "3",
+        },
+        {
+          name: "Shirt Value 1",
+          value: "12",
+        },
+      ],
+    },
+    {
+      id: "14",
+      name: "T-Shirt",
+      values: [
+        {
+          name: "T-Shirt Value 1",
+          value: "11",
+        },
+        {
+          name: "T-Shirt Value 1",
+          value: "10",
+        },
+        {
+          name: "T-Shirt Value 1",
+          value: "9",
+        },
+        {
+          name: "T-Shirt Value 1",
+          value: "8",
+        },
+      ],
+    },
+    {
+      id: "5",
+      name: "Jacket",
+      values: [
+        {
+          name: "Jacket Value 1",
+          value: "7",
+        },
+        {
+          name: "Jacket Value 1",
+          value: "6",
+        },
+        {
+          name: "Jacket Value 1",
+          value: "5",
+        },
+        {
+          name: "Jacket Value 1",
+          value: "4",
+        },
+      ],
+    },
+    {
+      id: "63",
+      name: "Lower",
+      values: [
+        {
+          name: "Lower Value 1",
+          value: "3",
+        },
+        {
+          name: "Lower Value 1",
+          value: "1",
+        },
+        {
+          name: "Lower Value 1",
+          value: "2",
+        },
+        {
+          name: "Lower Value 1",
+          value: "45",
+        },
+      ],
+    },
   ]);
-  const [filterLeftSelectedIndex, setFilterLeftSelectedIndex] = useState(-1);
+  const [filterLeftSelectedIndex, setFilterLeftSelectedIndex] = useState(0);
 
   useEffect(() => {
-    if (5 > 10) {
+    if (false) {
       setFilters([]);
+      setRequiredFilters([]);
     }
 
-    console.log("changed to : ", filters[filterLeftSelectedIndex]);
-  }, [filterLeftSelectedIndex]); // eslint-disable-line react-hooks/exhaustive-deps
+    console.log("Required filters are : ", requiredFilters);
+  }, [filterLeftSelectedIndex, requiredFilters]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const addToMyFilter = (filterValue) => {
+    const myFilters = [...requiredFilters];
+    const index = myFilters.indexOf(filterValue);
+    if (index < 0) myFilters.push(filterValue);
+    setRequiredFilters(myFilters);
+  };
+  const removeToMyFilter = (filterValue) => {
+    const myFilters = [...requiredFilters];
+    const index = myFilters.indexOf(filterValue);
+    if (index > -1) {
+      myFilters.splice(index, 1);
+    }
+    setRequiredFilters(myFilters);
+  };
 
   return (
     <div className="products">
@@ -124,23 +247,28 @@ function Products() {
                       onClick={() => setFilterLeftSelectedIndex(i)}
                       last={i === filters.length - 1}
                     >
-                      {item}
+                      {item.name}
                     </ListItem>
                   ))}
                 </Grid>
                 <Grid item xs={8} className="products_filter-box_right">
-                  <CheckListItem
-                    changed={(obj) => {
-                      console.log(obj);
-                    }}
-                  >
-                    Check 1
-                  </CheckListItem>
-                  <CheckListItem>Check 2</CheckListItem>
-                  <CheckListItem>Check 3</CheckListItem>
-                  <CheckListItem>Check 4</CheckListItem>
-                  <CheckListItem>Check 5</CheckListItem>
-                  <CheckListItem last>Check 6</CheckListItem>
+                  {filters[filterLeftSelectedIndex].values.map((item, i) => (
+                    <CheckListItem
+                      key={item.value}
+                      id={item.value}
+                      last={
+                        i === filters[filterLeftSelectedIndex].values.length - 1
+                      }
+                      checked={requiredFilters.indexOf(item.value) > -1}
+                      changed={(check) =>
+                        check
+                          ? addToMyFilter(item.value)
+                          : removeToMyFilter(item.value)
+                      }
+                    >
+                      {item.name}
+                    </CheckListItem>
+                  ))}
                 </Grid>
               </Grid>
             </div>

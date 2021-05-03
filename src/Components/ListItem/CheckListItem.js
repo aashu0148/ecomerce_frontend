@@ -1,21 +1,25 @@
+import React, { useState } from "react";
 import { Checkbox, Divider } from "@material-ui/core";
-import React from "react";
 
 import "./ListItem.css";
 function CheckListItem(props) {
+  const [checked, setChecked] = useState(props.checked);
   return (
     <>
-      <div style={{ display: "flex" }}>
+      <div onClick={props.onClick} style={{ display: "flex" }}>
         <Checkbox
+          checked={checked}
+          id={props.id}
           onChange={(e) => {
-            if (props.changed)
-              props.changed({ [props.children]: e.target.checked });
+            if (props.changed) props.changed(e.target.checked);
           }}
           style={{ color: "var(--primary-color)" }}
+          onClick={(e) => {
+            const check = e.target.checked;
+            setChecked(check);
+          }}
         />
-        <li onClick={props.onClick} className={`check-list-item `}>
-          {props.children}
-        </li>
+        <li className={`check-list-item `}>{props.children}</li>
       </div>
       {!props.last ? <Divider /> : ""}
     </>
