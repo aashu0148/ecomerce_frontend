@@ -9,6 +9,7 @@ import woman from "../../assets/svg/woman-2.svg";
 import Icon from "../Icon";
 import ListItem from "../ListItem/ListItem";
 import "./Products.css";
+import CheckListItem from "../ListItem/CheckListItem";
 
 function Products() {
   const [sortBoxOpen, setSortBoxOpen] = useState(false);
@@ -127,7 +128,20 @@ function Products() {
                     </ListItem>
                   ))}
                 </Grid>
-                <Grid item xs={8} className="products_filter-box_right"></Grid>
+                <Grid item xs={8} className="products_filter-box_right">
+                  <CheckListItem
+                    changed={(obj) => {
+                      console.log(obj);
+                    }}
+                  >
+                    Check 1
+                  </CheckListItem>
+                  <CheckListItem>Check 2</CheckListItem>
+                  <CheckListItem>Check 3</CheckListItem>
+                  <CheckListItem>Check 4</CheckListItem>
+                  <CheckListItem>Check 5</CheckListItem>
+                  <CheckListItem last>Check 6</CheckListItem>
+                </Grid>
               </Grid>
             </div>
           </div>

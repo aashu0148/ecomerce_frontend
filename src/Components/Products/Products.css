@@ -27,7 +27,7 @@
 
 .products_filter_backdrop_active {
   background: rgba(0 0 0/15%);
-  height: 90vh;
+  height: 100vh;
   width: 100%;
 }
 
@@ -86,6 +86,7 @@
   overflow: hidden;
   transition: 300ms;
 }
+
 .products_filter-box:hover {
   cursor: default;
 }
@@ -116,4 +117,6 @@
   background: #fff;
   min-height: 80vh;
   height: 100%;
+  max-height: 100vh;
+  overflow-y: scroll;
 }
