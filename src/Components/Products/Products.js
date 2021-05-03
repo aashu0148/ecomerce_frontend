@@ -114,6 +114,9 @@ function Products() {
             </div>
           </div>
         </Grid>
+        <Grid item xs={12} lg={12}>
+          <Divider />
+        </Grid>
 
         <Card title="Product 1" price={1400} />
         <Card title="Product 2" price={1400} />
