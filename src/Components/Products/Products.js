@@ -24,6 +24,10 @@ function Products() {
   const [filterLeftSelectedIndex, setFilterLeftSelectedIndex] = useState(-1);
 
   useEffect(() => {
+    if (5 > 10) {
+      setFilters([]);
+    }
+
     console.log("changed to : ", filters[filterLeftSelectedIndex]);
   }, [filterLeftSelectedIndex]); // eslint-disable-line react-hooks/exhaustive-deps
 
