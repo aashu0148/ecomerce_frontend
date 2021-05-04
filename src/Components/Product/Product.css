@@ -24,6 +24,10 @@
   height: fit-content;
   width: fit-content;
   margin: 0 auto;
+  max-width: 100%;
+}
+.product_carousel .carousel-slider {
+  max-width: 100%;
 }
 .product_carousel_img {
   object-fit: cover;
@@ -67,10 +71,4 @@
   letter-spacing: 1px;
   word-spacing: 2px;
   font-size: 14px;
-}
-
-@media (max-width: 900px) {
-  .product_content {
-    padding-left: 30px !important;
-  }
 }

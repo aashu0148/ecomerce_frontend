@@ -31,7 +31,7 @@ function Product(props) {
             showThumbs={false}
             showArrows={false}
             emulateTouch
-            width={props.mobileView ? "100%" : "350px"}
+            width={props.mobileView ? "100%" : "340px"}
             stopOnHover={true}
             className="product_carousel"
           >
