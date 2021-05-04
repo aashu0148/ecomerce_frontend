@@ -32,12 +32,12 @@
 }
 
 .buttonComp-raised {
-  -webkit-box-shadow: 0 20px 30px 0 rgb(204 37 107 / 20%);
-  box-shadow: 0 20px 30px 0 rgb(204 37 107 / 20%);
+  -webkit-box-shadow: -5px 5px 15px rgb(165 95 224 / 50%);
+  box-shadow: -5px 5px 15px rgb(165 95 224 / 50%);
 }
 .buttonComp-raised:hover {
-  -webkit-box-shadow: 0 20px 30px 0 rgb(67 37 204 / 20%);
-  box-shadow: 0 20px 30px 0 rgb(67 37 204 / 20%);
+  -webkit-box-shadow: -1px 5px 15px rgb(140 20 238 / 60%);
+  box-shadow: -1px 5px 15px rgb(140 20 238 / 60%);
 }
 
 .buttonComp-disabled {

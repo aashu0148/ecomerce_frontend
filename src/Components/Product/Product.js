@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
 import { Grid } from "@material-ui/core";
+import BackIcon from "@material-ui/icons/KeyboardBackspace";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
+import Button from "../Button/Button";
 import "./Product.css";
 
 function Product(props) {
@@ -11,6 +14,12 @@ function Product(props) {
   console.log(id);
   return (
     <div className="product">
+      <Link to="/products" style={{ textDecoration: "none" }}>
+        <div className="product_back-button">
+          <BackIcon />
+          Back
+        </div>
+      </Link>
       <Grid container spacing={3} style={{ margin: "0", width: "100%" }}>
         <Grid item xs={12} sm={5} lg={5}>
           <Carousel
@@ -51,6 +60,28 @@ function Product(props) {
               />
             </div>
           </Carousel>
+        </Grid>
+
+        <Grid item xs={12} sm={7} lg={7} className="product_content">
+          <div>
+            <h1>Product Title goes here.</h1>
+            <p className="product_price">
+              Price - ₹<span>1800</span>
+            </p>
+            <p className="product_desc">
+              This is Dummy text instead of it here goes the DESCRIPTION of the
+              product. Etiam et dapibus urna. Nam dapibus, sem vitae rhoncus
+              porta, lorem nisl tincidunt metus, sed vehicula velit odio ac
+              odio. Aliquam malesuada cursus leo a dapibus. Vestibulum vel
+              euismod velit. Nulla ac dui sodales, fermentum tortor a, consequat
+              nulla. Ut non mauris nulla. Phasellus luctus auctor odio,
+              facilisis dignissim erat commodo in. Nullam nulla quam, mattis ut
+              est nec, laoreet viverra lacus.
+            </p>
+          </div>
+          <Button type="button" raised style={{ marginRight: "10px" }}>
+            Add to Cart
+          </Button>
         </Grid>
       </Grid>
     </div>
