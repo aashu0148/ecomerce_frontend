@@ -70,5 +70,6 @@
   margin: 35px 0;
   letter-spacing: 1px;
   word-spacing: 2px;
-  font-size: 14px;
+  font-size: var(--font-medium);
+  line-height: 1.6rem;
 }
