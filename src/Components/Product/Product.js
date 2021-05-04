@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Grid } from "@material-ui/core";
+// import { Grid } from "@material-ui/core";
 
 function Product(props) {
   const id = props.match.params.id;
