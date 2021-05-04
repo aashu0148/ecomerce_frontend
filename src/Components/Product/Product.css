@@ -1,0 +1,18 @@
+.product_carousel {
+  height: fit-content;
+  width: fit-content;
+  margin: 0 auto;
+}
+.product_carousel_img {
+  object-fit: cover;
+  width: 100%;
+}
+
+.product_carousel .control-dots .dot {
+  background-color: var(--secondary-color);
+  opacity: 0.4;
+}
+
+.product_carousel .control-dots .selected {
+  background-color: var(--primary-color);
+}
