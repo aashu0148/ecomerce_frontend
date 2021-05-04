@@ -21,7 +21,7 @@ function Product(props) {
         </div>
       </Link>
       <Grid container spacing={3} style={{ margin: "0", width: "100%" }}>
-        <Grid item xs={12} sm={5} lg={5}>
+        <Grid item xs={12} sm={4} lg={5}>
           <Carousel
             autoPlay
             interval={2000}
@@ -62,7 +62,7 @@ function Product(props) {
           </Carousel>
         </Grid>
 
-        <Grid item xs={12} sm={7} lg={7} className="product_content">
+        <Grid item xs={12} sm={8} lg={7} className="product_content">
           <div>
             <h1>Product Title goes here.</h1>
             <p className="product_price">
