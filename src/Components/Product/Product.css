@@ -68,3 +68,9 @@
   word-spacing: 2px;
   font-size: 14px;
 }
+
+@media (max-width: 900px) {
+  .product_content {
+    padding-left: 30px !important;
+  }
+}
