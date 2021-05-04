@@ -8,6 +8,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Body from "./Components/Body/Body";
 import "./App.css";
 import Products from "./Components/Products/Products";
+import Product from "./Components/Product/Product";
 
 let viewTimer;
 function App(props) {
@@ -41,7 +42,16 @@ function App(props) {
             <Navbar />
             <Products />
           </Route>
-
+          <Route
+            path="/product/:id"
+            exact
+            render={(props) => (
+              <>
+                <Navbar />
+                <Product {...props} />
+              </>
+            )}
+          />
           <Route path="/" exact>
             <Navbar />
             <Body />
