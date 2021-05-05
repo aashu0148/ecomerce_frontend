@@ -48,7 +48,7 @@ function Navbar(props) {
                   fontWeight: "bolder",
                 }}
               >
-                0
+               {props.cart.length}
               </p>
             </Grid>
           </Link>
@@ -89,7 +89,7 @@ function Navbar(props) {
                       fontWeight: "bolder",
                     }}
                   >
-                    0
+                    {props.cart.length}
                   </p>
                 </div>
               </Link>
@@ -133,6 +133,7 @@ function Navbar(props) {
 const mapStateToProps = (state) => {
   return {
     mobileView: state.mobileView,
+    cart:state.cart
   };
 };
 

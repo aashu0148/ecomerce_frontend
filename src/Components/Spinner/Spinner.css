@@ -1,0 +1,52 @@
+.react_spinner_container {
+  width: 50px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.react_spinner:before,
+.react_spinner:after,
+.react_spinner {
+  border-style: solid;
+  border-width: 20px 10px 0;
+  transform-origin: bottom center;
+  animation-name: rotate;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  border-color: transparent;
+}
+
+.react_spinner {
+  width: 0;
+  height: 0;
+  border-top-color: var(--primary-color);
+  position: relative;
+  animation-duration: 1s;
+}
+.react_spinner:before,
+.react_spinner:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -20px;
+  left: -10px;
+}
+.react_spinner:after {
+  border-top-color: var(--secondary-color);
+  animation-duration: 2s;
+}
+.react_spinner:before {
+  border-top-color: var(--primary-color);
+  animation-duration: 4s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

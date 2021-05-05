@@ -11,9 +11,12 @@ import Icon from "../Icon";
 import ListItem from "../ListItem/ListItem";
 import CheckListItem from "../ListItem/CheckListItem";
 import Button from "../Button/Button";
+import Spinner from "../Spinner/Spinner";
 import "./Products.css";
 
 function Products() {
+  const [pageLoaded, setPageLoaded] = useState(false);
+
   const [sortBoxOpen, setSortBoxOpen] = useState(false);
   const [filterBoxOpen, setFilterBoxOpen] = useState(false);
 
@@ -182,6 +185,7 @@ function Products() {
     }
 
     console.log("Required filters are : ", requiredFilters);
+    setPageLoaded(true);
   }, [filterLeftSelectedIndex, requiredFilters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const addToMyFilter = (filterValue) => {
@@ -199,7 +203,7 @@ function Products() {
     setRequiredFilters(myFilters);
   };
 
-  return (
+  return pageLoaded ? (
     <div className="products">
       <div
         className={`products_backdrop ${
@@ -360,6 +364,8 @@ function Products() {
         ))}
       </Grid>
     </div>
+  ) : (
+    <Spinner />
   );
 }
 

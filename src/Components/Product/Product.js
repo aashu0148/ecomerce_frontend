@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
@@ -6,13 +6,59 @@ import { Grid } from "@material-ui/core";
 import BackIcon from "@material-ui/icons/KeyboardBackspace";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
+import * as actionTypes from "../../store/action";
+import Spinner from "../Spinner/Spinner";
 import Button from "../Button/Button";
 import "./Product.css";
 
 function Product(props) {
   const id = props.match.params.id;
-  console.log(id);
-  return (
+
+  const [product, setProduct] = useState();
+  const [carouselInner, setCarouselInner] = useState();
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    const product = {
+      id: id,
+      title: "Title goes here",
+      price: "1800",
+      size: "L",
+      desc: `This is Dummy text instead of it here goes the DESCRIPTION of the
+      product. Etiam et dapibus urna. Nam dapibus, sem vitae rhoncus
+      porta, lorem nisl tincidunt metus, sed vehicula velit odio ac
+      odio. Aliquam malesuada cursus leo a dapibus. Vestibulum vel
+      euismod velit. Nulla ac dui sodales, fermentum tortor a, consequat
+      nulla. Ut non mauris nulla. Phasellus luctus auctor odio,
+      facilisis dignissim erat commodo in. Nullam nulla quam, mattis ut
+      est nec, laoreet viverra lacus.`,
+      image:
+        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207672/2020/3/17/d7a23f89-f0df-43b4-a00d-1a3742e8cafe1584442789288-Jack--Jones-Men-White--Black-Slim-Fit-Checked-Casual-Shirt-5-4.jpg",
+      images: [
+        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207672/2020/3/17/d7a23f89-f0df-43b4-a00d-1a3742e8cafe1584442789288-Jack--Jones-Men-White--Black-Slim-Fit-Checked-Casual-Shirt-5-4.jpg",
+        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/8131511/2019/10/30/f95ebc59-e8c2-44b1-8b26-4a2078af530d1572428433517-Jack--Jones-Men-Olive-Green-Slim-Fit-Solid-Chinos-7721572428-1.jpg",
+        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207372/2020/2/5/43210b97-11e6-43f3-b011-357a8bdacf8b1580902145818-Jack--Jones-Men-Shirts-5381580902144477-1.jpg",
+      ],
+    };
+    setProduct(product);
+
+    const inner = product.images.map((item, i) => (
+      <div key={i}>
+        <img
+          className="product_carousel_img"
+          style={{ height: "460px" }}
+          src={item}
+          alt="not found"
+        />
+      </div>
+    ));
+
+    setCarouselInner(inner);
+
+    setPageLoaded(true);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return pageLoaded ? (
     <div className="product">
       <Link to="/products" style={{ textDecoration: "none" }}>
         <div className="product_back-button">
@@ -35,56 +81,31 @@ function Product(props) {
             stopOnHover={true}
             className="product_carousel"
           >
-            <div>
-              <img
-                className="product_carousel_img"
-                style={{ height: "460px" }}
-                src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207672/2020/3/17/d7a23f89-f0df-43b4-a00d-1a3742e8cafe1584442789288-Jack--Jones-Men-White--Black-Slim-Fit-Checked-Casual-Shirt-5-4.jpg"
-                alt="not found"
-              />
-            </div>
-            <div>
-              <img
-                style={{ height: "460px" }}
-                className="product_carousel_img"
-                src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/8131511/2019/10/30/f95ebc59-e8c2-44b1-8b26-4a2078af530d1572428433517-Jack--Jones-Men-Olive-Green-Slim-Fit-Solid-Chinos-7721572428-1.jpg"
-                alt="not found"
-              />
-            </div>
-            <div>
-              <img
-                style={{ height: "460px" }}
-                className="product_carousel_img"
-                src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207372/2020/2/5/43210b97-11e6-43f3-b011-357a8bdacf8b1580902145818-Jack--Jones-Men-Shirts-5381580902144477-1.jpg"
-                alt="not found"
-              />
-            </div>
+            {carouselInner}
           </Carousel>
         </Grid>
 
         <Grid item xs={12} sm={7} lg={7} className="product_content">
           <div>
-            <h1>Product Title goes here.</h1>
+            <h1>{product.title || "_"}</h1>
             <p className="product_price">
-              Price - ₹<span>1800</span>
+              Price - ₹<span>{product.price || "_"}</span>
             </p>
-            <p className="product_desc">
-              This is Dummy text instead of it here goes the DESCRIPTION of the
-              product. Etiam et dapibus urna. Nam dapibus, sem vitae rhoncus
-              porta, lorem nisl tincidunt metus, sed vehicula velit odio ac
-              odio. Aliquam malesuada cursus leo a dapibus. Vestibulum vel
-              euismod velit. Nulla ac dui sodales, fermentum tortor a, consequat
-              nulla. Ut non mauris nulla. Phasellus luctus auctor odio,
-              facilisis dignissim erat commodo in. Nullam nulla quam, mattis ut
-              est nec, laoreet viverra lacus.
-            </p>
+            <p className="product_desc">{product.desc || "_"}</p>
           </div>
-          <Button type="button" raised style={{ marginRight: "10px" }}>
+          <Button
+            onClick={() => props.addProductAction(product)}
+            type="button"
+            raised
+            style={{ marginRight: "10px" }}
+          >
             Add to Cart
           </Button>
         </Grid>
       </Grid>
     </div>
+  ) : (
+    <Spinner />
   );
 }
 
@@ -93,5 +114,11 @@ const mapStateToProps = (state) => {
     mobileView: state.mobileView,
   };
 };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addProductAction: (product) =>
+      dispatch({ type: actionTypes.ADD_PRODUCT, product }),
+  };
+};
 
-export default connect(mapStateToProps)(Product);
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

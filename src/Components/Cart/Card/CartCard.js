@@ -4,6 +4,7 @@ import { Grid, IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
+import * as actionTypes from "../../../store/action";
 import Button from "../../Button/Button";
 import notFound from "../../../assets/svg/404.svg";
 import "./CartCard.css";
@@ -43,7 +44,8 @@ function CartCard(props) {
         <div>
           <h3 style={{ marginBottom: "15px" }}>{props.title || "Title"}</h3>
           <h4>
-            Price - ₹<span className="special-text">{props.price || "_"}</span>
+            Price - ₹
+            <span className="special-text">{props.price * qty || "_"}</span>
           </h4>
           <h4>
             Qty
@@ -54,6 +56,7 @@ function CartCard(props) {
                   const newQty = qty - 1;
                   setQty(newQty);
                 }
+                props.decrementProductAction(props.id);
               }}
             >
               <RemoveIcon
@@ -71,6 +74,7 @@ function CartCard(props) {
                 if (qty < 20) {
                   const newQty = qty + 1;
                   setQty(newQty);
+                  props.incrementProductAction(props.id);
                 }
               }}
             >
@@ -91,6 +95,7 @@ function CartCard(props) {
           style={{ padding: "2px 10px", margin: "0" }}
           outline
           type="button"
+          onClick={() => props.removeProductAction(props.id)}
         >
           Remove
         </Button>
@@ -105,4 +110,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(CartCard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    incrementProductAction: (id) =>
+      dispatch({ type: actionTypes.INCREMENT_PRODUCT, productId: id }),
+    decrementProductAction: (id) =>
+      dispatch({ type: actionTypes.DECREMENT_PRODUCT, productId: id }),
+    removeProductAction: (id) =>
+      dispatch({ type: actionTypes.REMOVE_PRODUCT, productId: id }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartCard);
