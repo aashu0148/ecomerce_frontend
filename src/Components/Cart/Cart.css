@@ -19,3 +19,8 @@
   font-size: var(--font-large);
   margin-bottom: 20px;
 }
+
+.cart_right {
+  max-height: 800px;
+  overflow-y: scroll;
+}

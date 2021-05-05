@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 
+import Button from "../../Button/Button";
+import notFound from "../../../assets/svg/404.svg";
 import "./CartCard.css";
 
 function CartCard(props) {
+  const [qty, setQty] = useState(props.qty);
+
   return (
     <Grid
       container
@@ -12,7 +18,7 @@ function CartCard(props) {
       style={{
         width: "100%",
         margin: "0",
-        maxHeight: "200px",
+        maxHeight: "230px",
       }}
       className="cart-card"
     >
@@ -21,16 +27,67 @@ function CartCard(props) {
         xs={4}
         lg={4}
         className="cart-card_left"
-        style={{ maxHeight: "200px" }}
+        style={{ maxHeight: "230px" }}
       >
         <img
-          style={{ maxHeight: "200px" }}
-          src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207372/2020/2/5/43210b97-11e6-43f3-b011-357a8bdacf8b1580902145818-Jack--Jones-Men-Shirts-5381580902144477-1.jpg"
+          style={{
+            maxHeight: "230px",
+            maxWidth: "180px",
+            objectFit: props.image ? "cover" : "contain",
+          }}
+          src={props.image || notFound}
           alt="Not found"
         />
       </Grid>
       <Grid item xs={8} lg={8} className="cart-card_right">
-        <h2>{props.title || "Title"}</h2>
+        <div>
+          <h3 style={{ marginBottom: "15px" }}>{props.title || "Title"}</h3>
+          <h4>
+            Price - ₹<span className="special-text">{props.price || "_"}</span>
+          </h4>
+          <h4>
+            Qty
+            <IconButton
+              style={{ padding: "5px" }}
+              onClick={() => {
+                if (qty > 1) setQty(qty - 1);
+              }}
+            >
+              <RemoveIcon
+                style={{
+                  fontSize: "1.6rem",
+                  border: "1px solid #000",
+                  borderRadius: "50%",
+                }}
+              />
+            </IconButton>
+            <span className="special-text">{qty || "_"}</span>
+            <IconButton
+              style={{ padding: "5px" }}
+              onClick={() => {
+                if (qty < 20) setQty(qty + 1);
+              }}
+            >
+              <AddIcon
+                style={{
+                  fontSize: "1.6rem",
+                  border: "1px solid #000",
+                  borderRadius: "50%",
+                }}
+              />
+            </IconButton>
+          </h4>
+
+          <h4>Size - {props.size || "_"}</h4>
+        </div>
+
+        <Button
+          style={{ padding: "5px 10px", margin: "0" }}
+          outline
+          type="button"
+        >
+          Remove
+        </Button>
       </Grid>
     </Grid>
   );

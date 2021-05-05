@@ -80,7 +80,27 @@ function Cart() {
           </div>
         </Grid>
         <Grid item xs={12} sm={7} md={7} lg={7} className="cart_right">
-          <Card image="" title="Title 1" qty="2" price="100" size="L" />
+          <Card
+            image="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207672/2020/3/17/d7a23f89-f0df-43b4-a00d-1a3742e8cafe1584442789288-Jack--Jones-Men-White--Black-Slim-Fit-Checked-Casual-Shirt-5-4.jpg"
+            title="Shirt 1"
+            qty="1"
+            price="1000"
+            size="L"
+          />
+          <Card
+            image="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207378/2020/2/5/3196a313-3b5e-454c-93e5-839252227e7e1580902163843-Jack--Jones-Men-Shirts-1071580902162156-1.jpg"
+            title="Shirt 2"
+            qty="2"
+            price="500"
+            size="S"
+          />
+          <Card
+            image="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207372/2020/2/5/43210b97-11e6-43f3-b011-357a8bdacf8b1580902145818-Jack--Jones-Men-Shirts-5381580902144477-1.jpg"
+            title="Shirt 3"
+            qty="1"
+            price="700"
+            size="XL"
+          />
         </Grid>
       </Grid>
     </div>
