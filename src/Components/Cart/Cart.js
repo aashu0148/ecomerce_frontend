@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Grid, Divider } from "@material-ui/core";
 
+import Card from "./Card/CartCard";
 import Button from "../Button/Button";
 import "./Cart.css";
 
@@ -78,15 +79,9 @@ function Cart() {
             </Button>
           </div>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={7}
-          md={7}
-          lg={7}
-          className="cart_right"
-          style={{ background: "yellow" }}
-        ></Grid>
+        <Grid item xs={12} sm={7} md={7} lg={7} className="cart_right">
+          <Card image="" title="Title 1" qty="2" price="100" size="L" />
+        </Grid>
       </Grid>
     </div>
   );
