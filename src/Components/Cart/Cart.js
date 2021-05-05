@@ -97,7 +97,7 @@ function Cart() {
           <Card
             image="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207372/2020/2/5/43210b97-11e6-43f3-b011-357a8bdacf8b1580902145818-Jack--Jones-Men-Shirts-5381580902144477-1.jpg"
             title="Shirt 3"
-            qty="1"
+            qty={3}
             price="700"
             size="XL"
           />

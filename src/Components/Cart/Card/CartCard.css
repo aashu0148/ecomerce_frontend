@@ -1,7 +1,7 @@
 .cart-card {
   background-color: #fff;
   box-shadow: 1px 1px 15px rgba(0 0 0 / 10%);
-  min-height: 160px;
+  min-height: 180px;
 }
 
 .cart-card_left img {

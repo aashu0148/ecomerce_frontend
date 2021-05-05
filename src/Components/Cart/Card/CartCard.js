@@ -9,7 +9,7 @@ import notFound from "../../../assets/svg/404.svg";
 import "./CartCard.css";
 
 function CartCard(props) {
-  const [qty, setQty] = useState(props.qty);
+  const [qty, setQty] = useState(Number.parseInt(props.qty));
 
   return (
     <Grid
@@ -17,7 +17,7 @@ function CartCard(props) {
       spacing={1}
       style={{
         width: "100%",
-        margin: "0",
+        margin: "10px 0",
         maxHeight: "230px",
       }}
       className="cart-card"
@@ -50,7 +50,10 @@ function CartCard(props) {
             <IconButton
               style={{ padding: "5px" }}
               onClick={() => {
-                if (qty > 1) setQty(qty - 1);
+                if (qty > 1) {
+                  const newQty = qty - 1;
+                  setQty(newQty);
+                }
               }}
             >
               <RemoveIcon
@@ -65,7 +68,10 @@ function CartCard(props) {
             <IconButton
               style={{ padding: "5px" }}
               onClick={() => {
-                if (qty < 20) setQty(qty + 1);
+                if (qty < 20) {
+                  const newQty = qty + 1;
+                  setQty(newQty);
+                }
               }}
             >
               <AddIcon
@@ -82,7 +88,7 @@ function CartCard(props) {
         </div>
 
         <Button
-          style={{ padding: "5px 10px", margin: "0" }}
+          style={{ padding: "2px 10px", margin: "0" }}
           outline
           type="button"
         >

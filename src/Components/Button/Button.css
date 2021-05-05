@@ -51,4 +51,7 @@
   .buttonComp {
     padding: 10px 20px;
   }
+  .buttonComp-outline {
+    border: 1px solid var(--primary-color);
+  }
 }
