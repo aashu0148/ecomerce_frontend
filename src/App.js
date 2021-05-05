@@ -6,9 +6,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PreLoader from "./Components/PreLoader/PreLoader";
 import Navbar from "./Components/Navbar/Navbar";
 import Body from "./Components/Body/Body";
-import "./App.css";
 import Products from "./Components/Products/Products";
 import Product from "./Components/Product/Product";
+import Cart from "./Components/Cart/Cart";
+import "./App.css";
 
 let viewTimer;
 function App(props) {
@@ -52,6 +53,9 @@ function App(props) {
               </>
             )}
           />
+          <Route path="/cart" exact>
+            <Cart />
+          </Route>
           <Route path="/" exact>
             <Navbar />
             <Body />

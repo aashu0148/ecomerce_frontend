@@ -34,22 +34,24 @@ function Navbar(props) {
           </Link>
         </Grid>
         {props.mobileView ? (
-          <Grid
-            item
-            xs={2}
-            style={{ margin: "auto", textAlign: "center", display: "flex" }}
-          >
-            <CartIcon />
-            <p
-              style={{
-                marginTop: "auto",
-                marginBottom: "0",
-                fontWeight: "bolder",
-              }}
+          <Link to="/cart" style={{ textDecoration: "none", color: "#000" }}>
+            <Grid
+              item
+              xs={2}
+              style={{ margin: "auto", textAlign: "center", display: "flex" }}
             >
-              0
-            </p>
-          </Grid>
+              <CartIcon />
+              <p
+                style={{
+                  marginTop: "auto",
+                  marginBottom: "0",
+                  fontWeight: "bolder",
+                }}
+              >
+                0
+              </p>
+            </Grid>
+          </Link>
         ) : (
           ""
         )}
@@ -74,18 +76,23 @@ function Navbar(props) {
         {!props.mobileView ? (
           <Grid item xs={12} sm={3} md={3} lg={3}>
             <div className="navbar_right">
-              <div className="navbar_right_item">
-                <CartIcon />
-                <p
-                  style={{
-                    marginTop: "auto",
-                    marginBottom: "0",
-                    fontWeight: "bolder",
-                  }}
-                >
-                  0
-                </p>
-              </div>
+              <Link
+                to="/cart"
+                style={{ textDecoration: "none", color: "#000" }}
+              >
+                <div className="navbar_right_item">
+                  <CartIcon />
+                  <p
+                    style={{
+                      marginTop: "auto",
+                      marginBottom: "0",
+                      fontWeight: "bolder",
+                    }}
+                  >
+                    0
+                  </p>
+                </div>
+              </Link>
               <div className="navbar_right_item">
                 <Avatar
                   style={{ height: "32px", width: "32px", margin: "0 4px" }}

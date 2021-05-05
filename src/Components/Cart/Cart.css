@@ -1,0 +1,21 @@
+.cart_navbar_logo {
+  padding: 1px 8px;
+  margin-bottom: 20px;
+}
+
+.cart_left,
+.cart_right {
+  min-height: 300px;
+}
+
+.cart_order-box {
+  background-color: rgba(238, 201, 214, 0.3);
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+}
+.cart_order-box h2 {
+  font-weight: bolder;
+  font-size: var(--font-large);
+  margin-bottom: 20px;
+}
