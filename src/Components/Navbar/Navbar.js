@@ -6,6 +6,7 @@ import CartIcon from "@material-ui/icons/ShoppingBasketOutlined";
 import DownIcon from "@material-ui/icons/ArrowDropDownOutlined";
 import SearchIcon from "@material-ui/icons/Search";
 
+import Logo from "./Logo/Logo";
 import ListItem from "../ListItem/ListItem";
 import "./Navbar.css";
 
@@ -23,15 +24,7 @@ function Navbar(props) {
       />
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={10} sm={3} md={3} lg={3}>
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <div className="navbar_logo">
-              <h1>
-                {/* Vast<span>र</span> */}
-                Vas<span>त्र</span>
-                <div />
-              </h1>
-            </div>
-          </Link>
+          <Logo />
         </Grid>
         {props.mobileView ? (
           <Link to="/cart" style={{ textDecoration: "none", color: "#000" }}>
@@ -48,7 +41,7 @@ function Navbar(props) {
                   fontWeight: "bolder",
                 }}
               >
-               {props.cart.length}
+                {props.cart.length}
               </p>
             </Grid>
           </Link>
@@ -133,7 +126,7 @@ function Navbar(props) {
 const mapStateToProps = (state) => {
   return {
     mobileView: state.mobileView,
-    cart:state.cart
+    cart: state.cart,
   };
 };
 

@@ -7,6 +7,7 @@ function Icon(props) {
         height: props.size || 24,
         width: props.size || 24,
         borderRadius: "50%",
+        ...props.style,
       }}
     >
       <img

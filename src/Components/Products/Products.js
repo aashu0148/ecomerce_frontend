@@ -12,6 +12,7 @@ import ListItem from "../ListItem/ListItem";
 import CheckListItem from "../ListItem/CheckListItem";
 import Button from "../Button/Button";
 import Spinner from "../Spinner/Spinner";
+import Footer from "../Footer/Footer";
 import "./Products.css";
 
 function Products() {
@@ -362,6 +363,9 @@ function Products() {
             />
           </Link>
         ))}
+        <Grid item xs={12} md={12} lg={12}>
+          <Footer />
+        </Grid>
       </Grid>
     </div>
   ) : (
