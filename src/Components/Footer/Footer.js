@@ -16,6 +16,7 @@ function Footer() {
       container
       spacing={3}
       style={{ margin: "0", width: "100%" }}
+      alignItems="center"
     >
       <Grid item xs={12} md={12} lg={12}>
         <Divider />

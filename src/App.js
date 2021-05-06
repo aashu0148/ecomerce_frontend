@@ -9,6 +9,8 @@ import Body from "./Components/Body/Body";
 import Products from "./Components/Products/Products";
 import Product from "./Components/Product/Product";
 import Cart from "./Components/Cart/Cart";
+import Signin from "./Components/Auth/Signin";
+import Signup from "./Components/Auth/Signup";
 import "./App.css";
 
 let viewTimer;
@@ -39,6 +41,8 @@ function App(props) {
     <Router>
       <div className="App">
         <Switch>
+          <Route path="/signin" exact component={Signin} />
+          <Route path="/signup" exact component={Signup} />
           <Route path="/products">
             <Navbar />
             <Products />
@@ -59,6 +63,17 @@ function App(props) {
           <Route path="/" exact>
             <Navbar />
             <Body />
+          </Route>
+          <Route path="/">
+            <h1
+              style={{
+                textAlign: "center",
+                margin: "30px 0",
+                fontSize: "var(--font-gaint)",
+              }}
+            >
+              Page not Found
+            </h1>
           </Route>
         </Switch>
       </div>
