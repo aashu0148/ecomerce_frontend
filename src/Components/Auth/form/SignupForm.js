@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
@@ -6,6 +6,11 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Button from "../../Button/Button";
 
 function SignupForm(props) {
+  const name = useRef();
+  const email = useRef();
+  const password = useRef();
+  const phone = useRef();
+
   const [errorMessage, setErrorMessage] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
   const [fieldError, setFieldError] = useState({
@@ -26,14 +31,45 @@ function SignupForm(props) {
 
   const submission = (e) => {
     e.preventDefault();
+    const nameValue = name.current.value;
+    const emailValue = email.current.value;
+    const phoneValue = phone.current.value;
+    const passwordValue = password.current.value;
+
+    if (!emailValue || !passwordValue || !phoneValue || !nameValue) {
+      setErrorMessage("Enter Credentials");
+      setSignupButtonDisabled(true);
+      return;
+    }
+
+    console.log(
+      "Name :",
+      nameValue,
+      "| Email :",
+      emailValue,
+      "| Phone :",
+      phoneValue,
+      "| Password :",
+      passwordValue
+    );
   };
 
   useEffect(() => {
-    if (false) {
-      setErrorMessage("Error");
-      setSignupButtonDisabled(false);
+    if (
+      fieldError.name ||
+      fieldError.email ||
+      fieldError.phone ||
+      fieldError.password
+    ) {
+      setSignupButtonDisabled(true);
+      return;
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    setErrorMessage("");
+    setSignupButtonDisabled(false);
+  }, [fieldError]);
+
+  // useEffect(() => {
+  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="signup-form">
@@ -43,9 +79,10 @@ function SignupForm(props) {
         <div className="form-elem">
           <label>Name</label>
           <input
+            ref={name}
             type="text"
             placeholder="Enter your Name"
-            onBlur={(e) => {
+            onChange={(e) => {
               if (e.target.value) {
                 const myError = { ...fieldError };
                 myError.name = "";
@@ -63,8 +100,9 @@ function SignupForm(props) {
         <div className="form-elem">
           <label>Email</label>
           <input
+            ref={email}
             type="text"
-            onBlur={(e) => {
+            onChange={(e) => {
               const value = e.target.value.trim();
               const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -89,6 +127,7 @@ function SignupForm(props) {
         <div className="form-elem">
           <label>Phone</label>
           <input
+            ref={phone}
             type="tel"
             maxLength="10"
             pattern="[0-9]{10}"
@@ -99,14 +138,12 @@ function SignupForm(props) {
               const char = value.slice(-1);
               if ((char >= "0" && char <= "9") || value === "")
                 setPhoneValue(value);
-            }}
-            onBlur={(e) => {
               const myFieldError = { ...fieldError };
-              if (e.target.value.trim() === "") {
+              if (e.target.value === "") {
                 const myFieldError = { ...fieldError };
                 myFieldError.phone = "Enter Phone Number";
                 setFieldError(myFieldError);
-              } else if (phoneValue.length < 10) {
+              } else if (e.target.value.length < 10) {
                 myFieldError.phone = "Invalid Phone Number";
                 setFieldError(myFieldError);
               } else {
@@ -134,6 +171,7 @@ function SignupForm(props) {
             }}
           >
             <input
+              ref={password}
               onFocus={() => setPasswordFieldClicked(true)}
               className="password-input"
               style={{ flex: "10" }}
@@ -156,7 +194,7 @@ function SignupForm(props) {
               }}
               onBlur={(e) => {
                 setPasswordFieldClicked(false);
-                const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,15}$/;
+                const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{6,15}$/;
                 if (e.target.value.trim() === "") {
                   const myFieldError = { ...fieldError };
                   myFieldError.password = "Enter Password";

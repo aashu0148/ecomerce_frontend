@@ -107,10 +107,15 @@ function Navbar(props) {
                   dropdownActive ? "navbar_dropdown_active" : " "
                 }`}
               >
-                <ListItem noHover>Item</ListItem>
-                <ListItem noHover>Item 2</ListItem>
+                <Link
+                  to="/signin"
+                  style={{ textDecoration: "none", color: "#000" }}
+                >
+                  <ListItem noHover>Profile</ListItem>
+                </Link>
+                <ListItem noHover>My Orders</ListItem>
                 <ListItem noHover last>
-                  Item 3
+                  Wishlist
                 </ListItem>
               </div>
             </div>

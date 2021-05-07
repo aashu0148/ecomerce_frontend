@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 
@@ -6,6 +6,9 @@ import Button from "../../Button/Button";
 import "./form.css";
 
 function SigninForm(props) {
+  const email = useRef();
+  const password = useRef();
+
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldError, setFieldError] = useState({
     email: "",
@@ -35,14 +38,30 @@ function SigninForm(props) {
 
   const submission = (e) => {
     e.preventDefault();
+    const emailValue = email.current.value;
+    const passwordValue = password.current.value;
+
+    if (!emailValue || !passwordValue) {
+      setErrorMessage("Enter Credentials");
+      setSigninButtonDisabled(true);
+      return;
+    }
+
+    console.log("Email :", emailValue, "| Password :", passwordValue);
   };
 
   useEffect(() => {
-    if (false) {
-      setErrorMessage("Error");
-      setSigninButtonDisabled(false);
+    if (fieldError.email || fieldError.password) {
+      setSigninButtonDisabled(true);
+      return;
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    setErrorMessage("");
+    setSigninButtonDisabled(false);
+  }, [fieldError]);
+
+  // useEffect(() => {
+
+  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="signin-form">
@@ -52,8 +71,9 @@ function SigninForm(props) {
         <div className="form-elem">
           <label>Email</label>
           <input
+            ref={email}
             type="email"
-            onBlur={(e) => {
+            onChange={(e) => {
               const value = e.target.value;
               validateEmail(value);
             }}
@@ -78,22 +98,29 @@ function SigninForm(props) {
             }}
           >
             <input
+              ref={password}
               onFocus={() => setPasswordFieldClicked(true)}
               className="password-input"
               style={{ flex: "10" }}
               type={passwordVisible ? "text" : "password"}
               placeholder="Enter your Password"
-              onBlur={(e) => {
-                setPasswordFieldClicked(false);
-                if (e.target.value.trim()) {
-                  const myFieldError = { ...fieldError };
-                  myFieldError.password = "";
-                  setFieldError(myFieldError);
-                } else {
+              onChange={(e) => {
+                if (!e.target.value.trim()) {
                   const myFieldError = { ...fieldError };
                   myFieldError.password = "Enter Password";
                   setFieldError(myFieldError);
+                } else if (e.target.value.trim().length < 4) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.password = "Invalid Password";
+                  setFieldError(myFieldError);
+                } else {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.password = "";
+                  setFieldError(myFieldError);
                 }
+              }}
+              onBlur={() => {
+                setPasswordFieldClicked(false);
               }}
             />
             {passwordVisible ? (

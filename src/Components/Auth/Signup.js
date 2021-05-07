@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 
+import Logo from "../Navbar/Logo/Logo";
 import SignupForm from "./form/SignupForm";
 import signupSvg from "../../assets/svg/signup.svg";
 import "./form/form.css";
@@ -12,13 +13,16 @@ function Signup(props) {
       container
       spacing={3}
       style={{ margin: "0", width: "100%" }}
-      className="signin"
-      alignItems="center"
+      className="signup"
+      // alignItems="center"
     >
+      <Grid item xs={12} md={12} lg={12}>
+        <Logo />
+      </Grid>
       {!props.mobileView ? (
         <Grid item sm={5} md={6} lg={6} style={{ textAlign: "center" }}>
           <img
-            style={{ width: "400px", margin: "auto", maxWidth: "100%" }}
+            style={{ width: "530px", margin: "auto", maxWidth: "100%" }}
             src={signupSvg}
             alt="Not found"
           />
