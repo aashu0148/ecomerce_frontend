@@ -22,7 +22,7 @@ function Signin(props) {
       {!props.mobileView ? (
         <Grid item sm={5} md={6} lg={6} style={{ textAlign: "center" }}>
           <img
-            style={{ width: "530px", margin: "auto", maxWidth: "100%" }}
+            style={{ width: "500px", margin: "auto", maxWidth: "100%" }}
             src={signinSvg}
             alt="Not found"
           />
