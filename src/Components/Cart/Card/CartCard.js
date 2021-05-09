@@ -56,7 +56,7 @@ function CartCard(props) {
                   const newQty = qty - 1;
                   setQty(newQty);
                 }
-                props.decrementProductAction(props.id);
+                props.decrementProductAction(props.id, props.size);
               }}
             >
               <RemoveIcon
@@ -74,7 +74,7 @@ function CartCard(props) {
                 if (qty < 20) {
                   const newQty = qty + 1;
                   setQty(newQty);
-                  props.incrementProductAction(props.id);
+                  props.incrementProductAction(props.id, props.size);
                 }
               }}
             >
@@ -95,7 +95,7 @@ function CartCard(props) {
           style={{ padding: "2px 10px", margin: "0" }}
           outline
           type="button"
-          onClick={() => props.removeProductAction(props.id)}
+          onClick={() => props.removeProductAction(props.id, props.size)}
         >
           Remove
         </Button>
@@ -112,12 +112,24 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    incrementProductAction: (id) =>
-      dispatch({ type: actionTypes.INCREMENT_PRODUCT, productId: id }),
-    decrementProductAction: (id) =>
-      dispatch({ type: actionTypes.DECREMENT_PRODUCT, productId: id }),
-    removeProductAction: (id) =>
-      dispatch({ type: actionTypes.REMOVE_PRODUCT, productId: id }),
+    incrementProductAction: (id, size) =>
+      dispatch({
+        type: actionTypes.INCREMENT_PRODUCT,
+        productId: id,
+        productSize: size,
+      }),
+    decrementProductAction: (id, size) =>
+      dispatch({
+        type: actionTypes.DECREMENT_PRODUCT,
+        productId: id,
+        productSize: size,
+      }),
+    removeProductAction: (id, size) =>
+      dispatch({
+        type: actionTypes.REMOVE_PRODUCT,
+        productId: id,
+        productSize: size,
+      }),
   };
 };
 

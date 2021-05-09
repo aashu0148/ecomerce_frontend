@@ -72,6 +72,7 @@
 .products_sort-box_active {
   padding: 20px;
   height: fit-content;
+  min-width: 200px;
   width: fit-content;
 }
 .products_filter-box {

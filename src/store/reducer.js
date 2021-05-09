@@ -25,10 +25,19 @@ const reducer = (state = initialState, action) => {
       const cart = [...myState.cart];
       const product = action.product;
       const pid = product.id;
+      const pSize = product.size;
 
-      const index = cart.findIndex((item) => item.id === pid);
-      if (index > -1) cart[index].qty += 1;
-      else {
+      const index = cart.findIndex(
+        (item) => item.id === pid && item.size === pSize
+      );
+      if (index > -1) {
+        if (cart[index].size === pSize) {
+          cart[index].qty += 1;
+        } else {
+          product.qty = 1;
+          cart.push(product);
+        }
+      } else {
         product.qty = 1;
         cart.push(product);
       }
@@ -40,8 +49,11 @@ const reducer = (state = initialState, action) => {
       const myState = { ...state };
       const cart = [...myState.cart];
       const pid = action.productId;
+      const pSize = action.productSize;
 
-      const index = cart.findIndex((item) => item.id === pid);
+      const index = cart.findIndex(
+        (item) => item.id === pid && item.size === pSize
+      );
       cart[index].qty += 1;
 
       myState.cart = cart;
@@ -51,8 +63,11 @@ const reducer = (state = initialState, action) => {
       const myState = { ...state };
       const cart = [...myState.cart];
       const pid = action.productId;
+      const pSize = action.productSize;
 
-      const index = cart.findIndex((item) => item.id === pid);
+      const index = cart.findIndex(
+        (item) => item.id === pid && item.size === pSize
+      );
       if (cart[index].qty > 1) cart[index].qty -= 1;
       else cart.splice(index, 1);
 
@@ -64,8 +79,11 @@ const reducer = (state = initialState, action) => {
       const myState = { ...state };
       const cart = [...myState.cart];
       const pid = action.productId;
+      const pSize = action.productSize;
 
-      const index = cart.findIndex((item) => item.id === pid);
+      const index = cart.findIndex(
+        (item) => item.id === pid && item.size === pSize
+      );
       cart.splice(index, 1);
 
       myState.cart = cart;

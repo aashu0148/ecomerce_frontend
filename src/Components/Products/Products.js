@@ -261,11 +261,11 @@ function Products() {
               }`}
               onClick={(e) => e.stopPropagation()}
             >
-              <li>None</li>
-              <li>Price</li>
-              <li>Ascending</li>
-              <li>Descending</li>
-              <li>Popular</li>
+              <ListItem noHover>None</ListItem>
+              <ListItem noHover>Price</ListItem>
+              <ListItem noHover last>
+                Popularity
+              </ListItem>
             </div>
           </div>
 

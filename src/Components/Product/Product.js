@@ -22,7 +22,13 @@ function Product(props) {
     const product = {
       id: id,
       title: "Title goes here",
-      price: "1800",
+      price: {
+        S: "1500",
+        M: "1500",
+        L: "1600",
+        XL: "1650",
+      },
+      sizes: ["S", "M", "L", "XL"],
       size: "L",
       desc: `This is Dummy text instead of it here goes the DESCRIPTION of the
       product. Etiam et dapibus urna. Nam dapibus, sem vitae rhoncus
@@ -89,7 +95,26 @@ function Product(props) {
           <div>
             <h1>{product.title || "_"}</h1>
             <p className="product_price">
-              Price - ₹<span>{product.price || "_"}</span>
+              Price - ₹<span>{product.price[product.size] || "_"}</span>
+            </p>
+
+            <p className="product_size">
+              Size -
+              {product.sizes.map((item, i) => (
+                <span
+                  onClick={() => {
+                    const myProduct = { ...product };
+                    myProduct.size = item;
+                    setProduct(myProduct);
+                  }}
+                  key={i}
+                  className={`${
+                    item === product.size ? "product_size_active" : ""
+                  }`}
+                >
+                  {item}
+                </span>
+              ))}
             </p>
             <p className="product_desc">{product.desc || "_"}</p>
           </div>
