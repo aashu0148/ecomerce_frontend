@@ -121,7 +121,7 @@ function Cart(props) {
           <Grid item xs={12} sm={7} md={7} lg={7} className="cart_right">
             {props.cart.map((item, i) => (
               <Card
-                key={i}
+                key={item.id + new Date().getTime() / i}
                 id={item.id}
                 image={item.image}
                 title={item.title}

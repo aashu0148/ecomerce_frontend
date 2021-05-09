@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Grid, IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -11,6 +11,10 @@ import "./CartCard.css";
 
 function CartCard(props) {
   const [qty, setQty] = useState(Number.parseInt(props.qty));
+
+  useEffect(() => {
+    setQty(props.qty);
+  }, [props.qty]);
 
   return (
     <Grid
