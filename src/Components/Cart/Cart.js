@@ -113,9 +113,11 @@ function Cart(props) {
                 </Grid>
               </Grid>
 
-              <Button type="button" raised>
-                Checkout
-              </Button>
+              <Link to="/checkout" style={{ textDecoration: "none" }}>
+                <Button type="button" raised>
+                  Checkout
+                </Button>
+              </Link>
             </div>
           </Grid>
           <Grid item xs={12} sm={7} md={7} lg={7} className="cart_right">

@@ -21,6 +21,8 @@
   background-color: transparent !important;
 }
 
+/* ******************************************* */
+
 .check-list-item {
   padding: 15px 5px;
   width: 100%;
@@ -29,4 +31,18 @@
   cursor: pointer;
   color: #000;
   text-transform: capitalize;
+}
+
+/* ******************************************** */
+.dropdown-list-item {
+  background-color: #fff;
+}
+.dropdown-list-item_box {
+  height: 0px;
+  overflow: hidden;
+  background-color: #fff;
+  transition: 300ms;
+}
+.dropdown-list-item_box_active {
+  height: fit-content;
 }
