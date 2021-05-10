@@ -29,10 +29,15 @@ function DropdownList(props) {
         {props.valid ? (
           <CheckIcon
             fontSize="large"
-            style={{ color: "var(--primary-color)" }}
+            style={{
+              color: props.noIcon ? "transparent" : "var(--primary-color)",
+            }}
           />
         ) : (
-          <ReportIcon fontSize="large" style={{ color: "gray" }} />
+          <ReportIcon
+            fontSize="large"
+            style={{ color: props.noIcon ? "transparent" : "gray" }}
+          />
         )}
       </Grid>
       <Grid

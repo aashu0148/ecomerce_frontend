@@ -1,7 +1,8 @@
 import * as actionTypes from "./action";
 
 const initialState = {
-  auth: false,
+  auth: true,
+  name: "aashu",
   preloading: true,
   mobileView: false,
   cart: [],
