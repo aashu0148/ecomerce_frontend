@@ -54,6 +54,19 @@ function Input(props) {
             }
           }}
         />
+      ) : props.type === "textarea" ? (
+        <textarea
+          maxLength={props.max}
+          onChange={(e) => {
+            props.onChange(e);
+            if (e.target.value) {
+              setError("");
+            } else {
+              setError(`Enter value`);
+            }
+          }}
+          placeholder="Address"
+        />
       ) : (
         <input
           type="text"

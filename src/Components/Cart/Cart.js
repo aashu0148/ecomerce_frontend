@@ -6,6 +6,7 @@ import { Grid, Divider } from "@material-ui/core";
 import Spinner from "../Spinner/Spinner";
 import Card from "./Card/CartCard";
 import Button from "../Button/Button";
+import emptyCart from "../../assets/svg/empty-cart.svg";
 import "./Cart.css";
 
 function Cart(props) {
@@ -45,7 +46,14 @@ function Cart(props) {
               </div>
             </Link>
           </Grid>
-          <h1 style={{ textAlign: "center" }}>Shopping Cart is Empty.</h1>
+          <Grid item xs={12} md={12} lg={12} style={{ textAlign: "center" }}>
+            <img
+              style={{ maxWidth: "360px" }}
+              src={emptyCart}
+              alt="svg not found"
+            />
+            <h1 style={{ textAlign: "center" }}>Shopping Cart is Empty.</h1>
+          </Grid>
         </Grid>
       ) : (
         <Grid container spacing={3} style={{ margin: "0", width: "100%" }}>

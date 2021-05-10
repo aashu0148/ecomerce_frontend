@@ -15,6 +15,7 @@ import "./Checkout.css";
 function Checkout(props) {
   const [values, setValues] = useState({
     name: "",
+    address: "",
     email: "",
     phone: "",
     state: "",
@@ -31,6 +32,7 @@ function Checkout(props) {
 
   const [fieldError, setFieldError] = useState({
     name: "",
+    address: "",
     email: "",
     phone: "",
     state: "",
@@ -40,6 +42,7 @@ function Checkout(props) {
   const addressConfirmHandler = () => {
     if (
       fieldError.name ||
+      fieldError.address ||
       fieldError.email ||
       fieldError.phone ||
       fieldError.state ||
@@ -47,10 +50,12 @@ function Checkout(props) {
     ) {
       setErrorMsg("Invalid Credentials");
       setConfirmButtonDisabled(true);
+      setDeliveryValid(false);
       return;
     }
     if (
       values.name === "" ||
+      values.address === "" ||
       values.email === "" ||
       values.phone === "" ||
       values.state === "" ||
@@ -58,6 +63,7 @@ function Checkout(props) {
     ) {
       setErrorMsg("Enter Credentials");
       setConfirmButtonDisabled(true);
+      setDeliveryValid(false);
       return;
     }
 
@@ -67,6 +73,7 @@ function Checkout(props) {
   useEffect(() => {
     if (
       fieldError.name ||
+      fieldError.address ||
       fieldError.email ||
       fieldError.phone ||
       fieldError.state ||
@@ -78,6 +85,7 @@ function Checkout(props) {
     }
     if (
       values.name === "" ||
+      values.address === "" ||
       values.email === "" ||
       values.phone === "" ||
       values.state === "" ||
@@ -234,6 +242,25 @@ function Checkout(props) {
                     onChange={(e) => {
                       const myValues = { ...values };
                       myValues.city = e.target.value;
+                      setValues(myValues);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={6}>
+                  <Input
+                    type="textarea"
+                    max={115}
+                    label="Street Address"
+                    onError={(err) => {
+                      if (err !== fieldError.address) {
+                        const myFieldError = { ...fieldError };
+                        myFieldError.address = err;
+                        setFieldError(myFieldError);
+                      }
+                    }}
+                    onChange={(e) => {
+                      const myValues = { ...values };
+                      myValues.address = e.target.value;
                       setValues(myValues);
                     }}
                   />

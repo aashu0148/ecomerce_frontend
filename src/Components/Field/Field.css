@@ -42,7 +42,8 @@
 .field-form-elem input::placeholder {
   color: #8f9397;
 }
-.field-form-elem select {
+.field-form-elem select,
+.field-form-elem textarea {
   background: #fff;
   min-width: 250px;
   border: none;
@@ -55,7 +56,13 @@
   margin: 3px 0;
 }
 
-.field-form-elem select:focus {
+.field-form-elem textarea {
+  min-height: 125px;
+  resize: none;
+}
+
+.field-form-elem select:focus,
+.field-form-elem textarea:focus {
   box-shadow: -2px 7px 12px rgb(0 0 0 / 20%);
 }
 .field-form-elem .password-input {
