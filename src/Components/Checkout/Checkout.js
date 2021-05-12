@@ -275,7 +275,13 @@ function Checkout(props) {
                     Confirm
                   </Button>
                 </Grid>
-                <Grid item xs={12} md={12} lg={12}>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  style={{ textAlign: "center" }}
+                >
                   <small
                     style={{ width: "fit-content", margin: "0 auto" }}
                     className="field-error-msg"
