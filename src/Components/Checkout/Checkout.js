@@ -68,6 +68,8 @@ function Checkout(props) {
     }
 
     setDeliveryValid(true);
+
+    setErrorMsg("");
   };
 
   useEffect(() => {
