@@ -276,7 +276,12 @@ function Checkout(props) {
                   </Button>
                 </Grid>
                 <Grid item xs={12} md={12} lg={12}>
-                  <small className="field-error-msg">{errorMsg}</small>
+                  <small
+                    style={{ width: "fit-content", margin: "0 auto" }}
+                    className="field-error-msg"
+                  >
+                    {errorMsg}
+                  </small>
                 </Grid>
               </Grid>
               <br />

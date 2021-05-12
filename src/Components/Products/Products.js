@@ -33,15 +33,15 @@ function Products() {
           value: "19",
         },
         {
-          name: "Price Value 1",
+          name: "Price Value 2",
           value: "18",
         },
         {
-          name: "Price Value 1",
+          name: "Price Value 3",
           value: "17",
         },
         {
-          name: "Price Value 1",
+          name: "Price Value 4",
           value: "16",
         },
       ],
@@ -55,15 +55,15 @@ function Products() {
           value: "15",
         },
         {
-          name: "Shirt Value 1",
+          name: "Shirt Value 2",
           value: "14",
         },
         {
-          name: "Shirt Value 1",
+          name: "Shirt Value 3",
           value: "3",
         },
         {
-          name: "Shirt Value 1",
+          name: "Shirt Value 4",
           value: "12",
         },
       ],
@@ -77,15 +77,15 @@ function Products() {
           value: "11",
         },
         {
-          name: "T-Shirt Value 1",
+          name: "T-Shirt Value 2",
           value: "10",
         },
         {
-          name: "T-Shirt Value 1",
+          name: "T-Shirt Value 3",
           value: "9",
         },
         {
-          name: "T-Shirt Value 1",
+          name: "T-Shirt Value 4",
           value: "8",
         },
       ],
@@ -99,15 +99,15 @@ function Products() {
           value: "7",
         },
         {
-          name: "Jacket Value 1",
+          name: "Jacket Value 2",
           value: "6",
         },
         {
-          name: "Jacket Value 1",
+          name: "Jacket Value 3",
           value: "5",
         },
         {
-          name: "Jacket Value 1",
+          name: "Jacket Value 4",
           value: "4",
         },
       ],
@@ -121,15 +121,15 @@ function Products() {
           value: "3",
         },
         {
-          name: "Lower Value 1",
+          name: "Lower Value 2",
           value: "1",
         },
         {
-          name: "Lower Value 1",
+          name: "Lower Value 3",
           value: "2",
         },
         {
-          name: "Lower Value 1",
+          name: "Lower Value 4",
           value: "45",
         },
       ],
