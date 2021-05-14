@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import * as actionTypes from "../../../store/action";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import jwt from "jsonwebtoken";
 
+import secretKey from "../../../secret";
 import Button from "../../Button/Button";
 import "./form.css";
 
@@ -20,7 +24,8 @@ function SigninForm(props) {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const validateEmail = (email) => {
-    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const regex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (email.trim() === "") {
       const myFieldError = { ...fieldError };
       myFieldError.email = "Enter Email";
@@ -47,7 +52,48 @@ function SigninForm(props) {
       return;
     }
 
-    console.log("Email :", emailValue, "| Password :", passwordValue);
+    setSigninButtonDisabled(true);
+    fetch(`${process.env.REACT_APP_SERVER}/user/signin`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        email: emailValue,
+        password: passwordValue,
+      }),
+    })
+      .then(async (res) => {
+        setSigninButtonDisabled(false);
+        const data = await res.json();
+        if (!data.status) {
+          setErrorMessage(data.message);
+          return;
+        }
+
+        const token = jwt.sign(
+          {
+            email: emailValue,
+            password: passwordValue,
+          },
+          secretKey,
+          {
+            expiresIn: "6d",
+          }
+        );
+
+        localStorage.setItem("vastr-token", JSON.stringify(token));
+
+        props.loginAction({
+          name: data.data.name,
+          email: data.data.email,
+          mobile: data.data.mobile,
+          cart: data.data.cart || [],
+        });
+        props.history.push("/");
+      })
+      .catch(() => {
+        setSigninButtonDisabled(false);
+        console.log("Enable to connect to server.");
+      });
   };
 
   useEffect(() => {
@@ -182,4 +228,21 @@ function SigninForm(props) {
   );
 }
 
-export default SigninForm;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginAction: (data) =>
+      dispatch({
+        type: actionTypes.LOGIN,
+        name: data.name,
+        email: data.email,
+        mobile: data.mobile,
+        cart: data.cart,
+      }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SigninForm);
