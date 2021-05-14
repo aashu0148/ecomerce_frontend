@@ -8,7 +8,9 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import * as actionTypes from "../../store/action";
 import Spinner from "../Spinner/Spinner";
+import Navbar from "../Navbar/Navbar";
 import Button from "../Button/Button";
+import Popup from "../SweetPopup/Popup";
 import "./Product.css";
 
 function Product(props) {
@@ -17,6 +19,16 @@ function Product(props) {
   const [product, setProduct] = useState();
   const [carouselInner, setCarouselInner] = useState();
   const [pageLoaded, setPageLoaded] = useState(false);
+  const [popupText, setPopupText] = useState("");
+  const [popupActive, setPopupActive] = useState("");
+
+  const popup = (text) => {
+    setPopupText(text);
+    setPopupActive(true);
+    setTimeout(() => {
+      setPopupActive(false);
+    }, 2000);
+  };
 
   useEffect(() => {
     const product = {
@@ -65,69 +77,76 @@ function Product(props) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return pageLoaded ? (
-    <div className="product">
-      <Link to="/products" style={{ textDecoration: "none" }}>
-        <div className="product_back-button">
-          <BackIcon />
-          Back
-        </div>
-      </Link>
-      <Grid container spacing={3} style={{ margin: "0", width: "100%" }}>
-        <Grid item xs={12} sm={5} lg={5}>
-          <Carousel
-            autoPlay
-            interval={2000}
-            infiniteLoop
-            showStatus={false}
-            useKeyboardArrows
-            showThumbs={false}
-            showArrows={false}
-            emulateTouch
-            width={props.mobileView ? "100%" : "340px"}
-            stopOnHover={true}
-            className="product_carousel"
-          >
-            {carouselInner}
-          </Carousel>
-        </Grid>
-
-        <Grid item xs={12} sm={7} lg={7} className="product_content">
-          <div>
-            <h1>{product.title || "_"}</h1>
-            <p className="product_price">
-              Price - ₹<span>{product.price[product.size] || "_"}</span>
-            </p>
-
-            <p className="product_size">
-              Size -
-              {product.sizes.map((item, i) => (
-                <span
-                  onClick={() => {
-                    const myProduct = { ...product };
-                    myProduct.size = item;
-                    setProduct(myProduct);
-                  }}
-                  key={i}
-                  className={`${
-                    item === product.size ? "product_size_active" : ""
-                  }`}
-                >
-                  {item}
-                </span>
-              ))}
-            </p>
-            <p className="product_desc">{product.desc || "_"}</p>
+    <div>
+      <Navbar />
+      <Popup text={popupText} active={popupActive} />
+      <div className="product">
+        <Link to="/products" style={{ textDecoration: "none" }}>
+          <div className="product_back-button">
+            <BackIcon />
+            Back
           </div>
-          <Button
-            onClick={() => props.addProductAction(product)}
-            type="button"
-            raised
-            style={{ marginRight: "10px" }}
-          >
-            Add to Cart
-          </Button>
+        </Link>
+        <Grid container spacing={3} style={{ margin: "0", width: "100%" }}>
+          <Grid item xs={12} sm={5} lg={5}>
+            <Carousel
+              autoPlay
+              interval={2000}
+              infiniteLoop
+              showStatus={false}
+              useKeyboardArrows
+              showThumbs={false}
+              showArrows={false}
+              emulateTouch
+              width={props.mobileView ? "100%" : "340px"}
+              stopOnHover={true}
+              className="product_carousel"
+            >
+              {carouselInner}
+            </Carousel>
+          </Grid>
+
+          <Grid item xs={12} sm={7} lg={7} className="product_content">
+            <div>
+              <h1>{product.title || "_"}</h1>
+              <p className="product_price">
+                Price - ₹<span>{product.price[product.size] || "_"}</span>
+              </p>
+
+              <p className="product_size">
+                Size -
+                {product.sizes.map((item, i) => (
+                  <span
+                    onClick={() => {
+                      const myProduct = { ...product };
+                      myProduct.size = item;
+                      setProduct(myProduct);
+                    }}
+                    key={i}
+                    className={`${
+                      item === product.size ? "product_size_active" : ""
+                    }`}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </p>
+              <p className="product_desc">{product.desc || "_"}</p>
+            </div>
+            <Button
+              onClick={() => {
+                props.addProductAction(product);
+                popup("Added to Cart");
+              }}
+              type="button"
+              raised
+              style={{ marginRight: "10px" }}
+            >
+              Add to Cart
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     </div>
   ) : (
     <Spinner />

@@ -50,14 +50,14 @@ function Sidebar(props) {
           <ListItem>
             <Icon src={cloth} /> <p>Clothing</p>
           </ListItem>
-          <ListItem last={!props.mobileView}>
+          <ListItem>
             <Icon src={shoes} /> <p>Footware</p>
           </ListItem>
           <Link
             to="/products"
             style={{ textDecoration: "none", color: "#000" }}
           >
-            <ListItem>Products</ListItem>
+            <ListItem last={!props.mobileView}>Products</ListItem>
           </Link>
           {props.mobileView ? (
             props.auth ? (
@@ -82,7 +82,7 @@ function Sidebar(props) {
                 to="/signin"
                 style={{ textDecoration: "none", color: "#000" }}
               >
-                <ListItem>Hello Signin</ListItem>
+                <ListItem last>Hello Signin</ListItem>
               </Link>
             )
           ) : (

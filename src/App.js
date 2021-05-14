@@ -78,16 +78,7 @@ function App(props) {
             <Navbar />
             <Products />
           </Route>
-          <Route
-            path="/product/:id"
-            exact
-            render={(props) => (
-              <>
-                <Navbar />
-                <Product {...props} />
-              </>
-            )}
-          />
+          <Route path="/product/:id" exact component={Product} />
           <Route path="/cart" exact>
             <Cart />
           </Route>
