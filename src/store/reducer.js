@@ -1,8 +1,10 @@
 import * as actionTypes from "./action";
 
 const initialState = {
-  auth: true,
-  name: "aashu",
+  auth: false,
+  name: "",
+  email: "",
+  mobile: "",
   preloading: true,
   mobileView: false,
   cart: [],
@@ -22,6 +24,27 @@ const reducer = (state = initialState, action) => {
       return myState;
     }
 
+    case actionTypes.LOGIN: {
+      const myState = { ...state };
+      myState.auth = true;
+      myState.name = action.name;
+      myState.email = action.email;
+      myState.mobile = action.mobile;
+      myState.cart = action.cart || [];
+
+      return myState;
+    }
+    case actionTypes.LOGOUT: {
+      const myState = { ...state };
+      myState.auth = false;
+      myState.name = "";
+      myState.email = "";
+      myState.mobile = "";
+      myState.cart = [];
+      localStorage.removeItem('vastr-token')
+
+      return myState;
+    }
     case actionTypes.ADD_PRODUCT: {
       const myState = { ...state };
       const cart = [...myState.cart];

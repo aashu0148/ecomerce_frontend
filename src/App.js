@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import * as actionTypes from "./store/action";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import jwt from "jsonwebtoken";
+import secretKey from "./secret";
 
 import PreLoader from "./Components/PreLoader/PreLoader";
 import Navbar from "./Components/Navbar/Navbar";
@@ -31,9 +33,37 @@ function App(props) {
 
   useEffect(() => {
     window.addEventListener("resize", changeView);
-    setTimeout(() => {
-      props.loadedAction();
-    }, 1000);
+    const jwtToken = JSON.parse(localStorage.getItem("vastr-token")) || "";
+
+    jwt.verify(jwtToken, secretKey, (err, data) => {
+      if (err) {
+        props.loadedAction();
+        return;
+      }
+      fetch(`${process.env.REACT_APP_SERVER}/user/token-signin`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          token: jwtToken,
+        }),
+      })
+        .then(async (res) => {
+          const data = await res.json();
+          props.loadedAction();
+          if (!data.status) {
+            return;
+          }
+          props.loginAction({
+            name: data.data.name,
+            email: data.data.email,
+            mobile: data.data.mobile,
+            cart: data.data.cart,
+          });
+        })
+        .catch(() => {
+          props.loadedAction();
+        });
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return props.preloading ? (
@@ -96,6 +126,14 @@ const mapDispatchToProps = (dispatch) => {
     mobileViewAction: (view) =>
       dispatch({ type: actionTypes.MOBILE_VIEW, mobileView: view }),
     loadedAction: () => dispatch({ type: actionTypes.LOADED }),
+    loginAction: (data) =>
+      dispatch({
+        type: actionTypes.LOGIN,
+        name: data.name,
+        email: data.email,
+        mobile: data.mobile,
+        cart: data.cart,
+      }),
   };
 };
 

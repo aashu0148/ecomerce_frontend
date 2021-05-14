@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
+import * as actionTypes from "../../../store/action";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import jwt from "jsonwebtoken";
+import secretKey from "../../../secret";
 
 import Button from "../../Button/Button";
 
@@ -42,16 +46,50 @@ function SignupForm(props) {
       return;
     }
 
-    console.log(
-      "Name :",
-      nameValue,
-      "| Email :",
-      emailValue,
-      "| Phone :",
-      phoneValue,
-      "| Password :",
-      passwordValue
-    );
+    setSignupButtonDisabled(true);
+    fetch(`${process.env.REACT_APP_SERVER}/user/signup`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        name: nameValue,
+        email: emailValue,
+        mobile: phoneValue,
+        password: passwordValue,
+      }),
+    })
+      .then(async (res) => {
+        setSignupButtonDisabled(false);
+        const data = await res.json();
+        if (!data.status) {
+          setErrorMessage(data.message);
+          return;
+        }
+
+        const token = jwt.sign(
+          {
+            email: emailValue,
+            password: passwordValue,
+          },
+          secretKey,
+          {
+            expiresIn: "6d",
+          }
+        );
+
+        localStorage.setItem("vastr-token", JSON.stringify(token));
+
+        props.loginAction({
+          name: nameValue,
+          email: emailValue,
+          mobile: phoneValue,
+          cart: [],
+        });
+        props.history.push("/");
+      })
+      .catch(() => {
+        setSignupButtonDisabled(false);
+        console.log("Enable to connect to server.");
+      });
   };
 
   useEffect(() => {
@@ -104,7 +142,8 @@ function SignupForm(props) {
             type="text"
             onChange={(e) => {
               const value = e.target.value.trim();
-              const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+              const regex =
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
               if (e.target.value.trim() === "") {
                 const myFieldError = { ...fieldError };
@@ -303,4 +342,21 @@ function SignupForm(props) {
   );
 }
 
-export default SignupForm;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginAction: (data) =>
+      dispatch({
+        type: actionTypes.LOGIN,
+        name: data.name,
+        email: data.email,
+        mobile: data.mobile,
+        cart: data.cart,
+      }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

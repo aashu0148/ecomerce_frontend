@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Avatar, Grid } from "@material-ui/core";
+import * as actionTypes from "../../store/action";
+import { Grid } from "@material-ui/core";
 import CartIcon from "@material-ui/icons/ShoppingBasketOutlined";
 import DownIcon from "@material-ui/icons/ArrowDropDownOutlined";
 import SearchIcon from "@material-ui/icons/Search";
@@ -82,21 +83,35 @@ function Navbar(props) {
                       fontWeight: "bolder",
                     }}
                   >
-                    {props.cart.length}
+                    {props.cart ? props.cart.length : "_"}
                   </p>
                 </div>
               </Link>
               <div className="navbar_right_item">
-                <Avatar
+                {/* <Avatar
                   style={{ height: "32px", width: "32px", margin: "0 4px" }}
                   src=""
-                />
-                <p
-                  onClick={() => setDropdownActive(!dropdownActive)}
-                  style={{ cursor: "pointer" }}
-                >
-                  User
-                </p>
+                /> */}
+                {props.auth ? (
+                  <p
+                    onClick={() => setDropdownActive(!dropdownActive)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {props.name || "Hello signin"}
+                  </p>
+                ) : (
+                  <Link
+                    to="/signin"
+                    style={{ textDecoration: "none", color: "#000" }}
+                  >
+                    <p
+                      onClick={() => setDropdownActive(!dropdownActive)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {props.name || "Hello signin"}
+                    </p>
+                  </Link>
+                )}
                 <DownIcon
                   onClick={() => setDropdownActive(!dropdownActive)}
                   style={{ cursor: "pointer" }}
@@ -108,14 +123,22 @@ function Navbar(props) {
                 }`}
               >
                 <Link
-                  to="/signin"
+                  to={`${props.auth ? "/profile" : "/signin"}`}
                   style={{ textDecoration: "none", color: "#000" }}
                 >
                   <ListItem noHover>Profile</ListItem>
                 </Link>
                 <ListItem noHover>My Orders</ListItem>
-                <ListItem noHover last>
-                  Wishlist
+                <ListItem noHover>Wishlist</ListItem>
+                <ListItem
+                  noHover
+                  last
+                  onClick={() => {
+                    props.logoutAction();
+                    setDropdownActive(false);
+                  }}
+                >
+                  Logout
                 </ListItem>
               </div>
             </div>
@@ -130,9 +153,18 @@ function Navbar(props) {
 
 const mapStateToProps = (state) => {
   return {
+    auth: state.auth,
+    name: state.name,
+    email: state.email,
     mobileView: state.mobileView,
     cart: state.cart,
   };
 };
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutAction: () => dispatch({ type: actionTypes.LOGOUT }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

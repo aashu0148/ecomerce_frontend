@@ -25,7 +25,6 @@ function Products() {
   const [filterLeftSelectedIndex, setFilterLeftSelectedIndex] = useState(0);
   const [filters, setFilters] = useState([
     {
-      id: "83",
       name: "Price",
       values: [
         {
@@ -47,7 +46,6 @@ function Products() {
       ],
     },
     {
-      id: "23",
       name: "Shirt",
       values: [
         {
@@ -69,7 +67,6 @@ function Products() {
       ],
     },
     {
-      id: "14",
       name: "T-Shirt",
       values: [
         {
@@ -91,7 +88,6 @@ function Products() {
       ],
     },
     {
-      id: "5",
       name: "Jacket",
       values: [
         {
@@ -113,7 +109,6 @@ function Products() {
       ],
     },
     {
-      id: "63",
       name: "Lower",
       values: [
         {
