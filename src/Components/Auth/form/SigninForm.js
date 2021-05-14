@@ -92,7 +92,7 @@ function SigninForm(props) {
       })
       .catch(() => {
         setSigninButtonDisabled(false);
-        console.log("Enable to connect to server.");
+        setErrorMessage("Enable to connect to server.");
       });
   };
 

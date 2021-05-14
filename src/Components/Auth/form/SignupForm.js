@@ -88,7 +88,7 @@ function SignupForm(props) {
       })
       .catch(() => {
         setSignupButtonDisabled(false);
-        console.log("Enable to connect to server.");
+        setErrorMessage("Enable to connect to server.");
       });
   };
 

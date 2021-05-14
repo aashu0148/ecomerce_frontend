@@ -41,11 +41,11 @@ function Sidebar(props) {
       >
         <h1>Explore</h1>
         <ul>
-          <Link to="/products">
-            <ListItem>
-              <Icon src={newIn} /> <p>New in</p>
-            </ListItem>
-          </Link>
+          {/* <Link to="/products"> */}
+          <ListItem>
+            <Icon src={newIn} /> <p>New in</p>
+          </ListItem>
+          {/* </Link> */}
 
           <ListItem>
             <Icon src={cloth} /> <p>Clothing</p>
@@ -53,14 +53,38 @@ function Sidebar(props) {
           <ListItem last={!props.mobileView}>
             <Icon src={shoes} /> <p>Footware</p>
           </ListItem>
+          <Link
+            to="/products"
+            style={{ textDecoration: "none", color: "#000" }}
+          >
+            <ListItem>Products</ListItem>
+          </Link>
           {props.mobileView ? (
-            <>
-             <Link to="/signin" style={{textDecoration:"none",color:"#000"}}>
-              <ListItem>Profile</ListItem>
+            props.auth ? (
+              <>
+                <Link
+                  to="/signin"
+                  style={{ textDecoration: "none", color: "#000" }}
+                >
+                  <ListItem>Profile</ListItem>
+                </Link>
+                <Link
+                  to="/products"
+                  style={{ textDecoration: "none", color: "#000" }}
+                >
+                  <ListItem>Products</ListItem>
+                </Link>
+                <ListItem>My Orders</ListItem>
+                <ListItem last>Wishlist</ListItem>
+              </>
+            ) : (
+              <Link
+                to="/signin"
+                style={{ textDecoration: "none", color: "#000" }}
+              >
+                <ListItem>Hello Signin</ListItem>
               </Link>
-              <ListItem>My Orders</ListItem>
-              <ListItem last>Wishlist</ListItem>
-            </>
+            )
           ) : (
             " "
           )}
@@ -73,6 +97,7 @@ function Sidebar(props) {
 const mapStateToProps = (state) => {
   return {
     mobileView: state.mobileView,
+    auth: state.auth,
   };
 };
 
