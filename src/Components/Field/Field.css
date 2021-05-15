@@ -12,6 +12,10 @@
   flex-direction: column;
 }
 
+.field-form-elem_disabled {
+  background: #eee !important;
+}
+
 .field-form-elem label {
   text-align: start;
   color: gray;

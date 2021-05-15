@@ -14,6 +14,7 @@ import Cart from "./Components/Cart/Cart";
 import Signin from "./Components/Auth/Signin";
 import Signup from "./Components/Auth/Signup";
 import Checkout from "./Components/Checkout/Checkout";
+import Profile from "./Components/Profile/Profile";
 import "./App.css";
 
 let viewTimer;
@@ -81,6 +82,9 @@ function App(props) {
           <Route path="/product/:id" exact component={Product} />
           <Route path="/cart" exact>
             <Cart />
+          </Route>
+          <Route path="/profile" exact>
+            <Profile />
           </Route>
           <Route path="/checkout" exact>
             <Checkout />

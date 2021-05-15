@@ -6,7 +6,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Divider } from "@material-ui/core";
 
 import ListItem from "../ListItem/ListItem";
-import newIn from "../../assets/svg/flash.svg";
+// import newIn from "../../assets/svg/flash.svg";
 import cloth from "../../assets/svg/cloth.svg";
 import shoes from "../../assets/svg/shoes.svg";
 import Icon from "../Icon";
@@ -41,11 +41,11 @@ function Sidebar(props) {
       >
         <h1>Explore</h1>
         <ul>
-          {/* <Link to="/products"> */}
+          {/* <Link to="/products">
           <ListItem>
             <Icon src={newIn} /> <p>New in</p>
           </ListItem>
-          {/* </Link> */}
+          </Link> */}
 
           <ListItem>
             <Icon src={cloth} /> <p>Clothing</p>

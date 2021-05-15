@@ -105,17 +105,29 @@ function Navbar(props) {
                     style={{ textDecoration: "none", color: "#000" }}
                   >
                     <p
-                      onClick={() => setDropdownActive(!dropdownActive)}
+                      // onClick={() => setDropdownActive(!dropdownActive)}
                       style={{ cursor: "pointer" }}
                     >
                       {props.name || "Hello signin"}
                     </p>
                   </Link>
                 )}
-                <DownIcon
-                  onClick={() => setDropdownActive(!dropdownActive)}
-                  style={{ cursor: "pointer" }}
-                />
+                {props.auth ? (
+                  <DownIcon
+                    onClick={() => setDropdownActive(!dropdownActive)}
+                    style={{ cursor: "pointer" }}
+                  />
+                ) : (
+                  <Link
+                    to="/signin"
+                    style={{ textDecoration: "none", color: "#000" }}
+                  >
+                    <DownIcon
+                      // onClick={() => setDropdownActive(!dropdownActive)}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </Link>
+                )}
               </div>
               <div
                 className={`navbar_dropdown ${
