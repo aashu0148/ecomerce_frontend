@@ -86,7 +86,7 @@ function SigninForm(props) {
           name: data.data.name,
           email: data.data.email,
           mobile: data.data.mobile,
-          cart: data.data.cart || [],
+          cart: data.data.cart.concat(props.cart).unique(),
         });
         props.history.push("/");
       })
@@ -229,7 +229,9 @@ function SigninForm(props) {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    cart: state.cart,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

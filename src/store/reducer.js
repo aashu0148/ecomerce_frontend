@@ -40,7 +40,6 @@ const reducer = (state = initialState, action) => {
       myState.name = "";
       myState.email = "";
       myState.mobile = "";
-      myState.cart = [];
       localStorage.removeItem('vastr-token')
 
       return myState;

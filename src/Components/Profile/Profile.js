@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Grid, Divider } from "@material-ui/core";
 
@@ -7,6 +7,14 @@ import Input from "../Field/Input";
 import Button from "../Button/Button";
 
 function Profile(props) {
+  const [emailValue, setEmailvalue] = useState(props.email || "");
+  const [mobileValue, setMobilevalue] = useState(props.mobile || "");
+
+  useEffect(() => {
+    setEmailvalue(props.email);
+    setMobilevalue(props.mobile);
+  }, [props.email, props.mobile]);
+
   return (
     <div className="profile">
       <Navbar />
@@ -41,7 +49,13 @@ function Profile(props) {
             <h3 style={{ margin: "10px 0" }}>Email</h3>
           </Grid>
           <Grid item xs={8} lg={8}>
-            <Input disabled value={props.email} />
+            <Input
+              value={emailValue}
+              // value={props.email}
+              onChange={(e) => {
+                setEmailvalue(e.target.value);
+              }}
+            />
           </Grid>
           <Grid item xs={12} md={12} lg={12} style={{ margin: "4px 0" }}>
             <Divider />
@@ -50,7 +64,12 @@ function Profile(props) {
             <h3 style={{ margin: "10px 0" }}>Mobile</h3>
           </Grid>
           <Grid item xs={8} lg={8}>
-            <Input disabled value={props.mobile} />
+            <Input
+              value={mobileValue}
+              onChange={(e) => {
+                setMobilevalue(e.target.value);
+              }}
+            />
           </Grid>
           <Grid item xs={12} md={12} lg={12} style={{ margin: "4px 0" }}>
             <Divider />
