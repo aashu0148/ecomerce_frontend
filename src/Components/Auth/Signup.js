@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 
@@ -8,7 +9,7 @@ import signupSvg from "../../assets/svg/signup.svg";
 import "./form/form.css";
 
 function Signup(props) {
-  return (
+  return !props.auth ? (
     <Grid
       container
       spacing={3}
@@ -34,11 +35,14 @@ function Signup(props) {
         <SignupForm {...props} />
       </Grid>
     </Grid>
+  ) : (
+    <Redirect to="/" />
   );
 }
 
 const mapStateToProps = (state) => {
   return {
+    auth: state.auth,
     mobileView: state.mobileView,
   };
 };

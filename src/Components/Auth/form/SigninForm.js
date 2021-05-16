@@ -86,7 +86,7 @@ function SigninForm(props) {
           name: data.data.name,
           email: data.data.email,
           mobile: data.data.mobile,
-          cart: data.data.cart.concat(props.cart).unique(),
+          cart: props.cart.concat(data.data.cart || []),
         });
         props.history.push("/");
       })
