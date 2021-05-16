@@ -50,7 +50,9 @@ function App(props) {
       })
         .then(async (res) => {
           const data = await res.json();
-          props.loadedAction();
+          setTimeout(() => {
+            props.loadedAction();
+          }, 300);
           if (!data.status) {
             return;
           }
@@ -59,6 +61,7 @@ function App(props) {
             email: data.data.email,
             mobile: data.data.mobile,
             cart: data.data.cart,
+            id: data.data._id,
           });
         })
         .catch(() => {
@@ -128,6 +131,7 @@ const mapDispatchToProps = (dispatch) => {
         email: data.email,
         mobile: data.mobile,
         cart: data.cart,
+        id: data.id,
       }),
   };
 };

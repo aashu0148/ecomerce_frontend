@@ -12,6 +12,7 @@ function Input(props) {
       <label>{props.label}</label>
       {props.type === "email" ? (
         <input
+          style={props.style}
           type="text"
           disabled={props.disabled}
           className={`${props.disabled ? "field-form-elem_disabled" : ""}`}
@@ -33,6 +34,7 @@ function Input(props) {
         />
       ) : props.type === "phone" ? (
         <input
+          style={props.style}
           type="tel"
           disabled={props.disabled}
           className={`${props.disabled ? "field-form-elem_disabled" : ""}`}
@@ -61,6 +63,7 @@ function Input(props) {
         />
       ) : props.type === "textarea" ? (
         <textarea
+          style={props.style}
           maxLength={props.max}
           disabled={props.disabled}
           className={`${props.disabled ? "field-form-elem_disabled" : ""}`}
@@ -76,7 +79,9 @@ function Input(props) {
         />
       ) : (
         <input
+          style={props.style}
           type="text"
+          maxLength={props.maxLength}
           disabled={props.disabled}
           className={`${props.disabled ? "field-form-elem_disabled" : ""}`}
           placeholder={`Enter ${props.label || "value"}`}
@@ -88,7 +93,7 @@ function Input(props) {
               setError(`Enter value`);
             }
           }}
-          value={props.value ? props.value : undefined}
+          value={props.value ? props.value : ""}
         />
       )}
       <small className="field-error-msg">{error}</small>

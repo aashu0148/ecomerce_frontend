@@ -2,6 +2,7 @@ import * as actionTypes from "./action";
 
 const initialState = {
   auth: false,
+  id: "",
   name: "",
   email: "",
   mobile: "",
@@ -27,6 +28,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.LOGIN: {
       const myState = { ...state };
       myState.auth = true;
+      myState.id = action.id;
       myState.name = action.name;
       myState.email = action.email;
       myState.mobile = action.mobile;
@@ -37,10 +39,18 @@ const reducer = (state = initialState, action) => {
     case actionTypes.LOGOUT: {
       const myState = { ...state };
       myState.auth = false;
+      myState.id = "";
       myState.name = "";
       myState.email = "";
       myState.mobile = "";
-      localStorage.removeItem('vastr-token')
+      localStorage.removeItem("vastr-token");
+
+      return myState;
+    }
+    case actionTypes.UPDATE: {
+      const myState = { ...state };
+      myState.name = action.name || myState.name;
+      myState.mobile = action.mobile || myState.mobile;
 
       return myState;
     }

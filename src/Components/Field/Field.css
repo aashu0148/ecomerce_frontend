@@ -41,7 +41,7 @@
 }
 
 .field-form-elem input:focus {
-  box-shadow: -2px 7px 12px rgb(0 0 0 / 20%);
+  box-shadow: -2px 7px 12px rgb(0 0 0 / 17%);
 }
 .field-form-elem input::placeholder {
   color: #8f9397;

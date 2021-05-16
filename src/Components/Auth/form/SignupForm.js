@@ -83,6 +83,7 @@ function SignupForm(props) {
           email: emailValue,
           mobile: phoneValue,
           cart: [],
+          id: data.data.id,
         });
         props.history.push("/");
       })
@@ -355,6 +356,7 @@ const mapDispatchToProps = (dispatch) => {
         email: data.email,
         mobile: data.mobile,
         cart: data.cart,
+        id: data.id,
       }),
   };
 };
