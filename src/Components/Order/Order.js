@@ -1,7 +1,7 @@
 import React from "react";
 
 function Order() {
-  return <div></div>;
+  return <div className="order"></div>;
 }
 
 export default Order;
