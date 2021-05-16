@@ -63,7 +63,7 @@ function Profile(props) {
       setValueChanged(true);
     else setValueChanged(false);
   }, [nameValue, mobileValue]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  console.log("in profile page");
   return props.auth ? (
     <div className="profile">
       <Popup text="updated Succesfully" active={popupActive} />

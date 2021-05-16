@@ -46,7 +46,7 @@ function Sidebar(props) {
             <Icon src={newIn} /> <p>New in</p>
           </ListItem>
           </Link> */}
-
+          {props.auth ? <ListItem noHover>Hello {props.name}</ListItem> : ""}
           <ListItem>
             <Icon src={cloth} /> <p>Clothing</p>
           </ListItem>
@@ -63,7 +63,7 @@ function Sidebar(props) {
             props.auth ? (
               <>
                 <Link
-                  to="/signin"
+                  to="/profile"
                   style={{ textDecoration: "none", color: "#000" }}
                 >
                   <ListItem>Profile</ListItem>
@@ -92,6 +92,7 @@ const mapStateToProps = (state) => {
   return {
     mobileView: state.mobileView,
     auth: state.auth,
+    name: state.name,
   };
 };
 
