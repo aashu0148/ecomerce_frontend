@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import secretKey from "./secret";
 
 import PreLoader from "./Components/PreLoader/PreLoader";
+import pageNotFound from "./assets/svg/page-not-found.svg";
 import Navbar from "./Components/Navbar/Navbar";
 import Body from "./Components/Body/Body";
 import Products from "./Components/Products/Products";
@@ -15,6 +16,8 @@ import Signin from "./Components/Auth/Signin";
 import Signup from "./Components/Auth/Signup";
 import Checkout from "./Components/Checkout/Checkout";
 import Profile from "./Components/Profile/Profile";
+import Orders from "./Components/Orders/Orders";
+import Dashboard from "./admin-components/Dashboard/Dashboard";
 import "./App.css";
 
 let viewTimer;
@@ -76,6 +79,9 @@ function App(props) {
     <Router>
       <div className="App">
         <Switch>
+          <Route path="/admin" exact>
+            <Dashboard />
+          </Route>
           <Route path="/signin" exact component={Signin} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/products">
@@ -89,6 +95,9 @@ function App(props) {
           <Route path="/profile" exact>
             <Profile />
           </Route>
+          <Route path="/orders" exact>
+            <Orders />
+          </Route>
           <Route path="/checkout" exact>
             <Checkout />
           </Route>
@@ -97,15 +106,22 @@ function App(props) {
             <Body />
           </Route>
           <Route path="/">
-            <h1
-              style={{
-                textAlign: "center",
-                margin: "30px 0",
-                fontSize: "var(--font-gaint)",
-              }}
-            >
-              Page not Found
-            </h1>
+            <div style={{ textAlign: "center" }}>
+              <img
+                style={{ maxWidth: "360px" }}
+                src={pageNotFound}
+                alt="svg not found"
+              />
+              <h1
+                style={{
+                  textAlign: "center",
+                  margin: "30px 0",
+                  fontSize: "var(--font-gaint)",
+                }}
+              >
+                Page not Found
+              </h1>
+            </div>
           </Route>
         </Switch>
       </div>

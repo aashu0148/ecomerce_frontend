@@ -140,7 +140,12 @@ function Navbar(props) {
                 >
                   <ListItem noHover>Profile</ListItem>
                 </Link>
+                <Link
+                  to={`${props.auth ? "/orders" : "/signin"}`}
+                  style={{ textDecoration: "none", color: "#000" }}
+                >
                 <ListItem noHover>My Orders</ListItem>
+                </Link>
                 <ListItem noHover>Wishlist</ListItem>
                 <ListItem
                   noHover

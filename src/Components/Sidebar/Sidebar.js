@@ -68,7 +68,12 @@ function Sidebar(props) {
                 >
                   <ListItem>Profile</ListItem>
                 </Link>
-                <ListItem>My Orders</ListItem>
+                <Link
+                  to="/orders"
+                  style={{ textDecoration: "none", color: "#000" }}
+                >
+                  <ListItem>My Orders</ListItem>
+                </Link>
                 <ListItem last>Wishlist</ListItem>
               </>
             ) : (
