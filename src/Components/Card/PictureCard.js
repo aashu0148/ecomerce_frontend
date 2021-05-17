@@ -8,8 +8,8 @@ function PictureCard(props) {
   return (
     <Card
       style={{
-        width: props.mobileView ? "320px" : "440px",
-        height: props.mobileView ? "200px" : "260px",
+        width: props.mobileView ? "310px" : "400px",
+        height: props.mobileView ? "200px" : "250px",
         boxShadow: "1px -1px 12px rgba(0 0 0 /15%)",
         display: "flex",
         alignItems: "center",
@@ -27,8 +27,8 @@ function PictureCard(props) {
           image={props.image || notFound}
           title={props.imageTitle}
           style={{
-            width: props.mobileView ? "320px" : "440px",
-            height: props.mobileView ? "200px" : "260px",
+            width: props.mobileView ? "310px" : "400px",
+            height: props.mobileView ? "200px" : "250px",
             backgroundSize: props.image ? "cover" : "contain",
             opacity: "0.8",
           }}
