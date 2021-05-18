@@ -41,11 +41,11 @@ function Checkout(props) {
     city: "",
   });
 
-  const swarlPopup = (text, error) => {
+  const swarlPopupSuccess = (text) => {
     Swal.fire({
-      title: error ? "error" : "Done",
+      title: "Done",
       text: text,
-      icon: error ? "error" : "success",
+      icon: "success",
       confirmButtonText: "Cool",
       confirmButtonColor: "#a55fe0",
     }).then((result) => {
@@ -54,9 +54,56 @@ function Checkout(props) {
       }
     });
   };
+  const swarlPopupError = (text) => {
+    Swal.fire({
+      title: "Error",
+      text: text,
+      icon: "error",
+      confirmButtonText: "Okay",
+      confirmButtonColor: "#a55fe0",
+    });
+  };
 
   const paymentConfirmHandler = () => {
-    swarlPopup("Order has been placed");
+    const order = props.cart.map((item) => {
+      return {
+        name: item.title,
+        qty: item.qty,
+      };
+    });
+    const deliveryAddress = {
+      name: values.name,
+      address: values.address,
+      mobile: values.phone,
+      state: values.state,
+      city: values.city,
+      email: values.email,
+    };
+
+    fetch(`${process.env.REACT_APP_SERVER}/user/place-order`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        id: props.id,
+        deliveryAddress: deliveryAddress,
+        paymentMethod: "Cash on Delivery",
+        order: order,
+      }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+
+        if (!data.status) {
+          swarlPopupError(data.message);
+        } else {
+          swarlPopupSuccess(data.message);
+        }
+      })
+      .catch(() => {
+        swarlPopupError("Error connecting server. Please try again");
+      });
   };
 
   const addressConfirmHandler = () => {
@@ -364,6 +411,7 @@ function Checkout(props) {
 
 const mapStateToProps = (state) => {
   return {
+    id: state.id,
     auth: state.auth,
     name: state.name,
     cart: state.cart,
