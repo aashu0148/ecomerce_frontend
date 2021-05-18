@@ -6,6 +6,7 @@ import { Grid, Divider } from "@material-ui/core";
 import Spinner from "../Spinner/Spinner";
 import Card from "./Card/CartCard";
 import Button from "../Button/Button";
+import Footer from "../Footer/Footer";
 import emptyCart from "../../assets/svg/empty-cart.svg";
 import "./Cart.css";
 
@@ -141,6 +142,7 @@ function Cart(props) {
               />
             ))}
           </Grid>
+          <Footer />
         </Grid>
       )}
     </div>

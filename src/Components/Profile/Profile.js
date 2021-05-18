@@ -63,7 +63,7 @@ function Profile(props) {
       setValueChanged(true);
     else setValueChanged(false);
   }, [nameValue, mobileValue]); // eslint-disable-line react-hooks/exhaustive-deps
-  console.log("in profile page");
+
   return props.auth ? (
     <div className="profile">
       <Popup text="updated Succesfully" active={popupActive} />
@@ -91,6 +91,7 @@ function Profile(props) {
           </Grid>
           <Grid item xs={8} lg={8}>
             <Input
+              type="value"
               style={{ fontWeight: "bold" }}
               value={nameValue}
               onChange={(e) => {
@@ -106,6 +107,7 @@ function Profile(props) {
           </Grid>
           <Grid item xs={8} lg={8}>
             <Input
+              type="value"
               disabled
               style={{ fontWeight: "bold" }}
               value={props.email}
@@ -119,6 +121,7 @@ function Profile(props) {
           </Grid>
           <Grid item xs={8} lg={8}>
             <Input
+              type="value"
               maxLength="10"
               style={{ fontWeight: "bold" }}
               value={mobileValue}

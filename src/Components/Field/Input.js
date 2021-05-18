@@ -77,7 +77,7 @@ function Input(props) {
           }}
           placeholder="Address"
         />
-      ) : (
+      ) : props.type === "value" ? (
         <input
           style={props.style}
           type="text"
@@ -94,6 +94,23 @@ function Input(props) {
             }
           }}
           value={props.value ? props.value : ""}
+        />
+      ) : (
+        <input
+          style={props.style}
+          type="text"
+          maxLength={props.maxLength}
+          disabled={props.disabled}
+          className={`${props.disabled ? "field-form-elem_disabled" : ""}`}
+          placeholder={`Enter ${props.label || "value"}`}
+          onChange={(e) => {
+            if (props.onChange) props.onChange(e);
+            if (e.target.value) {
+              setError("");
+            } else {
+              setError(`Enter value`);
+            }
+          }}
         />
       )}
       <small className="field-error-msg">{error}</small>

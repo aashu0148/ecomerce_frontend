@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Checkbox, Grid } from "@material-ui/core";
+import Swal from "sweetalert2";
 
 import Navbar from "../Navbar/Navbar";
 import DropdownListItem from "../ListItem/DropdownListItem";
@@ -29,6 +30,7 @@ function Checkout(props) {
   const [paymentDisabled, setPaymentDisabled] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(false);
+  const [paymentOption, setPaymentOption] = useState("");
 
   const [fieldError, setFieldError] = useState({
     name: "",
@@ -38,6 +40,24 @@ function Checkout(props) {
     state: "",
     city: "",
   });
+
+  const swarlPopup = (text, error) => {
+    Swal.fire({
+      title: error ? "error" : "Done",
+      text: text,
+      icon: error ? "error" : "success",
+      confirmButtonText: "Cool",
+      confirmButtonColor: "#a55fe0",
+    }).then((result) => {
+      if (result.isConfirmed || result.isDismissed) {
+        window.location.href = "/";
+      }
+    });
+  };
+
+  const paymentConfirmHandler = () => {
+    swarlPopup("Order has been placed");
+  };
 
   const addressConfirmHandler = () => {
     if (
@@ -294,13 +314,41 @@ function Checkout(props) {
               </Grid>
               <br />
             </DropdownListItem>
-            <DropdownListItem
-              title="Payment"
-              noIcon
-              // valid={props.auth}
-              disabled={paymentDisabled}
-            >
-              Pay here
+            <DropdownListItem title="Payment" noIcon disabled={paymentDisabled}>
+              <Grid
+                container
+                spacing={1}
+                alignItems="center"
+                style={{ width: "83%", marginLeft: "auto" }}
+              >
+                {/* <Grid item xs={12} md={12} lg={12}>
+                  <h4>Payment method : </h4>
+                </Grid> */}
+                <Grid item xs={1} md={1} lg={1}>
+                  <Checkbox
+                    checked={paymentOption === "cod"}
+                    onClick={() => {
+                      if (paymentOption === "cod") {
+                        setPaymentOption("");
+                      } else {
+                        setPaymentOption("cod");
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={11} md={11} lg={11}>
+                  <p>Cash on Delivery</p>
+                </Grid>
+                <Grid item xs={12} md={12} lg={12}>
+                  <Button
+                    disabled={!paymentOption}
+                    type="button"
+                    onClick={paymentConfirmHandler}
+                  >
+                    Place Order
+                  </Button>
+                </Grid>
+              </Grid>
             </DropdownListItem>
           </Grid>
         </Grid>
