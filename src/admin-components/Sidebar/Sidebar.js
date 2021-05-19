@@ -40,35 +40,26 @@ function Sidebar(props) {
           props.mobileView ? "admin-sidebar_inner_mobile" : ""
         } ${burgerActive ? "admin-sidebar_inner_mobile_active" : ""}`}
       >
-        <h1>Dashboard</h1>
+        <h2>Dashboard</h2>
         <ul>
-          <ListItem
-            selected={selectedItem === 0}
-            onClick={() => {
-              setSelectedItem(0);
-              props.changeBox("overview");
-            }}
-          >
-            Overview
-          </ListItem>
           <ListItem
             selected={selectedItem === 1}
             onClick={() => {
               setSelectedItem(1);
-              props.changeBox("products");
+              props.changeBox("orders");
             }}
           >
-            Products
+            Orders
           </ListItem>
           <ListItem
             selected={selectedItem === 2}
             onClick={() => {
               setSelectedItem(2);
-              props.changeBox("orders");
+              props.changeBox("products");
             }}
             last={!props.mobileView}
           >
-            Orders
+            Products
           </ListItem>
         </ul>
       </div>
