@@ -1,13 +1,53 @@
 import React, { useState } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Modal } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import AddIcon from "@material-ui/icons/AddBox";
+import CancelIcon from "@material-ui/icons/Cancel";
+
+import AddProduct from "./AddProduct";
 import ProductCard from "./ProductCard";
 
 function Products(props) {
   const [searchInputFocus, setSearchInputFocus] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
   return (
     <div>
+      <Modal
+        open={addModalOpen}
+        onClose={() => {
+          setAddModalOpen(false);
+        }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            padding: "20px",
+            background: "#fff",
+            minWidth: "300px",
+            minHeight: "400px",
+            width: "fit-content",
+            height: "fit-content",
+            outline: "none",
+            margin: "8px",
+          }}
+        >
+          <div style={{ textAlign: "end" }}>
+            <CancelIcon
+              onClick={() => setAddModalOpen(false)}
+              style={{
+                color: "darkgray",
+                cursor: "pointer",
+              }}
+            />
+          </div>
+          <AddProduct />
+        </div>
+      </Modal>
       <Grid
         container
         spacing={2}
@@ -18,7 +58,7 @@ function Products(props) {
         <Grid item xs={12} sm={4} md={4} lg={4}>
           <h2>Products</h2>
         </Grid>
-        <Grid item xs={12} sm={8} md={8} lg={8}>
+        <Grid item xs={9} sm={6} md={6} lg={6}>
           <div
             className="navbar_search"
             style={{
@@ -36,6 +76,16 @@ function Products(props) {
               style={{ padding: "8px" }}
             />
           </div>
+        </Grid>
+        <Grid item xs={3} sm={2} md={2} lg={2} style={{ textAlign: "center" }}>
+          <AddIcon
+            style={{
+              cursor: "pointer",
+              fontSize: "2rem",
+              color: "var(--primary-color)",
+            }}
+            onClick={() => setAddModalOpen(true)}
+          />
         </Grid>
         {/* <Grid item xs={12} sm={12} md={12} lg={12}>
           <Divider />
