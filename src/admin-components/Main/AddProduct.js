@@ -6,10 +6,29 @@ import Button from "../../Components/Button/Button";
 
 function Addproduct() {
   const [priceValue, setPriceValue] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const [values, setValues] = useState({
+    title: "",
+    size: "",
+    price: "",
+    sizes: [],
+    desc: "",
+    tags: [],
+    thumbnail: "",
+    image1: "",
+    image2: "",
+    image3: "",
+    brand: "",
+    for: "",
+    season: "",
+    type: "",
+  });
 
   const [fieldError, setFieldError] = useState({
     title: "",
     size: "",
+    price: "",
     desc: "",
     tags: "",
     thumbnail: "",
@@ -22,11 +41,84 @@ function Addproduct() {
     type: "",
   });
 
+  const validateImage = (file, imageName) => {
+    if (!file) {
+      const myFieldError = { ...fieldError };
+      myFieldError[imageName] = "Select image";
+      setFieldError(myFieldError);
+      return;
+    }
+    const fileSize = file.size / 1024 / 1024;
+    const fileType = file.type;
+
+    if (!fileType.includes("image")) {
+      const myFieldError = { ...fieldError };
+      myFieldError[imageName] = "File must be image only";
+      setFieldError(myFieldError);
+      return;
+    }
+    if (fileSize > 2.5) {
+      const myFieldError = { ...fieldError };
+      myFieldError[imageName] = "Image must be smaller than 2.5MB";
+      setFieldError(myFieldError);
+      return;
+    }
+
+    const myFieldError = { ...fieldError };
+    myFieldError[imageName] = "";
+    setFieldError(myFieldError);
+
+    const myValues = { ...values };
+    myValues[imageName] = file;
+    setValues(myValues);
+  };
+
+  const submission = (e) => {
+    e.preventDefault();
+
+    if (
+      !values.title ||
+      !values.size ||
+      !values.desc ||
+      !values.price ||
+      !values.brand ||
+      !values.for ||
+      !values.type ||
+      !values.season ||
+      !values.thumbnail ||
+      values.sizes.length === 0 ||
+      values.tags.length === 0
+    ) {
+      setErrorMsg("All values required");
+      return;
+    }
+
+    if (
+      fieldError.title ||
+      fieldError.price ||
+      fieldError.size ||
+      fieldError.thumbnail ||
+      fieldError.brand ||
+      fieldError.desc ||
+      fieldError.tags ||
+      fieldError.season ||
+      fieldError.type ||
+      fieldError.for ||
+      fieldError.image1 ||
+      fieldError.image2 ||
+      fieldError.image3
+    ) {
+      setErrorMsg("Invalid value entered");
+      return;
+    }
+    setErrorMsg("");
+
+    console.log(values, fieldError);
+  };
+
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-      }}
+      onSubmit={submission}
       style={{ maxHeight: "70vh", overflowY: "scroll" }}
     >
       <Grid container spacing={1} style={{ margin: "0", width: "100%" }}>
@@ -46,6 +138,13 @@ function Addproduct() {
                   const myFieldError = { ...fieldError };
                   myFieldError.title = "Enter value";
                   setFieldError(myFieldError);
+                } else {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.title = "";
+                  setFieldError(myFieldError);
+                  const myValues = { ...values };
+                  myValues.title = value;
+                  setValues(myValues);
                 }
               }}
             />
@@ -74,6 +173,13 @@ function Addproduct() {
                   const myFieldError = { ...fieldError };
                   myFieldError.price = "Enter value";
                   setFieldError(myFieldError);
+                } else {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.price = "";
+                  setFieldError(myFieldError);
+                  const myValues = { ...values };
+                  myValues.price = Number.parseFloat(value);
+                  setValues(myValues);
                 }
               }}
             />
@@ -93,6 +199,13 @@ function Addproduct() {
                 const myFieldError = { ...fieldError };
                 myFieldError.size = "Select value";
                 setFieldError(myFieldError);
+              } else {
+                const myFieldError = { ...fieldError };
+                myFieldError.size = "";
+                setFieldError(myFieldError);
+                const myValues = { ...values };
+                myValues.size = value;
+                setValues(myValues);
               }
             }}
           />
@@ -121,6 +234,16 @@ function Addproduct() {
                 <Checkbox
                   size="small"
                   style={{ color: "var(--primary-color)" }}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    const myValues = { ...values };
+                    if (checked) {
+                      myValues.sizes.push("S");
+                    } else {
+                      myValues.sizes.splice(myValues.sizes.indexOf("S"), 1);
+                    }
+                    setValues(myValues);
+                  }}
                 />
                 S
               </p>
@@ -128,6 +251,16 @@ function Addproduct() {
                 <Checkbox
                   size="small"
                   style={{ color: "var(--primary-color)" }}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    const myValues = { ...values };
+                    if (checked) {
+                      myValues.sizes.push("M");
+                    } else {
+                      myValues.sizes.splice(myValues.sizes.indexOf("M"), 1);
+                    }
+                    setValues(myValues);
+                  }}
                 />
                 M
               </p>
@@ -135,6 +268,16 @@ function Addproduct() {
                 <Checkbox
                   size="small"
                   style={{ color: "var(--primary-color)" }}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    const myValues = { ...values };
+                    if (checked) {
+                      myValues.sizes.push("XL");
+                    } else {
+                      myValues.sizes.splice(myValues.sizes.indexOf("XL"), 1);
+                    }
+                    setValues(myValues);
+                  }}
                 />
                 XL
               </p>
@@ -142,6 +285,16 @@ function Addproduct() {
                 <Checkbox
                   size="small"
                   style={{ color: "var(--primary-color)" }}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    const myValues = { ...values };
+                    if (checked) {
+                      myValues.sizes.push("XXL");
+                    } else {
+                      myValues.sizes.splice(myValues.sizes.indexOf("XXL"), 1);
+                    }
+                    setValues(myValues);
+                  }}
                 />
                 XXL
               </p>
@@ -149,6 +302,16 @@ function Addproduct() {
                 <Checkbox
                   size="small"
                   style={{ color: "var(--primary-color)" }}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    const myValues = { ...values };
+                    if (checked) {
+                      myValues.sizes.push("XXXL");
+                    } else {
+                      myValues.sizes.splice(myValues.sizes.indexOf("XXXL"), 1);
+                    }
+                    setValues(myValues);
+                  }}
                 />
                 XXXL
               </p>
@@ -169,6 +332,13 @@ function Addproduct() {
                   const myFieldError = { ...fieldError };
                   myFieldError.desc = "Enter value";
                   setFieldError(myFieldError);
+                } else {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.desc = "";
+                  setFieldError(myFieldError);
+                  const myValues = { ...values };
+                  myValues.desc = value;
+                  setValues(myValues);
                 }
               }}
             />
@@ -191,6 +361,13 @@ function Addproduct() {
                   const myFieldError = { ...fieldError };
                   myFieldError.tags = "Enter value";
                   setFieldError(myFieldError);
+                } else {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.tags = "";
+                  setFieldError(myFieldError);
+                  const myValues = { ...values };
+                  myValues.tags = value.replace(/\s\s+/g, " ").split(" ");
+                  setValues(myValues);
                 }
               }}
             />
@@ -212,6 +389,13 @@ function Addproduct() {
                   const myFieldError = { ...fieldError };
                   myFieldError.brand = "Enter value";
                   setFieldError(myFieldError);
+                } else {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.brand = "";
+                  setFieldError(myFieldError);
+                  const myValues = { ...values };
+                  myValues.brand = value;
+                  setValues(myValues);
                 }
               }}
             />
@@ -231,6 +415,13 @@ function Addproduct() {
                 const myFieldError = { ...fieldError };
                 myFieldError.type = "Select value";
                 setFieldError(myFieldError);
+              } else {
+                const myFieldError = { ...fieldError };
+                myFieldError.type = "";
+                setFieldError(myFieldError);
+                const myValues = { ...values };
+                myValues.type = value;
+                setValues(myValues);
               }
             }}
           />
@@ -249,6 +440,13 @@ function Addproduct() {
                 const myFieldError = { ...fieldError };
                 myFieldError.for = "Select value";
                 setFieldError(myFieldError);
+              } else {
+                const myFieldError = { ...fieldError };
+                myFieldError.for = "";
+                setFieldError(myFieldError);
+                const myValues = { ...values };
+                myValues.for = value;
+                setValues(myValues);
               }
             }}
           />
@@ -267,6 +465,13 @@ function Addproduct() {
                 const myFieldError = { ...fieldError };
                 myFieldError.season = "Select value";
                 setFieldError(myFieldError);
+              } else {
+                const myFieldError = { ...fieldError };
+                myFieldError.season = "";
+                setFieldError(myFieldError);
+                const myValues = { ...values };
+                myValues.season = value;
+                setValues(myValues);
               }
             }}
           />
@@ -281,13 +486,8 @@ function Addproduct() {
             <input
               type="file"
               accept=".jpg,.jpeg,.png"
-              onBlur={(e) => {
-                const value = e.target.value.trim();
-                if (!value) {
-                  const myFieldError = { ...fieldError };
-                  myFieldError.thumbnail = "Enter value";
-                  setFieldError(myFieldError);
-                }
+              onChange={(e) => {
+                validateImage(e.target.files[0], "thumbnail");
               }}
             />
             <small style={{ width: "90%" }} className="field-error-msg">
@@ -299,7 +499,13 @@ function Addproduct() {
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Image 1</label>
-            <input type="file" accept=".jpg,.jpeg,.png" />
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onChange={(e) => {
+                validateImage(e.target.files[0], "image1");
+              }}
+            />
             <small style={{ width: "90%" }} className="field-error-msg">
               {fieldError.image1}
             </small>
@@ -309,7 +515,13 @@ function Addproduct() {
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Image 2</label>
-            <input type="file" accept=".jpg,.jpeg,.png" />
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onChange={(e) => {
+                validateImage(e.target.files[0], "image2");
+              }}
+            />
             <small style={{ width: "90%" }} className="field-error-msg">
               {fieldError.image2}
             </small>
@@ -319,13 +531,32 @@ function Addproduct() {
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Image 3</label>
-            <input type="file" accept=".jpg,.jpeg,.png" />
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onChange={(e) => {
+                validateImage(e.target.files[0], "image3");
+              }}
+            />
             <small style={{ width: "90%" }} className="field-error-msg">
               {fieldError.image3}
             </small>
           </div>
         </Grid>
       </Grid>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        style={{ textAlign: "center" }}
+      >
+        <small style={{ textAlign: "center" }} className="field-error-msg">
+          {errorMsg}
+        </small>
+      </Grid>
+
       <Button type="submit" style={{ borderRadius: "5px" }}>
         Add Product
       </Button>
