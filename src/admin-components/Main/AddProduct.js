@@ -7,6 +7,21 @@ import Button from "../../Components/Button/Button";
 function Addproduct() {
   const [priceValue, setPriceValue] = useState("");
 
+  const [fieldError, setFieldError] = useState({
+    title: "",
+    size: "",
+    desc: "",
+    tags: "",
+    thumbnail: "",
+    image1: "",
+    image2: "",
+    image3: "",
+    brand: "",
+    for: "",
+    season: "",
+    type: "",
+  });
+
   return (
     <form
       onSubmit={(e) => {
@@ -22,7 +37,21 @@ function Addproduct() {
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Title</label>
-            <input type="text" placeholder="Enter product name" />
+            <input
+              type="text"
+              placeholder="Enter product name"
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (!value) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.title = "Enter value";
+                  setFieldError(myFieldError);
+                }
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.title}
+            </small>
           </div>
         </Grid>
 
@@ -39,7 +68,18 @@ function Addproduct() {
                 if ((char >= "0" && char <= "9") || value === "")
                   setPriceValue(value);
               }}
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (!value) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.price = "Enter value";
+                  setFieldError(myFieldError);
+                }
+              }}
             />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.price}
+            </small>
           </div>
         </Grid>
 
@@ -47,7 +87,18 @@ function Addproduct() {
           <Select
             label="Select size"
             options={["", "S", "M", "L", "XL", "XXL", "XXXL"]}
+            onChange={(e) => {
+              const value = e.target.value.trim();
+              if (!value) {
+                const myFieldError = { ...fieldError };
+                myFieldError.size = "Select value";
+                setFieldError(myFieldError);
+              }
+            }}
           />
+          <small style={{ width: "90%" }} className="field-error-msg">
+            {fieldError.size}
+          </small>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -112,7 +163,18 @@ function Addproduct() {
               style={{ minHeight: "150px" }}
               maxLength="500"
               placeholder="Enter Description"
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (!value) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.desc = "Enter value";
+                  setFieldError(myFieldError);
+                }
+              }}
             />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.desc}
+            </small>
           </div>
         </Grid>
 
@@ -123,14 +185,39 @@ function Addproduct() {
               style={{ minHeight: "150px" }}
               maxLength="100"
               placeholder="Enter Tags"
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (!value) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.tags = "Enter value";
+                  setFieldError(myFieldError);
+                }
+              }}
             />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.tags}
+            </small>
           </div>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Brand</label>
-            <input type="text" placeholder="Enter brand" />
+            <input
+              type="text"
+              placeholder="Enter brand"
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (!value) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.brand = "Enter value";
+                  setFieldError(myFieldError);
+                }
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.brand}
+            </small>
           </div>
         </Grid>
 
@@ -138,24 +225,74 @@ function Addproduct() {
           <Select
             label="Select type"
             options={["", "Topwear", "Bottomwear", "Footwear"]}
+            onChange={(e) => {
+              const value = e.target.value.trim();
+              if (!value) {
+                const myFieldError = { ...fieldError };
+                myFieldError.type = "Select value";
+                setFieldError(myFieldError);
+              }
+            }}
           />
+          <small style={{ width: "90%" }} className="field-error-msg">
+            {fieldError.type}
+          </small>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
-          <Select label="For" options={["", "Men", "Women", "children"]} />
+          <Select
+            label="For"
+            options={["", "Men", "Women", "children"]}
+            onChange={(e) => {
+              const value = e.target.value.trim();
+              if (!value) {
+                const myFieldError = { ...fieldError };
+                myFieldError.for = "Select value";
+                setFieldError(myFieldError);
+              }
+            }}
+          />
+          <small style={{ width: "90%" }} className="field-error-msg">
+            {fieldError.for}
+          </small>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <Select
             label="Select season"
             options={["", "Winter", "Summner", "Spring"]}
+            onChange={(e) => {
+              const value = e.target.value.trim();
+              if (!value) {
+                const myFieldError = { ...fieldError };
+                myFieldError.season = "Select value";
+                setFieldError(myFieldError);
+              }
+            }}
           />
+          <small style={{ width: "90%" }} className="field-error-msg">
+            {fieldError.season}
+          </small>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Thumbnail</label>
-            <input type="file" accept=".jpg,.jpeg,.png" />
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (!value) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.thumbnail = "Enter value";
+                  setFieldError(myFieldError);
+                }
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.thumbnail}
+            </small>
           </div>
         </Grid>
 
@@ -163,6 +300,9 @@ function Addproduct() {
           <div className="field-form-elem">
             <label>Image 1</label>
             <input type="file" accept=".jpg,.jpeg,.png" />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.image1}
+            </small>
           </div>
         </Grid>
 
@@ -170,6 +310,9 @@ function Addproduct() {
           <div className="field-form-elem">
             <label>Image 2</label>
             <input type="file" accept=".jpg,.jpeg,.png" />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.image2}
+            </small>
           </div>
         </Grid>
 
@@ -177,6 +320,9 @@ function Addproduct() {
           <div className="field-form-elem">
             <label>Image 3</label>
             <input type="file" accept=".jpg,.jpeg,.png" />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.image3}
+            </small>
           </div>
         </Grid>
       </Grid>
