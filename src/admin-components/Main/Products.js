@@ -1,15 +1,95 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Modal } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/AddBox";
 import CancelIcon from "@material-ui/icons/Cancel";
 
+import Spinner from "../../Components/Spinner/Spinner";
 import AddProduct from "./AddProduct";
 import ProductCard from "./ProductCard";
 
 function Products(props) {
   const [searchInputFocus, setSearchInputFocus] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [products, setProducts] = useState(<Spinner />);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_SERVER}/product`)
+      .then(async (res) => {
+        const response = await res.json();
+        if (!response.status) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const data = response.data;
+        if (!data) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const result = data.map((item) => (
+          <ProductCard
+            key={item._id}
+            id={item._id}
+            image={item.image}
+            title={
+              item.title.length > 49
+                ? item.title.slice(0, 50) + "..."
+                : item.title
+            }
+            price={item.price}
+            sizes={item.sizes.join(" , ")}
+          />
+        ));
+
+        setProducts(result);
+      })
+      .catch(() => {
+        setProducts(
+          <small className="field-error-msg">
+            Can't connect to server. Please refresh
+          </small>
+        );
+      });
+  }, []);
+
+  const refreshProducts = () => {
+    fetch(`${process.env.REACT_APP_SERVER}/product`)
+      .then(async (res) => {
+        const response = await res.json();
+        if (!response.status) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const data = response.data;
+        if (!data) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const result = data.map((item) => (
+          <ProductCard
+            key={item._id}
+            id={item._id}
+            image={item.image}
+            title={
+              item.title.length > 49
+                ? item.title.slice(0, 50) + "..."
+                : item.title
+            }
+            price={item.price}
+            sizes={item.sizes.join(" , ")}
+          />
+        ));
+
+        setProducts(result);
+      })
+      .catch(() => {
+        setProducts(
+          <small className="field-error-msg">
+            Can't connect to server. Please refresh
+          </small>
+        );
+      });
+  };
 
   return (
     <div>
@@ -45,7 +125,10 @@ function Products(props) {
               }}
             />
           </div>
-          <AddProduct />
+          <AddProduct
+            close={() => setAddModalOpen(false)}
+            refresh={refreshProducts}
+          />
         </div>
       </Modal>
       <Grid
@@ -90,35 +173,8 @@ function Products(props) {
         {/* <Grid item xs={12} sm={12} md={12} lg={12}>
           <Divider />
         </Grid> */}
-        <ProductCard
-          image=""
-          title={
-            `"Product 1jkbhuftc vftgbn vftvgbn gvhfdtrftgykhbnm bvgftyuhjnm bvcfdc vbnmjhygthfdxc bnbvbcfghbn "`.slice(
-              0,
-              50
-            ) + "..."
-          }
-          price="1200"
-          size="XL , L , M "
-        />
-        <ProductCard
-          image=""
-          title={`"Product 45 shirt with a sleve "`.slice(0, 50) + "..."}
-          price="1200"
-          size="L , M , XL"
-        />
-        <ProductCard
-          image=""
-          title={`"Product 1jkbhufcfghbn "`.slice(0, 50) + "..."}
-          price="1200"
-          size="L , M , XL"
-        />
-        <ProductCard
-          image=""
-          title={`"Product 1jkbhuftkjbtydrvbcfghbn "`.slice(0, 50) + "..."}
-          price="1200"
-          size="L , M , XL"
-        />
+        {products}
+
         <div></div>
       </Grid>
     </div>

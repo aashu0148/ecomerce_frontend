@@ -57,7 +57,7 @@ function ProductCard(props) {
             maxWidth: "80px",
             objectFit: props.image ? "cover" : "contain",
           }}
-          src={props.image || notFound}
+          src={`${process.env.REACT_APP_SERVER}/${props.image}` || notFound}
           alt="Not found"
         />
       </Grid>
@@ -71,7 +71,7 @@ function ProductCard(props) {
       </Grid>
 
       <Grid item xs={4} md={2} lg={2}>
-        <h4 style={{ margin: "auto 0" }}> {props.size || "_"}</h4>
+        <h4 style={{ margin: "auto 0" }}> {props.sizes || "_"}</h4>
       </Grid>
       <Grid item xs={2} md={1} lg={1}>
         <h4 style={{ margin: "auto 0" }}>

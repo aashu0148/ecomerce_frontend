@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { Checkbox, Grid } from "@material-ui/core";
+import Swal from "sweetalert2";
 
 import Select from "../../Components/Field/Select";
 import Button from "../../Components/Button/Button";
 
-function Addproduct() {
+function Addproduct(props) {
   const [priceValue, setPriceValue] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const [values, setValues] = useState({
     title: "",
@@ -40,6 +43,16 @@ function Addproduct() {
     season: "",
     type: "",
   });
+
+  const swarlPopupSuccess = (text) => {
+    Swal.fire({
+      title: "Done",
+      text: text,
+      icon: "success",
+      confirmButtonText: "Cool",
+      confirmButtonColor: "#a55fe0",
+    });
+  };
 
   const validateImage = (file, imageName) => {
     if (!file) {
@@ -113,7 +126,46 @@ function Addproduct() {
     }
     setErrorMsg("");
 
-    console.log(values, fieldError);
+    const formData = new FormData();
+
+    formData.append("uid", props.id);
+    formData.append("title", values.title);
+    formData.append("price", values.price);
+    formData.append("filters", {
+      type: values.type,
+      brand: values.brand,
+      season: values.season,
+      for: values.for,
+    });
+    formData.append("tags", JSON.stringify(values.tags));
+    formData.append("sizes", JSON.stringify(values.sizes));
+    formData.append("size", values.size);
+    formData.append("desc", values.desc);
+    formData.append("thumbnail", values.thumbnail);
+    if (values.image1) formData.append("image", values.image1);
+    if (values.image2) formData.append("image", values.image2);
+    if (values.image3) formData.append("image", values.image3);
+    setSubmitButtonDisabled(true);
+
+    fetch(`${process.env.REACT_APP_SERVER}/product/add`, {
+      method: "POST",
+      body: formData,
+    })
+      .then(async (res) => {
+        setSubmitButtonDisabled(false);
+        const data = await res.json();
+        if (!data.status) {
+          setErrorMsg(data.message);
+          return;
+        }
+        swarlPopupSuccess("New Product added");
+        props.refresh()
+        props.close();
+      })
+      .catch(() => {
+        setSubmitButtonDisabled(false);
+        setErrorMsg("Can't connect to server. Please retry");
+      });
   };
 
   return (
@@ -192,7 +244,7 @@ function Addproduct() {
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <Select
             label="Select size"
-            options={["", "S", "M", "L", "XL", "XXL", "XXXL"]}
+            options={["", "S", "M", "L", "XL", "XXL"]}
             onChange={(e) => {
               const value = e.target.value.trim();
               if (!value) {
@@ -272,6 +324,23 @@ function Addproduct() {
                     const checked = e.target.checked;
                     const myValues = { ...values };
                     if (checked) {
+                      myValues.sizes.push("L");
+                    } else {
+                      myValues.sizes.splice(myValues.sizes.indexOf("L"), 1);
+                    }
+                    setValues(myValues);
+                  }}
+                />
+                L
+              </p>
+              <p style={{ fontSize: "var(--font-small)" }}>
+                <Checkbox
+                  size="small"
+                  style={{ color: "var(--primary-color)" }}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    const myValues = { ...values };
+                    if (checked) {
                       myValues.sizes.push("XL");
                     } else {
                       myValues.sizes.splice(myValues.sizes.indexOf("XL"), 1);
@@ -297,23 +366,6 @@ function Addproduct() {
                   }}
                 />
                 XXL
-              </p>
-              <p style={{ fontSize: "var(--font-small)" }}>
-                <Checkbox
-                  size="small"
-                  style={{ color: "var(--primary-color)" }}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    const myValues = { ...values };
-                    if (checked) {
-                      myValues.sizes.push("XXXL");
-                    } else {
-                      myValues.sizes.splice(myValues.sizes.indexOf("XXXL"), 1);
-                    }
-                    setValues(myValues);
-                  }}
-                />
-                XXXL
               </p>
             </div>
           </div>
@@ -557,11 +609,21 @@ function Addproduct() {
         </small>
       </Grid>
 
-      <Button type="submit" style={{ borderRadius: "5px" }}>
+      <Button
+        disabled={submitButtonDisabled}
+        type="submit"
+        style={{ borderRadius: "5px" }}
+      >
         Add Product
       </Button>
     </form>
   );
 }
 
-export default Addproduct;
+const mapStateToProps = (state) => {
+  return {
+    id: state.id,
+  };
+};
+
+export default connect(mapStateToProps)(Addproduct);

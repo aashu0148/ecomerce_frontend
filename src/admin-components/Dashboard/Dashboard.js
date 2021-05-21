@@ -35,7 +35,6 @@ function Dashboard(props) {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         id: props.id,
-        email: props.email,
       }),
     })
       .then(async (res) => {
