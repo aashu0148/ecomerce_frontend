@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Grid, IconButton, Divider } from "@material-ui/core";
 import SortIcon from "@material-ui/icons/Sort";
 import FilterIcon from "@material-ui/icons/FilterList";
