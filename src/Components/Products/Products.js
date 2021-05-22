@@ -155,9 +155,10 @@ function Products() {
           return;
         }
         const result = data.map((item) => (
-          <Link
+          <a
             key={item._id}
-            to={`/product/${item._id}`}
+            target="_blank"
+            href={`/product/${item._id}`}
             style={{ textDecoration: "none" }}
           >
             <Card
@@ -166,7 +167,7 @@ function Products() {
               image={`${process.env.REACT_APP_SERVER}/${item.image}`}
               id={item._id}
             />
-          </Link>
+          </a>
         ));
         setProducts(result);
       })
