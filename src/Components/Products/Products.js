@@ -157,6 +157,7 @@ function Products() {
           <a
             key={item._id}
             target="_blank"
+            rel="noopener noreferrer"
             href={`/product/${item._id}`}
             style={{ textDecoration: "none" }}
           >
