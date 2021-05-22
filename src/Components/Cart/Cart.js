@@ -134,7 +134,7 @@ function Cart(props) {
               <Card
                 key={item.id + new Date().getTime() / i}
                 id={item.id}
-                image={item.image}
+                image={`${process.env.REACT_APP_SERVER}/${item.image}`}
                 title={item.title}
                 qty={item.qty}
                 price={item.price}
