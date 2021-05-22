@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/action";
 import { Grid } from "@material-ui/core";
@@ -12,8 +12,16 @@ import ListItem from "../ListItem/ListItem";
 import "./Navbar.css";
 
 function Navbar(props) {
+  const search = useRef();
+  const [redirect, setRedirect] = useState(false);
   const [searchInputFocus, setSearchInputFocus] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
+
+  useEffect(() => {
+    if (redirect) {
+      setRedirect(false);
+    }
+  }, [redirect]);
 
   return (
     <div className="navbar">
@@ -59,12 +67,25 @@ function Navbar(props) {
             }}
           >
             <SearchIcon style={{ cursor: "pointer", color: "#afacad" }} />
-            <input
-              onFocus={() => setSearchInputFocus(true)}
-              onBlur={() => setSearchInputFocus(false)}
-              type="text"
-              placeholder="Search for clothing "
-            />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (search.current.value) setRedirect(true);
+              }}
+            >
+              <input
+                ref={search}
+                onFocus={() => setSearchInputFocus(true)}
+                onBlur={() => setSearchInputFocus(false)}
+                type="text"
+                placeholder="Search for clothing "
+              />
+            </form>
+            {redirect ? (
+              <Redirect to={`/products/${search.current.value}`} />
+            ) : (
+              ""
+            )}
           </div>
         </Grid>
         {!props.mobileView ? (
@@ -144,7 +165,7 @@ function Navbar(props) {
                   to={`${props.auth ? "/orders" : "/signin"}`}
                   style={{ textDecoration: "none", color: "#000" }}
                 >
-                <ListItem noHover>My Orders</ListItem>
+                  <ListItem noHover>My Orders</ListItem>
                 </Link>
                 <ListItem noHover>Wishlist</ListItem>
                 <ListItem

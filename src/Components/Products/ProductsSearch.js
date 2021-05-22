@@ -16,6 +16,7 @@ import "./Products.css";
 
 function Products(props) {
   const [pageLoaded, setPageLoaded] = useState(false);
+  const [search, setSearch] = useState(props.match.params.search);
 
   const [sortBoxOpen, setSortBoxOpen] = useState(false);
   const [filterBoxOpen, setFilterBoxOpen] = useState(false);
@@ -137,11 +138,15 @@ function Products(props) {
   const [products, setProducts] = useState(<Spinner />);
 
   useEffect(() => {
+    setSearch(props.match.params.search);
+  }, [props.match.params.search]);
+
+  useEffect(() => {
     if (false) {
       setFilters([]);
     }
 
-    fetch(`${process.env.REACT_APP_SERVER}/product`)
+    fetch(`${process.env.REACT_APP_SERVER}/product/search/${search}`)
       .then(async (res) => {
         setPageLoaded(true);
         const response = await res.json();
@@ -180,7 +185,7 @@ function Products(props) {
           </small>
         );
       });
-  }, [filterLeftSelectedIndex, requiredFilters]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [filterLeftSelectedIndex, requiredFilters, search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const addToMyFilter = (filterValue) => {
     const myFilters = [...requiredFilters];

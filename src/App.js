@@ -10,6 +10,7 @@ import pageNotFound from "./assets/svg/page-not-found.svg";
 import Navbar from "./Components/Navbar/Navbar";
 import Body from "./Components/Body/Body";
 import Products from "./Components/Products/Products";
+import ProductsSearch from "./Components/Products/ProductsSearch";
 import Product from "./Components/Product/Product";
 import Cart from "./Components/Cart/Cart";
 import Signin from "./Components/Auth/Signin";
@@ -84,10 +85,21 @@ function App(props) {
           </Route>
           <Route path="/signin" exact component={Signin} />
           <Route path="/signup" exact component={Signup} />
-          <Route path="/products">
+          <Route path="/products" exact>
             <Navbar />
             <Products />
           </Route>
+          <Route
+            path="/products/:search"
+            render={(props) => {
+              return (
+                <>
+                  <Navbar />
+                  <ProductsSearch {...props} />
+                </>
+              );
+            }}
+          ></Route>
           <Route path="/product/:id" exact component={Product} />
           <Route path="/cart" exact>
             <Cart />
