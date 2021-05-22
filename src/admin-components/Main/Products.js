@@ -13,45 +13,6 @@ function Products(props) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [products, setProducts] = useState(<Spinner />);
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER}/product`)
-      .then(async (res) => {
-        const response = await res.json();
-        if (!response.status) {
-          setProducts(<h3>No Products found</h3>);
-          return;
-        }
-        const data = response.data;
-        if (!data) {
-          setProducts(<h3>No Products found</h3>);
-          return;
-        }
-        const result = data.map((item) => (
-          <ProductCard
-            key={item._id}
-            id={item._id}
-            image={item.image}
-            title={
-              item.title.length > 49
-                ? item.title.slice(0, 50) + "..."
-                : item.title
-            }
-            price={item.price[Object.keys(item.price)[0]]}
-            sizes={Object.keys(item.price).join(" , ").toUpperCase()}
-          />
-        ));
-
-        setProducts(result);
-      })
-      .catch(() => {
-        setProducts(
-          <small className="field-error-msg">
-            Can't connect to server. Please refresh
-          </small>
-        );
-      });
-  }, []);
-
   const refreshProducts = () => {
     fetch(`${process.env.REACT_APP_SERVER}/product`)
       .then(async (res) => {
@@ -69,6 +30,7 @@ function Products(props) {
           <ProductCard
             key={item._id}
             id={item._id}
+            data={item}
             image={item.image}
             title={
               item.title.length > 49
@@ -90,6 +52,47 @@ function Products(props) {
         );
       });
   };
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_SERVER}/product`)
+      .then(async (res) => {
+        const response = await res.json();
+        if (!response.status) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const data = response.data;
+        if (!data) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const result = data.map((item) => (
+          <ProductCard
+            key={item._id}
+            id={item._id}
+            data={item}
+            image={item.image}
+            title={
+              item.title.length > 49
+                ? item.title.slice(0, 50) + "..."
+                : item.title
+            }
+            price={item.price[Object.keys(item.price)[0]]}
+            sizes={Object.keys(item.price).join(" , ").toUpperCase()}
+            refresh={refreshProducts}
+          />
+        ));
+
+        setProducts(result);
+      })
+      .catch(() => {
+        setProducts(
+          <small className="field-error-msg">
+            Can't connect to server. Please refresh
+          </small>
+        );
+      });
+  }, []);
 
   return (
     <div>

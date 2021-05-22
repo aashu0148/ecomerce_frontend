@@ -3,15 +3,31 @@ import { Divider, Grid, Modal } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
+import UpdateProduct from "./UpdateProduct";
+
 import notFound from "../../assets/svg/404.svg";
+import DeleteProduct from "./DeleteProduct";
 
 function ProductCard(props) {
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modalBody, setModalbody] = useState("");
 
-  const updateBody = <h1>Update modal here</h1>;
-  const deleteBody = <h1>Delete modal here</h1>;
+  const updateBody = (
+    <UpdateProduct
+      pid={props.id}
+      close={() => setUpdateModalOpen(false)}
+      data={props.data}
+      refresh={props.refresh}
+    />
+  );
+  const deleteBody = (
+    <DeleteProduct
+      pid={props.id}
+      close={() => setDeleteModalOpen(false)}
+      refresh={props.refresh}
+    />
+  );
 
   return (
     <Grid
@@ -40,7 +56,7 @@ function ProductCard(props) {
             padding: "20px",
             background: "#fff",
             minWidth: "300px",
-            minHeight: "300px",
+            minHeight: "200px",
             width: "fit-content",
             height: "fit-content",
             outline: "none",
