@@ -1,21 +1,33 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Checkbox, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Swal from "sweetalert2";
 
 import Select from "../../Components/Field/Select";
 import Button from "../../Components/Button/Button";
 
 function Addproduct(props) {
-  const [priceValue, setPriceValue] = useState("");
+  const [priceValue, setPriceValue] = useState({
+    s: "",
+    m: "",
+    l: "",
+    xl: "",
+    xxl: "",
+    xxxl: "",
+  });
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const [values, setValues] = useState({
     title: "",
-    size: "",
-    price: "",
-    sizes: [],
+    price: {
+      s: "",
+      m: "",
+      l: "",
+      xl: "",
+      xxl: "",
+      xxxl: "",
+    },
     desc: "",
     tags: [],
     thumbnail: "",
@@ -30,8 +42,6 @@ function Addproduct(props) {
 
   const [fieldError, setFieldError] = useState({
     title: "",
-    size: "",
-    price: "",
     desc: "",
     tags: "",
     thumbnail: "",
@@ -90,16 +100,32 @@ function Addproduct(props) {
     e.preventDefault();
 
     if (
+      !(
+        values.price.s ||
+        values.price.m ||
+        values.price.l ||
+        values.price.xl ||
+        values.price.xxl ||
+        values.price.xxxl
+      )
+    ) {
+      const myFieldError = { ...fieldError };
+      myFieldError.price = "Enter value";
+      setFieldError(myFieldError);
+    } else {
+      const myFieldError = { ...fieldError };
+      myFieldError.price = "";
+      setFieldError(myFieldError);
+    }
+
+    if (
       !values.title ||
-      !values.size ||
       !values.desc ||
-      !values.price ||
       !values.brand ||
       !values.for ||
       !values.type ||
       !values.season ||
       !values.thumbnail ||
-      values.sizes.length === 0 ||
       values.tags.length === 0
     ) {
       setErrorMsg("All values required");
@@ -108,8 +134,6 @@ function Addproduct(props) {
 
     if (
       fieldError.title ||
-      fieldError.price ||
-      fieldError.size ||
       fieldError.thumbnail ||
       fieldError.brand ||
       fieldError.desc ||
@@ -130,16 +154,23 @@ function Addproduct(props) {
 
     formData.append("uid", props.id);
     formData.append("title", values.title);
-    formData.append("price", values.price);
-    formData.append("filters", {
-      type: values.type,
-      brand: values.brand,
-      season: values.season,
-      for: values.for,
+    const price = {};
+    Object.keys(priceValue).forEach((item) => {
+      if (priceValue[item]) {
+        price[item] = priceValue[item];
+      }
     });
+    formData.append("price", JSON.stringify(price));
+    formData.append(
+      "filters",
+      JSON.stringify({
+        type: values.type,
+        brand: values.brand,
+        season: values.season,
+        for: values.for,
+      })
+    );
     formData.append("tags", JSON.stringify(values.tags));
-    formData.append("sizes", JSON.stringify(values.sizes));
-    formData.append("size", values.size);
     formData.append("desc", values.desc);
     formData.append("thumbnail", values.thumbnail);
     if (values.image1) formData.append("image", values.image1);
@@ -159,7 +190,7 @@ function Addproduct(props) {
           return;
         }
         swarlPopupSuccess("New Product added");
-        props.refresh()
+        props.refresh();
         props.close();
       })
       .catch(() => {
@@ -208,66 +239,34 @@ function Addproduct(props) {
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
-            <label>Price</label>
+            <label>Brand</label>
             <input
-              type="tel"
-              placeholder="Enter price"
-              value={priceValue}
-              onChange={(e) => {
-                const value = e.target.value;
-                const char = value.slice(-1);
-                if ((char >= "0" && char <= "9") || value === "")
-                  setPriceValue(value);
-              }}
+              type="text"
+              placeholder="Enter brand"
               onBlur={(e) => {
                 const value = e.target.value.trim();
                 if (!value) {
                   const myFieldError = { ...fieldError };
-                  myFieldError.price = "Enter value";
+                  myFieldError.brand = "Enter value";
                   setFieldError(myFieldError);
                 } else {
                   const myFieldError = { ...fieldError };
-                  myFieldError.price = "";
+                  myFieldError.brand = "";
                   setFieldError(myFieldError);
                   const myValues = { ...values };
-                  myValues.price = Number.parseFloat(value);
+                  myValues.brand = value;
                   setValues(myValues);
                 }
               }}
             />
             <small style={{ width: "90%" }} className="field-error-msg">
-              {fieldError.price}
+              {fieldError.brand}
             </small>
           </div>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={6} lg={6}>
-          <Select
-            label="Select size"
-            options={["", "S", "M", "L", "XL", "XXL"]}
-            onChange={(e) => {
-              const value = e.target.value.trim();
-              if (!value) {
-                const myFieldError = { ...fieldError };
-                myFieldError.size = "Select value";
-                setFieldError(myFieldError);
-              } else {
-                const myFieldError = { ...fieldError };
-                myFieldError.size = "";
-                setFieldError(myFieldError);
-                const myValues = { ...values };
-                myValues.size = value;
-                setValues(myValues);
-              }
-            }}
-          />
-          <small style={{ width: "90%" }} className="field-error-msg">
-            {fieldError.size}
-          </small>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6} lg={6}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+        <Grid item container xs={12} sm={12} md={12} lg={12}>
+          <Grid item xs={12} sm={12} md={12} lg={12}>
             <label
               style={{
                 textAlign: "start",
@@ -279,96 +278,210 @@ function Addproduct(props) {
                 padding: " 0 15px",
               }}
             >
-              Available sizes
+              Enter price
             </label>
-            <div style={{ display: "flex" }}>
-              <p style={{ fontSize: "var(--font-small)" }}>
-                <Checkbox
-                  size="small"
-                  style={{ color: "var(--primary-color)" }}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    const myValues = { ...values };
-                    if (checked) {
-                      myValues.sizes.push("S");
-                    } else {
-                      myValues.sizes.splice(myValues.sizes.indexOf("S"), 1);
-                    }
-                    setValues(myValues);
-                  }}
-                />
-                S
-              </p>
-              <p style={{ fontSize: "var(--font-small)" }}>
-                <Checkbox
-                  size="small"
-                  style={{ color: "var(--primary-color)" }}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    const myValues = { ...values };
-                    if (checked) {
-                      myValues.sizes.push("M");
-                    } else {
-                      myValues.sizes.splice(myValues.sizes.indexOf("M"), 1);
-                    }
-                    setValues(myValues);
-                  }}
-                />
-                M
-              </p>
-              <p style={{ fontSize: "var(--font-small)" }}>
-                <Checkbox
-                  size="small"
-                  style={{ color: "var(--primary-color)" }}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    const myValues = { ...values };
-                    if (checked) {
-                      myValues.sizes.push("L");
-                    } else {
-                      myValues.sizes.splice(myValues.sizes.indexOf("L"), 1);
-                    }
-                    setValues(myValues);
-                  }}
-                />
-                L
-              </p>
-              <p style={{ fontSize: "var(--font-small)" }}>
-                <Checkbox
-                  size="small"
-                  style={{ color: "var(--primary-color)" }}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    const myValues = { ...values };
-                    if (checked) {
-                      myValues.sizes.push("XL");
-                    } else {
-                      myValues.sizes.splice(myValues.sizes.indexOf("XL"), 1);
-                    }
-                    setValues(myValues);
-                  }}
-                />
-                XL
-              </p>
-              <p style={{ fontSize: "var(--font-small)" }}>
-                <Checkbox
-                  size="small"
-                  style={{ color: "var(--primary-color)" }}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    const myValues = { ...values };
-                    if (checked) {
-                      myValues.sizes.push("XXL");
-                    } else {
-                      myValues.sizes.splice(myValues.sizes.indexOf("XXL"), 1);
-                    }
-                    setValues(myValues);
-                  }}
-                />
-                XXL
-              </p>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ padding: "2px 10px" }}>S</span>
+            </p>
+            <div className="field-form-elem" style={{ width: "100%" }}>
+              <input
+                type="tel"
+                placeholder="Enter price"
+                value={priceValue.s}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const char = value.slice(-1);
+                  if ((char >= "0" && char <= "9") || value === "") {
+                    const myPValue = { ...priceValue };
+                    myPValue.s = value;
+                    setPriceValue(myPValue);
+                  }
+                }}
+              />
             </div>
-          </div>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ padding: "2px 10px" }}>M</span>
+            </p>
+            <div className="field-form-elem" style={{ width: "100%" }}>
+              <input
+                type="tel"
+                placeholder="Enter price"
+                value={priceValue.m}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const char = value.slice(-1);
+                  if ((char >= "0" && char <= "9") || value === "") {
+                    const myPValue = { ...priceValue };
+                    myPValue.m = value;
+                    setPriceValue(myPValue);
+                  }
+                }}
+              />
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ padding: "2px 10px" }}>L</span>
+            </p>
+            <div className="field-form-elem" style={{ width: "100%" }}>
+              <input
+                type="tel"
+                placeholder="Enter price"
+                value={priceValue.l}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const char = value.slice(-1);
+                  if ((char >= "0" && char <= "9") || value === "") {
+                    const myPValue = { ...priceValue };
+                    myPValue.l = value;
+                    setPriceValue(myPValue);
+                  }
+                }}
+              />
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ padding: "2px 10px" }}>XL</span>
+            </p>
+            <div className="field-form-elem" style={{ width: "100%" }}>
+              <input
+                type="tel"
+                placeholder="Enter price"
+                value={priceValue.xl}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const char = value.slice(-1);
+                  if ((char >= "0" && char <= "9") || value === "") {
+                    const myPValue = { ...priceValue };
+                    myPValue.xl = value;
+                    setPriceValue(myPValue);
+                  }
+                }}
+              />
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ padding: "2px 10px" }}>XXL</span>
+            </p>
+            <div className="field-form-elem" style={{ width: "100%" }}>
+              <input
+                type="tel"
+                placeholder="Enter price"
+                value={priceValue.xxl}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const char = value.slice(-1);
+                  if ((char >= "0" && char <= "9") || value === "") {
+                    const myPValue = { ...priceValue };
+                    myPValue.xxl = value;
+                    setPriceValue(myPValue);
+                  }
+                }}
+              />
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ padding: "2px 10px" }}>XXXL</span>
+            </p>
+            <div className="field-form-elem" style={{ width: "100%" }}>
+              <input
+                type="tel"
+                placeholder="Enter price"
+                value={priceValue.xxxl}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const char = value.slice(-1);
+                  if ((char >= "0" && char <= "9") || value === "") {
+                    const myPValue = { ...priceValue };
+                    myPValue.xxxl = value;
+                    setPriceValue(myPValue);
+                  }
+                }}
+              />
+            </div>
+          </Grid>
+          <small style={{ width: "90%" }} className="field-error-msg">
+            {fieldError.price}
+          </small>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -425,34 +538,6 @@ function Addproduct(props) {
             />
             <small style={{ width: "90%" }} className="field-error-msg">
               {fieldError.tags}
-            </small>
-          </div>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6} lg={6}>
-          <div className="field-form-elem">
-            <label>Brand</label>
-            <input
-              type="text"
-              placeholder="Enter brand"
-              onBlur={(e) => {
-                const value = e.target.value.trim();
-                if (!value) {
-                  const myFieldError = { ...fieldError };
-                  myFieldError.brand = "Enter value";
-                  setFieldError(myFieldError);
-                } else {
-                  const myFieldError = { ...fieldError };
-                  myFieldError.brand = "";
-                  setFieldError(myFieldError);
-                  const myValues = { ...values };
-                  myValues.brand = value;
-                  setValues(myValues);
-                }
-              }}
-            />
-            <small style={{ width: "90%" }} className="field-error-msg">
-              {fieldError.brand}
             </small>
           </div>
         </Grid>

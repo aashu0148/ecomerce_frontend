@@ -28,7 +28,7 @@ function Products() {
       name: "Price",
       values: [
         {
-          name: "Price Value 1",
+          name: "Under 500",
           value: "19",
         },
         {
@@ -46,142 +46,139 @@ function Products() {
       ],
     },
     {
-      name: "Shirt",
+      name: "Type",
       values: [
         {
-          name: "Shirt Value 1",
+          name: "Topwear",
           value: "15",
         },
         {
-          name: "Shirt Value 2",
+          name: "Bottomwear",
           value: "14",
         },
         {
-          name: "Shirt Value 3",
+          name: "Footwear",
           value: "3",
-        },
-        {
-          name: "Shirt Value 4",
-          value: "12",
         },
       ],
     },
     {
-      name: "T-Shirt",
+      name: "For",
       values: [
         {
-          name: "T-Shirt Value 1",
+          name: "Men",
           value: "11",
         },
         {
-          name: "T-Shirt Value 2",
+          name: "Women",
           value: "10",
         },
         {
-          name: "T-Shirt Value 3",
+          name: "Children",
           value: "9",
-        },
-        {
-          name: "T-Shirt Value 4",
-          value: "8",
         },
       ],
     },
     {
-      name: "Jacket",
+      name: "Brand",
       values: [
         {
-          name: "Jacket Value 1",
+          name: "Puma",
           value: "7",
         },
         {
-          name: "Jacket Value 2",
+          name: "Gucci",
           value: "6",
-        },
-        {
-          name: "Jacket Value 3",
-          value: "5",
-        },
-        {
-          name: "Jacket Value 4",
-          value: "4",
         },
       ],
     },
     {
-      name: "Lower",
+      name: "Season",
       values: [
         {
-          name: "Lower Value 1",
+          name: "Summer",
           value: "3",
         },
         {
-          name: "Lower Value 2",
+          name: "Winter",
           value: "1",
         },
         {
-          name: "Lower Value 3",
+          name: "Spring",
           value: "2",
         },
+      ],
+    },
+    {
+      name: "Size",
+      values: [
         {
-          name: "Lower Value 4",
-          value: "45",
+          name: "S",
+          value: "310",
+        },
+        {
+          name: "M",
+          value: "78451",
+        },
+        {
+          name: "L",
+          value: "501",
+        },
+        {
+          name: "XL",
+          value: "42",
+        },
+        {
+          name: "XXL",
+          value: "8965",
         },
       ],
     },
   ]);
-  const [products, setProducts] = useState([
-    {
-      id: "gy289",
-      price: 1700,
-      title: "Title 1",
-      image:
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207672/2020/3/17/d7a23f89-f0df-43b4-a00d-1a3742e8cafe1584442789288-Jack--Jones-Men-White--Black-Slim-Fit-Checked-Casual-Shirt-5-4.jpg",
-    },
-    {
-      id: "09wef",
-      price: 1700,
-      title: "Title 2",
-      image:
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/8131511/2019/10/30/f95ebc59-e8c2-44b1-8b26-4a2078af530d1572428433517-Jack--Jones-Men-Olive-Green-Slim-Fit-Solid-Chinos-7721572428-1.jpg",
-    },
-    {
-      id: "bhj34b",
-      price: 1700,
-      title: "Title 3",
-      image:
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207372/2020/2/5/43210b97-11e6-43f3-b011-357a8bdacf8b1580902145818-Jack--Jones-Men-Shirts-5381580902144477-1.jpg",
-    },
-    {
-      id: "ig23",
-      price: 1700,
-      title: "Title 4",
-      image:
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207378/2020/2/5/3196a313-3b5e-454c-93e5-839252227e7e1580902163843-Jack--Jones-Men-Shirts-1071580902162156-1.jpg",
-    },
-    {
-      id: "gwef983",
-      price: 1700,
-      title: "Title 5",
-      image:
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207376/2020/6/1/677350ea-d6e9-4e3b-9d46-2d80806045351590991398031-Jack--Jones-Men-Blue-Glenn-Slim-Fit-Low-Rise-Mildly-Distress-1.jpg",
-    },
-    {
-      id: "hid89",
-      price: 1700,
-      title: "Title 6",
-      image: "",
-    },
-  ]);
+  const [products, setProducts] = useState(<Spinner />);
 
   useEffect(() => {
     if (false) {
       setFilters([]);
-      setProducts([]);
     }
-
+    fetch(`${process.env.REACT_APP_SERVER}/product`)
+      .then(async (res) => {
+        setPageLoaded(true);
+        const response = await res.json();
+        if (!response.status) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const data = response.data;
+        if (!data) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const result = data.map((item) => (
+          <Link
+            key={item._id}
+            to={`/product/${item._id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <Card
+              title={item.title}
+              price={item.price[Object.keys(item.price)[0]]}
+              image={`${process.env.REACT_APP_SERVER}/${item.image}`}
+              id={item._id}
+            />
+          </Link>
+        ));
+        setProducts(result);
+      })
+      .catch(() => {
+        setPageLoaded(true);
+        setProducts(
+          <small className="field-error-msg">
+            Can't connect to server. Please refresh
+          </small>
+        );
+      });
     console.log("Required filters are : ", requiredFilters);
-    setPageLoaded(true);
   }, [filterLeftSelectedIndex, requiredFilters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const addToMyFilter = (filterValue) => {
@@ -299,7 +296,7 @@ function Products() {
                   <div>
                     {filters[filterLeftSelectedIndex].values.map((item, i) => (
                       <CheckListItem
-                        key={item.value}
+                        key={item.value + i}
                         id={item.value}
                         last={
                           i ===
@@ -344,20 +341,7 @@ function Products() {
           <Divider />
         </Grid>
 
-        {products.map((item) => (
-          <Link
-            key={item.id}
-            to={`/product/${item.id}`}
-            style={{ textDecoration: "none" }}
-          >
-            <Card
-              title={item.title}
-              price={item.price}
-              image={item.image}
-              id={item.id}
-            />
-          </Link>
-        ))}
+        {products}
         <Grid item xs={12} md={12} lg={12}>
           <Footer />
         </Grid>

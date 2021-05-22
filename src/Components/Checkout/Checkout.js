@@ -307,7 +307,9 @@ function Checkout(props) {
                 <Grid item xs={12} md={6} lg={6}>
                   <Select
                     label="City"
-                    options={cities[values.state || ""]}
+                    options={
+                      values.state ? ["", ...cities[values.state]] : [""]
+                    }
                     onChange={(e) => {
                       const myValues = { ...values };
                       myValues.city = e.target.value;

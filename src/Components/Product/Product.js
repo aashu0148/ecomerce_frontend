@@ -21,6 +21,7 @@ function Product(props) {
   const [pageLoaded, setPageLoaded] = useState(false);
   const [popupText, setPopupText] = useState("");
   const [popupActive, setPopupActive] = useState("");
+  const [size, setSize] = useState("");
 
   const popup = (text) => {
     setPopupText(text);
@@ -31,56 +32,32 @@ function Product(props) {
   };
 
   useEffect(() => {
-    const product = {
-      id: id,
-      title: "Title goes here",
-      price: {
-        S: "1500",
-        M: "1500",
-        L: "1600",
-        XL: "1650",
-      },
-      sizes: ["S", "M", "L", "XL"],
-      size: "L",
-      desc: `This is Dummy text instead of it here goes the DESCRIPTION of the
-      product. Etiam et dapibus urna. Nam dapibus, sem vitae rhoncus
-      porta, lorem nisl tincidunt metus, sed vehicula velit odio ac
-      odio. Aliquam malesuada cursus leo a dapibus. Vestibulum vel
-      euismod velit. Nulla ac dui sodales, fermentum tortor a, consequat
-      nulla. Ut non mauris nulla. Phasellus luctus auctor odio,
-      facilisis dignissim erat commodo in. Nullam nulla quam, mattis ut
-      est nec, laoreet viverra lacus.`,
-      image:
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207672/2020/3/17/d7a23f89-f0df-43b4-a00d-1a3742e8cafe1584442789288-Jack--Jones-Men-White--Black-Slim-Fit-Checked-Casual-Shirt-5-4.jpg",
-      images: [
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207672/2020/3/17/d7a23f89-f0df-43b4-a00d-1a3742e8cafe1584442789288-Jack--Jones-Men-White--Black-Slim-Fit-Checked-Casual-Shirt-5-4.jpg",
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/8131511/2019/10/30/f95ebc59-e8c2-44b1-8b26-4a2078af530d1572428433517-Jack--Jones-Men-Olive-Green-Slim-Fit-Solid-Chinos-7721572428-1.jpg",
-        "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11207372/2020/2/5/43210b97-11e6-43f3-b011-357a8bdacf8b1580902145818-Jack--Jones-Men-Shirts-5381580902144477-1.jpg",
-      ],
-      filters: {
-        season: ["summer"],
-        for: ["men"],
-        type: ["footware", "topware"],
-        brand: "name of brand",
-      },
-      tags: [],
-    };
-    setProduct(product);
+    fetch(`${process.env.REACT_APP_SERVER}/product/${id}`)
+      .then(async (res) => {
+        setTimeout(() => {
+          setPageLoaded(true);
+        }, 300);
+        const response = await res.json();
+        const data = response.data;
+        setSize(Object.keys(data.price)[0]);
+        setProduct(data);
 
-    const inner = product.images.map((item, i) => (
-      <div key={i}>
-        <img
-          className="product_carousel_img"
-          style={{ height: "460px" }}
-          src={item}
-          alt="not found"
-        />
-      </div>
-    ));
+        const inner = data.images.map((item, i) => (
+          <div key={i}>
+            <img
+              className="product_carousel_img"
+              style={{ height: "460px" }}
+              src={`${process.env.REACT_APP_SERVER}/${item}`}
+              alt="not found"
+            />
+          </div>
+        ));
 
-    setCarouselInner(inner);
-
-    setPageLoaded(true);
+        setCarouselInner(inner);
+      })
+      .catch(() => {
+        setPageLoaded(true);
+      });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return pageLoaded ? (
@@ -117,24 +94,20 @@ function Product(props) {
             <div>
               <h1>{product.title || "_"}</h1>
               <p className="product_price">
-                Price - ₹<span>{product.price[product.size] || "_"}</span>
+                Price - ₹<span>{product.price[size] || "_"}</span>
               </p>
 
               <p className="product_size">
                 Size -
-                {product.sizes.map((item, i) => (
+                {Object.keys(product.price).map((item, i) => (
                   <span
                     onClick={() => {
-                      const myProduct = { ...product };
-                      myProduct.size = item;
-                      setProduct(myProduct);
+                      setSize(item);
                     }}
                     key={i}
-                    className={`${
-                      item === product.size ? "product_size_active" : ""
-                    }`}
+                    className={`${item === size ? "product_size_active" : ""}`}
                   >
-                    {item}
+                    {item.toUpperCase()}
                   </span>
                 ))}
               </p>
