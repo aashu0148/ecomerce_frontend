@@ -75,8 +75,8 @@ function Products(props) {
                 ? item.title.slice(0, 50) + "..."
                 : item.title
             }
-            price={item.price}
-            sizes={item.sizes.join(" , ")}
+            price={item.price[Object.keys(item.price)[0]]}
+            sizes={Object.keys(item.price).join(" , ").toUpperCase()}
           />
         ));
 
