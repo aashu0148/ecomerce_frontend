@@ -69,6 +69,8 @@ function Checkout(props) {
       return {
         name: item.title,
         qty: item.qty,
+        size: item.size,
+        price: item.price,
       };
     });
     const deliveryAddress = {
@@ -169,7 +171,7 @@ function Checkout(props) {
   useEffect(() => {
     let total = 0;
     props.cart.forEach(
-      (item) => (total += Number.parseInt(item.price[item.size]) * item.qty)
+      (item) => (total += Number.parseInt(item.price) * item.qty)
     );
 
     setTotal(total + 105);

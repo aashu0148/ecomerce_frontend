@@ -26,7 +26,7 @@ function Cart(props) {
 
     let total = 0;
     props.cart.forEach(
-      (item) => (total += Number.parseInt(item.price[item.size]) * item.qty)
+      (item) => (total += Number.parseInt(item.price) * item.qty)
     );
 
     setSubTotal(total);
@@ -137,7 +137,7 @@ function Cart(props) {
                 image={item.image}
                 title={item.title}
                 qty={item.qty}
-                price={item.price[item.size]}
+                price={item.price}
                 size={item.size}
               />
             ))}

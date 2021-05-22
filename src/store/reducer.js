@@ -60,7 +60,6 @@ const reducer = (state = initialState, action) => {
       const product = action.product;
       const pid = product.id;
       const pSize = product.size;
-
       const index = cart.findIndex(
         (item) => item.id === pid && item.size === pSize
       );

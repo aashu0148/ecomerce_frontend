@@ -115,7 +115,13 @@ function Product(props) {
             </div>
             <Button
               onClick={() => {
-                props.addProductAction(product);
+                props.addProductAction({
+                  id: id + size,
+                  title: product.title,
+                  image: product.image,
+                  size: size,
+                  price: product.price[size],
+                });
                 popup("Added to Cart");
               }}
               type="button"
