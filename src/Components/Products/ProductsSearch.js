@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Grid, IconButton, Divider } from "@material-ui/core";
 import SortIcon from "@material-ui/icons/Sort";
 import FilterIcon from "@material-ui/icons/FilterList";
@@ -138,6 +139,7 @@ function Products(props) {
   const [products, setProducts] = useState(<Spinner />);
 
   useEffect(() => {
+    setProducts(<Spinner />);
     setSearch(props.match.params.search);
   }, [props.match.params.search]);
 
@@ -160,11 +162,9 @@ function Products(props) {
           return;
         }
         const result = data.map((item) => (
-          <a
+          <Link
             key={item._id}
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`/product/${item._id}`}
+            to={`/product/${item._id}`}
             style={{ textDecoration: "none" }}
           >
             <Card
@@ -173,7 +173,7 @@ function Products(props) {
               image={`${process.env.REACT_APP_SERVER}/${item.image}`}
               id={item._id}
             />
-          </a>
+          </Link>
         ));
         setProducts(result);
       })

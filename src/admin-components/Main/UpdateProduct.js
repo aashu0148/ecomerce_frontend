@@ -29,6 +29,10 @@ function UpdateProduct(props) {
       xxxl: props.data.price.xxxl || "",
     },
     desc: props.data.desc,
+    thumbnail: "",
+    image1: "",
+    image2: "",
+    image3: "",
     // tags: [],
     // brand: "",
     // for: "",
@@ -39,6 +43,10 @@ function UpdateProduct(props) {
   const [fieldError, setFieldError] = useState({
     title: "",
     desc: "",
+    thumbnail: "",
+    image1: "",
+    image2: "",
+    image3: "",
   });
 
   const swarlPopupSuccess = (text) => {
@@ -51,39 +59,79 @@ function UpdateProduct(props) {
     });
   };
 
+  const validateImage = (file, imageName) => {
+    if (!file) {
+      const myFieldError = { ...fieldError };
+      myFieldError[imageName] = "Select image";
+      setFieldError(myFieldError);
+      return;
+    }
+    const fileSize = file.size / 1024 / 1024;
+    const fileType = file.type;
+
+    if (!fileType.includes("image")) {
+      const myFieldError = { ...fieldError };
+      myFieldError[imageName] = "File must be image only";
+      setFieldError(myFieldError);
+      return;
+    }
+    if (fileSize > 2.5) {
+      const myFieldError = { ...fieldError };
+      myFieldError[imageName] = "Image must be smaller than 2.5MB";
+      setFieldError(myFieldError);
+      return;
+    }
+
+    const myFieldError = { ...fieldError };
+    myFieldError[imageName] = "";
+    setFieldError(myFieldError);
+
+    const myValues = { ...values };
+    myValues[imageName] = file;
+    setValues(myValues);
+  };
+
   const submission = (e) => {
     e.preventDefault();
 
-    if (fieldError.title || fieldError.desc) {
+    if (
+      fieldError.title ||
+      fieldError.desc ||
+      fieldError.thumbnail ||
+      fieldError.image1 ||
+      fieldError.image2 ||
+      fieldError.image3
+    ) {
       setErrorMsg("Invalid value entered");
       return;
     }
     setErrorMsg("");
 
-    const requestBody = {};
+    const formData = new FormData();
 
-    requestBody.uid = props.uid;
-    requestBody.pid = props.pid;
-    if (values.title) requestBody.title = values.title;
-    if (priceValue) {
+    formData.append("uid", props.uid);
+    formData.append("pid", props.pid);
+    if (values.title) formData.append("title", values.title);
+    if (values.price) {
       const price = {};
       Object.keys(priceValue).forEach((item) => {
         if (priceValue[item]) {
           price[item] = priceValue[item];
         }
       });
-      requestBody.price = price;
+      formData.append("price", JSON.stringify(price));
     }
-    if (values.desc) requestBody.desc = values.desc;
+    if (values.desc) formData.append("desc", values.desc);
+    if (values.thumbnail) formData.append("thumbnail", values.thumbnail);
+    if (values.image1) formData.append("image1", values.image1);
+    if (values.image2) formData.append("image2", values.image2);
+    if (values.image3) formData.append("image3", values.image3);
 
     setSubmitButtonDisabled(true);
 
     fetch(`${process.env.REACT_APP_SERVER}/product/update`, {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
+      body: formData,
     })
       .then(async (res) => {
         setSubmitButtonDisabled(false);
@@ -105,7 +153,7 @@ function UpdateProduct(props) {
   return (
     <form
       onSubmit={submission}
-      style={{ maxHeight: "70vh", overflowY: "scroll" }}
+      style={{ maxHeight: "80vh", overflowY: "scroll" }}
     >
       <div style={{ textAlign: "end" }}>
         <CancelIcon
@@ -411,6 +459,70 @@ function UpdateProduct(props) {
             />
             <small style={{ width: "90%" }} className="field-error-msg">
               {fieldError.desc}
+            </small>
+          </div>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Thumbnail</label>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onChange={(e) => {
+                validateImage(e.target.files[0], "thumbnail");
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.thumbnail}
+            </small>
+          </div>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Image 1</label>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onChange={(e) => {
+                validateImage(e.target.files[0], "image1");
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.image1}
+            </small>
+          </div>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Image 2</label>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onChange={(e) => {
+                validateImage(e.target.files[0], "image2");
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.image2}
+            </small>
+          </div>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Image 3</label>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onChange={(e) => {
+                validateImage(e.target.files[0], "image3");
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.image3}
             </small>
           </div>
         </Grid>

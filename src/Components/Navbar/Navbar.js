@@ -66,7 +66,12 @@ function Navbar(props) {
                 : "-1px 2px 5px rgb(0 0 0 / 5%)",
             }}
           >
-            <SearchIcon style={{ cursor: "pointer", color: "#afacad" }} />
+            <SearchIcon
+              style={{ cursor: "pointer", color: "#afacad" }}
+              onClick={() => {
+                if (search.current.value) setRedirect(true);
+              }}
+            />
             <form
               onSubmit={(e) => {
                 e.preventDefault();

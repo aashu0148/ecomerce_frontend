@@ -134,13 +134,13 @@ function Addproduct(props) {
 
     if (
       fieldError.title ||
-      fieldError.thumbnail ||
       fieldError.brand ||
       fieldError.desc ||
       fieldError.tags ||
       fieldError.season ||
       fieldError.type ||
       fieldError.for ||
+      fieldError.thumbnail ||
       fieldError.image1 ||
       fieldError.image2 ||
       fieldError.image3
@@ -202,7 +202,7 @@ function Addproduct(props) {
   return (
     <form
       onSubmit={submission}
-      style={{ maxHeight: "70vh", overflowY: "scroll" }}
+      style={{ maxHeight: "80vh", maxWidth: "1000px", overflowY: "scroll" }}
     >
       <Grid container spacing={1} style={{ margin: "0", width: "100%" }}>
         <Grid item xs={12} sm={12} md={12} lg={12}>
