@@ -595,7 +595,7 @@ function Addproduct(props) {
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <Select
             label="Select season"
-            options={["", "Winter", "Summner", "Spring"]}
+            options={["", "Winter", "Summer", "Spring"]}
             onChange={(e) => {
               const value = e.target.value.trim();
               if (!value) {

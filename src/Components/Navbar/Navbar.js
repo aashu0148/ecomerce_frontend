@@ -69,13 +69,13 @@ function Navbar(props) {
             <SearchIcon
               style={{ cursor: "pointer", color: "#afacad" }}
               onClick={() => {
-                if (search.current.value) setRedirect(true);
+                setRedirect(true);
               }}
             />
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (search.current.value) setRedirect(true);
+                setRedirect(true);
               }}
             >
               <input

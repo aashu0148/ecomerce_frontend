@@ -2,6 +2,7 @@
   padding-left: 10px;
   /* position: relative; */
   border-radius: 4px;
+  height: 100%;
 }
 .admin-sidebar_backdrop {
   position: absolute;
@@ -24,6 +25,7 @@
   transition: 400ms;
   background: #fff;
   min-height: 85vh;
+  height: 100%;
 }
 .admin-sidebar_inner_mobile {
   position: absolute;
