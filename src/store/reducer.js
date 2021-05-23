@@ -11,6 +11,30 @@ const initialState = {
   cart: [],
 };
 
+let updateCartTimer;
+
+const updateCart = (cart, id) => {
+  clearTimeout(updateCartTimer);
+
+  updateCartTimer = setTimeout(() => {
+    console.log("Updating cart to : ", cart);
+    fetch(`${process.env.REACT_APP_SERVER}/user/update-cart`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        uid: id,
+        cart: cart,
+      }),
+    });
+    // .then(async (res) => {
+    //   const data = await res.json();
+    //   console.log(data);
+    // });
+  }, 4000);
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOADED: {
@@ -36,6 +60,7 @@ const reducer = (state = initialState, action) => {
 
       return myState;
     }
+
     case actionTypes.LOGOUT: {
       const myState = { ...state };
       myState.auth = false;
@@ -47,6 +72,7 @@ const reducer = (state = initialState, action) => {
 
       return myState;
     }
+
     case actionTypes.UPDATE: {
       const myState = { ...state };
       myState.name = action.name || myState.name;
@@ -54,6 +80,7 @@ const reducer = (state = initialState, action) => {
 
       return myState;
     }
+
     case actionTypes.ADD_PRODUCT: {
       const myState = { ...state };
       const cart = [...myState.cart];
@@ -76,8 +103,10 @@ const reducer = (state = initialState, action) => {
       }
 
       myState.cart = cart;
+      updateCart(cart, state.id);
       return myState;
     }
+
     case actionTypes.INCREMENT_PRODUCT: {
       const myState = { ...state };
       const cart = [...myState.cart];
@@ -90,8 +119,10 @@ const reducer = (state = initialState, action) => {
       cart[index].qty += 1;
 
       myState.cart = cart;
+      updateCart(cart, state.id);
       return myState;
     }
+
     case actionTypes.DECREMENT_PRODUCT: {
       const myState = { ...state };
       const cart = [...myState.cart];
@@ -105,6 +136,7 @@ const reducer = (state = initialState, action) => {
       else cart.splice(index, 1);
 
       myState.cart = cart;
+      updateCart(cart, state.id);
       return myState;
     }
 
@@ -120,6 +152,7 @@ const reducer = (state = initialState, action) => {
       cart.splice(index, 1);
 
       myState.cart = cart;
+      updateCart(cart, state.id);
       return myState;
     }
 
