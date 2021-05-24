@@ -12,6 +12,7 @@ import ListItem from "../ListItem/ListItem";
 import CheckListItem from "../ListItem/CheckListItem";
 import Button from "../Button/Button";
 import Spinner from "../Spinner/Spinner";
+import Pagination from "../../admin-components/Pagination/Pagination";
 import Footer from "../Footer/Footer";
 import "./Products.css";
 
@@ -123,8 +124,87 @@ function Products(props) {
     season: [],
   });
 
+  const [totalProductsArrived, setTotalProductsArrived] = useState(0);
+  const [totalProductsAvailable, setTotalProductsAvailable] = useState(0);
+  const [showPagination, setShowPagination] = useState(false);
+
+  const refreshProducts = (page) => {
+    setProducts(<Spinner />);
+
+    setShowPagination(false);
+    let isNext, isPrev;
+    if (page === "next") {
+      isNext = true;
+      isPrev = false;
+    } else if (page === "prev") {
+      isPrev = true;
+      isNext = false;
+    } else {
+      isPrev = false;
+      isNext = false;
+    }
+
+    fetch(`${process.env.REACT_APP_SERVER}/product`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        totalProducts: totalProductsArrived,
+        next: isNext,
+        prev: isPrev,
+      }),
+    })
+      .then(async (res) => {
+        const response = await res.json();
+        if (!response.status) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        const data = response.data;
+
+        setTotalProductsArrived(response.productSent);
+        setTotalProductsAvailable(response.totalProducts);
+        if (!data) {
+          setProducts(<h3>No Products found</h3>);
+          return;
+        }
+        setShowPagination(true);
+        const result = data.map((item) => (
+          <Link
+            key={item._id}
+            to={`/product/${item._id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <Card
+              title={item.title}
+              price={item.price[Object.keys(item.price)[0]]}
+              image={`${process.env.REACT_APP_SERVER}/${item.image}`}
+              id={item._id}
+            />
+          </Link>
+        ));
+        setProducts(result);
+      })
+      .catch(() => {
+        setProducts(
+          <small className="field-error-msg">
+            Can't connect to server. Please refresh
+          </small>
+        );
+      });
+  };
+
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER}/product`)
+    fetch(`${process.env.REACT_APP_SERVER}/product`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        totalProducts: totalProductsArrived,
+      }),
+    })
       .then(async (res) => {
         setPageLoaded(true);
         const response = await res.json();
@@ -133,10 +213,14 @@ function Products(props) {
           return;
         }
         const data = response.data;
+
+        setTotalProductsArrived(response.productSent);
+        setTotalProductsAvailable(response.totalProducts);
         if (!data) {
           setProducts(<h3>No Products found</h3>);
           return;
         }
+        setShowPagination(true);
         const result = data.map((item) => (
           <Link
             key={item._id}
@@ -444,6 +528,24 @@ function Products(props) {
         </Grid>
 
         {products}
+        <Grid item xs={12} sm={12} lg={12} md={12}>
+          {showPagination ? (
+            <Pagination
+              pageNo={
+                totalProductsArrived / 30 >
+                Math.floor(totalProductsArrived / 30)
+                  ? Math.floor(totalProductsArrived / 30) + 1
+                  : Math.floor(totalProductsArrived / 30)
+              }
+              onLeftClick={() => refreshProducts("prev")}
+              onRightClick={() => refreshProducts("next")}
+              leftDisabled={totalProductsArrived <= 30}
+              rightDisabled={totalProductsArrived === totalProductsAvailable}
+            />
+          ) : (
+            ""
+          )}
+        </Grid>
         <Grid item xs={12} md={12} lg={12}>
           <Footer />
         </Grid>
