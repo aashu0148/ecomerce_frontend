@@ -1,7 +1,25 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 
-function OrderType() {
+function Sales(props) {
+  const currYear = new Date().getFullYear();
+  const prevYear = new Date().getFullYear() - 1;
+  const orders = props.data.filter(
+    (item) => item.year === currYear || item.year === prevYear
+  );
+
+  const currYearSales = new Array(new Date().getMonth() + 1);
+  for (let i = 0; i < new Date().getMonth() + 1; ++i) currYearSales[i] = 0;
+  const prevYearSales = new Array(12);
+  for (let i = 0; i < 12; ++i) prevYearSales[i] = 0;
+
+  orders.forEach((order) => {
+    if (order.year === currYear) currYearSales[order.month - 1] += order.price;
+  });
+  orders.forEach((order) => {
+    if (order.year === prevYear) prevYearSales[order.month - 1] += order.price;
+  });
+
   const data = {
     labels: [
       "Jan",
@@ -19,16 +37,16 @@ function OrderType() {
     ],
     datasets: [
       {
-        label: "Sales 2020",
-        data: [35, 15, 64, 43, 12, 46, 34, 86, 66, 76],
+        label: `Sales ${currYear}`,
+        data: currYearSales,
         borderColor: ["#a354ef"],
         backgroundColor: ["#a354ef"],
         pointBackgroundColor: ["#a354ef"],
         pointBorderColor: ["#a354ef"],
       },
       {
-        label: "Sales 2021",
-        data: [52, 45, 24, 32, 56, 44, 55, 70, 78],
+        label: `Sales ${prevYear}`,
+        data: prevYearSales,
         borderColor: ["#7cd629"],
         backgroundColor: ["#7cd629"],
         pointBackgroundColor: ["#7cd629"],
@@ -62,6 +80,7 @@ function OrderType() {
         maxWidth: "950px",
         width: "100%",
         textAlign: "center",
+        margin: "auto",
       }}
     >
       <h2>Sales in last Two Years</h2>
@@ -70,4 +89,4 @@ function OrderType() {
   );
 }
 
-export default OrderType;
+export default Sales;

@@ -92,6 +92,7 @@ function Checkout(props) {
         deliveryAddress: deliveryAddress,
         paymentMethod: "Cash on Delivery",
         order: order,
+        price: total,
       }),
     })
       .then(async (res) => {

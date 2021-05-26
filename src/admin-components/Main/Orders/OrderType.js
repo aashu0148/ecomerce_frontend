@@ -1,14 +1,54 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
-function OrderType() {
+function OrderType(props) {
+  const currYear = new Date().getFullYear();
+  const orders = props.data.filter((item) => item.year === currYear);
+
+  const monthlySale = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  let totalSale = 0;
+
+  orders.forEach((order) => {
+    monthlySale[order.month - 1] += order.price;
+
+    totalSale += order.price;
+  });
+
   const data = {
-    labels: ["Topwear", "Bottomwear", "Footwear"],
+    labels: [
+      "Jan",
+      "Feb",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "Augest",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
     datasets: [
       {
         label: "Type distribution",
-        data: [52, 45, 24],
-        backgroundColor: ["#a354ef", "violet", "#7cd629"],
+        data: monthlySale,
+        backgroundColor: [
+          "#FFEFD5",
+          "#00FFFF",
+          "#e4144d",
+          "#4169E1",
+          "#7cd629",
+          "coral",
+          "#FFDEAD",
+          "thistle",
+          "#8B008B",
+          "#B0C4DE",
+          "#F08080",
+          "violet",
+          "#008080",
+        ],
       },
     ],
   };
@@ -20,10 +60,11 @@ function OrderType() {
         minWidth: "250px",
         maxWidth: "450px",
         width: "100%",
-        textAlign: "center",
+        // textAlign: "center",
       }}
     >
-      <h2>Order Types</h2>
+      <h2>Sales this year</h2>
+      <h4>₹{totalSale}</h4>
       <Doughnut data={data} />
     </div>
   );
