@@ -39,7 +39,7 @@ function OrderType(props) {
           "#00FFFF",
           "#e4144d",
           "#4169E1",
-          "#7cd629",
+          "#5ae6b3",
           "coral",
           "#FFDEAD",
           "thistle",

@@ -18,7 +18,7 @@ function OrderDistribution(props) {
       {
         label: "Orders distribution",
         data: [completed, processing, cancelled],
-        backgroundColor: ["#a55fe0", "skyblue", "coral"],
+        backgroundColor: ["#7cd629", "skyblue", "coral"],
       },
     ],
   };

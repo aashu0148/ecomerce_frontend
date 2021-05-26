@@ -47,6 +47,7 @@ function Sidebar(props) {
             onClick={() => {
               setSelectedItem(1);
               props.changeBox("orders");
+              setBurgerActive(false);
             }}
           >
             Orders
@@ -56,6 +57,7 @@ function Sidebar(props) {
             onClick={() => {
               setSelectedItem(2);
               props.changeBox("products");
+              setBurgerActive(false);
             }}
             last={!props.mobileView}
           >

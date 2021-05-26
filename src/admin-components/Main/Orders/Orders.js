@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid, Divider } from "@material-ui/core";
 
 import Spinner from "../../../Components/Spinner/Spinner";
 import OrderDistribution from "./OrderDistribution";
 import OrderType from "./OrderType";
 import Sales from "./Sales";
 import "./Orders.css";
+import OrderCard from "./OrderCard/OrderCard";
 
 function Orders(props) {
   const [errorMsg, setErrorMsg] = useState("");
@@ -80,6 +81,14 @@ function Orders(props) {
             <br />
             <Sales data={orders} />
           </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12}>
+            <br />
+            <h1>Orders</h1>
+            <Divider />
+          </Grid>
+          {orders.length > 0
+            ? orders.map((item, i) => <OrderCard key={i} data={item} />)
+            : ""}
         </Grid>
       )}
     </div>

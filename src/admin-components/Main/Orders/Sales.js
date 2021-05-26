@@ -47,10 +47,10 @@ function Sales(props) {
       {
         label: `Sales ${prevYear}`,
         data: prevYearSales,
-        borderColor: ["#7cd629"],
-        backgroundColor: ["#7cd629"],
-        pointBackgroundColor: ["#7cd629"],
-        pointBorderColor: ["#7cd629"],
+        borderColor: ["#f08080"],
+        backgroundColor: ["#f08080"],
+        pointBackgroundColor: ["#f08080"],
+        pointBorderColor: ["#f08080"],
       },
     ],
   };
@@ -66,7 +66,7 @@ function Sales(props) {
           ticks: {
             min: 0,
             // stepSize: 10,
-            max: 200,
+            // max: 200,
           },
         },
       ],
@@ -79,11 +79,10 @@ function Sales(props) {
         minWidth: "600px",
         maxWidth: "950px",
         width: "100%",
-        textAlign: "center",
         margin: "auto",
       }}
     >
-      <h2>Sales in last Two Years</h2>
+      <h2 style={{ textAlign: "start" }}>Sales in last Two Years</h2>
       <Line data={data} options={options} />
     </div>
   );
