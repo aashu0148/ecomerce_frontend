@@ -14,10 +14,12 @@ function Sales(props) {
   for (let i = 0; i < 12; ++i) prevYearSales[i] = 0;
 
   orders.forEach((order) => {
-    if (order.year === currYear) currYearSales[order.month - 1] += order.price;
+    if (order.year === currYear && order.isDelivered)
+      currYearSales[order.month - 1] += order.price;
   });
   orders.forEach((order) => {
-    if (order.year === prevYear) prevYearSales[order.month - 1] += order.price;
+    if (order.year === prevYear && order.isDelivered)
+      prevYearSales[order.month - 1] += order.price;
   });
 
   const data = {
@@ -56,20 +58,22 @@ function Sales(props) {
   };
 
   const options = {
-    title: {
-      display: true,
-      text: "Sales in last 2 years",
-    },
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            min: 0,
-            // stepSize: 10,
-            // max: 200,
+    options: {
+      title: {
+        display: true,
+        text: "Sales in last 2 years",
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              min: 0,
+              // stepSize: 10,
+              // max: 200,
+            },
           },
-        },
-      ],
+        ],
+      },
     },
   };
 

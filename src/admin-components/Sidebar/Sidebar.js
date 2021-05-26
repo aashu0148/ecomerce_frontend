@@ -9,7 +9,7 @@ import "./Sidebar.css";
 
 function Sidebar(props) {
   const [burgerActive, setBurgerActive] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(1);
 
   return (
     <div

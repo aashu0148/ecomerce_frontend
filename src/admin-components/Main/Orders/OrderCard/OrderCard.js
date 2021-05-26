@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Grid, Chip, Modal } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import InfoModal from "./InfoModal";
 
 function OrderCard(props) {
   const date = new Date(props.data.date);
   const [modalBody, setModalBody] = useState("");
   const [modalOpen, setModalOpen] = useState("");
 
-  const infoModal = <h1>Check order details</h1>;
+  const infoModal = (
+    <InfoModal data={props.data} close={() => setModalOpen(false)} />
+  );
   const updateModal = <h1>Update modal </h1>;
 
   return (
@@ -46,17 +49,7 @@ function OrderCard(props) {
           {modalBody}
         </div>
       </Modal>
-      <Grid
-        item
-        xs={4}
-        sm={4}
-        md={4}
-        lg={3}
-        onClick={() => {
-          setModalBody(infoModal);
-          setModalOpen(true);
-        }}
-      >
+      <Grid item xs={4} sm={4} md={4} lg={3}>
         <h3>{`${date.getDate()}-${
           date.getMonth() + 1
         }-${date.getFullYear()}`}</h3>
@@ -71,6 +64,7 @@ function OrderCard(props) {
           setModalBody(infoModal);
           setModalOpen(true);
         }}
+        style={{ cursor: "pointer" }}
       >
         <Chip
           style={{
@@ -78,8 +72,9 @@ function OrderCard(props) {
               ? "coral"
               : props.data.isDelivered
               ? "#7cd629"
-              : "#87ceeb",
+              : "#6cc4e8",
             color: "#fff",
+            cursor: "pointer",
           }}
           label={`${
             props.data.isCancelled
