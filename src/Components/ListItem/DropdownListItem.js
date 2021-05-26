@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Grid, Divider } from "@material-ui/core";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -9,6 +9,12 @@ import "./ListItem.css";
 
 function DropdownList(props) {
   const [expanded, setExpanded] = useState(false);
+
+  useEffect(()=>{
+    if(props.valid){
+      setExpanded(false)
+    }
+  },[props.valid])
 
   return (
     <Grid

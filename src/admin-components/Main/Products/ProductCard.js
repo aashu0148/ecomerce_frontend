@@ -4,8 +4,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
 import UpdateProduct from "./UpdateProduct";
-
-import notFound from "../../assets/svg/404.svg";
+import notFound from "../../../assets/svg/404.svg";
 import DeleteProduct from "./DeleteProduct";
 
 function ProductCard(props) {

@@ -1,52 +1,57 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
-import CancelIcon from "@material-ui/icons/Cancel";
 import Swal from "sweetalert2";
 
-import Button from "../../Components/Button/Button";
+import Select from "../../../Components/Field/Select";
+import Button from "../../../Components/Button/Button";
 
-function UpdateProduct(props) {
+function Addproduct(props) {
   const [priceValue, setPriceValue] = useState({
-    s: props.data.price.s || "",
-    m: props.data.price.m || "",
-    l: props.data.price.l || "",
-    xl: props.data.price.xl || "",
-    xxl: props.data.price.xxl || "",
-    xxxl: props.data.price.xxxl || "",
+    s: "",
+    m: "",
+    l: "",
+    xl: "",
+    xxl: "",
+    xxxl: "",
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const [values, setValues] = useState({
-    title: props.data.title,
+    title: "",
     price: {
-      s: props.data.price.s || "",
-      m: props.data.price.m || "",
-      l: props.data.price.l || "",
-      xl: props.data.price.xl || "",
-      xxl: props.data.price.xxl || "",
-      xxxl: props.data.price.xxxl || "",
+      s: "",
+      m: "",
+      l: "",
+      xl: "",
+      xxl: "",
+      xxxl: "",
     },
-    desc: props.data.desc,
+    desc: "",
+    tags: [],
     thumbnail: "",
     image1: "",
     image2: "",
     image3: "",
-    // tags: [],
-    // brand: "",
-    // for: "",
-    // season: "",
-    // type: "",
+    brand: "",
+    for: "",
+    season: "",
+    type: "",
   });
 
   const [fieldError, setFieldError] = useState({
     title: "",
     desc: "",
+    tags: "",
     thumbnail: "",
     image1: "",
     image2: "",
     image3: "",
+    brand: "",
+    for: "",
+    season: "",
+    type: "",
   });
 
   const swarlPopupSuccess = (text) => {
@@ -95,8 +100,46 @@ function UpdateProduct(props) {
     e.preventDefault();
 
     if (
+      !(
+        values.price.s ||
+        values.price.m ||
+        values.price.l ||
+        values.price.xl ||
+        values.price.xxl ||
+        values.price.xxxl
+      )
+    ) {
+      const myFieldError = { ...fieldError };
+      myFieldError.price = "Enter value";
+      setFieldError(myFieldError);
+    } else {
+      const myFieldError = { ...fieldError };
+      myFieldError.price = "";
+      setFieldError(myFieldError);
+    }
+
+    if (
+      !values.title ||
+      !values.desc ||
+      !values.brand ||
+      !values.for ||
+      !values.type ||
+      !values.season ||
+      !values.thumbnail ||
+      values.tags.length === 0
+    ) {
+      setErrorMsg("All values required");
+      return;
+    }
+
+    if (
       fieldError.title ||
+      fieldError.brand ||
       fieldError.desc ||
+      fieldError.tags ||
+      fieldError.season ||
+      fieldError.type ||
+      fieldError.for ||
       fieldError.thumbnail ||
       fieldError.image1 ||
       fieldError.image2 ||
@@ -109,27 +152,33 @@ function UpdateProduct(props) {
 
     const formData = new FormData();
 
-    formData.append("uid", props.uid);
-    formData.append("pid", props.pid);
-    if (values.title) formData.append("title", values.title);
-    if (values.price) {
-      const price = {};
-      Object.keys(priceValue).forEach((item) => {
-        if (priceValue[item]) {
-          price[item] = priceValue[item];
-        }
-      });
-      formData.append("price", JSON.stringify(price));
-    }
-    if (values.desc) formData.append("desc", values.desc);
-    if (values.thumbnail) formData.append("thumbnail", values.thumbnail);
-    if (values.image1) formData.append("image1", values.image1);
-    if (values.image2) formData.append("image2", values.image2);
-    if (values.image3) formData.append("image3", values.image3);
-
+    formData.append("uid", props.id);
+    formData.append("title", values.title);
+    const price = {};
+    Object.keys(priceValue).forEach((item) => {
+      if (priceValue[item]) {
+        price[item] = priceValue[item];
+      }
+    });
+    formData.append("price", JSON.stringify(price));
+    formData.append(
+      "filters",
+      JSON.stringify({
+        type: values.type,
+        brand: values.brand,
+        season: values.season,
+        for: values.for,
+      })
+    );
+    formData.append("tags", JSON.stringify(values.tags));
+    formData.append("desc", values.desc);
+    formData.append("thumbnail", values.thumbnail);
+    if (values.image1) formData.append("image", values.image1);
+    if (values.image2) formData.append("image", values.image2);
+    if (values.image3) formData.append("image", values.image3);
     setSubmitButtonDisabled(true);
 
-    fetch(`${process.env.REACT_APP_SERVER}/product/update`, {
+    fetch(`${process.env.REACT_APP_SERVER}/product/add`, {
       method: "POST",
       body: formData,
     })
@@ -140,9 +189,9 @@ function UpdateProduct(props) {
           setErrorMsg(data.message);
           return;
         }
-        swarlPopupSuccess("Product successfully updated");
-        props.close();
+        swarlPopupSuccess("New Product added");
         props.refresh();
+        props.close();
       })
       .catch(() => {
         setSubmitButtonDisabled(false);
@@ -153,24 +202,11 @@ function UpdateProduct(props) {
   return (
     <form
       onSubmit={submission}
-      style={{ maxHeight: "80vh", overflowY: "scroll" }}
+      style={{ maxHeight: "80vh", maxWidth: "1000px", overflowY: "scroll" }}
     >
-      <div style={{ textAlign: "end" }}>
-        <CancelIcon
-          onClick={props.close}
-          style={{
-            color: "darkgray",
-            cursor: "pointer",
-          }}
-        />
-      </div>
-      <Grid
-        container
-        spacing={1}
-        style={{ margin: "0", width: "100%", maxWidth: "800px" }}
-      >
+      <Grid container spacing={1} style={{ margin: "0", width: "100%" }}>
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <h2>Update Product</h2>
+          <h2>Add Product</h2>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -179,13 +215,6 @@ function UpdateProduct(props) {
             <input
               type="text"
               placeholder="Enter product name"
-              value={values.title}
-              onChange={(e) => {
-                const value = e.target.value.trim();
-                const myValues = { ...values };
-                myValues.title = value;
-                setValues(myValues);
-              }}
               onBlur={(e) => {
                 const value = e.target.value.trim();
                 if (!value) {
@@ -204,6 +233,34 @@ function UpdateProduct(props) {
             />
             <small style={{ width: "90%" }} className="field-error-msg">
               {fieldError.title}
+            </small>
+          </div>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Brand</label>
+            <input
+              type="text"
+              placeholder="Enter brand"
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (!value) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.brand = "Enter value";
+                  setFieldError(myFieldError);
+                } else {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.brand = "";
+                  setFieldError(myFieldError);
+                  const myValues = { ...values };
+                  myValues.brand = value;
+                  setValues(myValues);
+                }
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.brand}
             </small>
           </div>
         </Grid>
@@ -434,13 +491,6 @@ function UpdateProduct(props) {
               style={{ minHeight: "150px" }}
               maxLength="500"
               placeholder="Enter Description"
-              value={values.desc}
-              onChange={(e) => {
-                const value = e.target.value.trim();
-                const myValues = { ...values };
-                myValues.desc = value;
-                setValues(myValues);
-              }}
               onBlur={(e) => {
                 const value = e.target.value.trim();
                 if (!value) {
@@ -461,6 +511,110 @@ function UpdateProduct(props) {
               {fieldError.desc}
             </small>
           </div>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Tags (Separate tags with space)</label>
+            <textarea
+              style={{ minHeight: "150px" }}
+              maxLength="100"
+              placeholder="Enter Tags"
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (!value) {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.tags = "Enter value";
+                  setFieldError(myFieldError);
+                } else {
+                  const myFieldError = { ...fieldError };
+                  myFieldError.tags = "";
+                  setFieldError(myFieldError);
+                  const myValues = { ...values };
+                  myValues.tags = value.replace(/\s\s+/g, " ").split(" ");
+                  setValues(myValues);
+                }
+              }}
+            />
+            <small style={{ width: "90%" }} className="field-error-msg">
+              {fieldError.tags}
+            </small>
+          </div>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <Select
+            label="Select type"
+            options={["", "Topwear", "Bottomwear", "Footwear"]}
+            onChange={(e) => {
+              const value = e.target.value.trim();
+              if (!value) {
+                const myFieldError = { ...fieldError };
+                myFieldError.type = "Select value";
+                setFieldError(myFieldError);
+              } else {
+                const myFieldError = { ...fieldError };
+                myFieldError.type = "";
+                setFieldError(myFieldError);
+                const myValues = { ...values };
+                myValues.type = value;
+                setValues(myValues);
+              }
+            }}
+          />
+          <small style={{ width: "90%" }} className="field-error-msg">
+            {fieldError.type}
+          </small>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <Select
+            label="For"
+            options={["", "Men", "Women", "children"]}
+            onChange={(e) => {
+              const value = e.target.value.trim();
+              if (!value) {
+                const myFieldError = { ...fieldError };
+                myFieldError.for = "Select value";
+                setFieldError(myFieldError);
+              } else {
+                const myFieldError = { ...fieldError };
+                myFieldError.for = "";
+                setFieldError(myFieldError);
+                const myValues = { ...values };
+                myValues.for = value;
+                setValues(myValues);
+              }
+            }}
+          />
+          <small style={{ width: "90%" }} className="field-error-msg">
+            {fieldError.for}
+          </small>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <Select
+            label="Select season"
+            options={["", "Winter", "Summer", "Spring"]}
+            onChange={(e) => {
+              const value = e.target.value.trim();
+              if (!value) {
+                const myFieldError = { ...fieldError };
+                myFieldError.season = "Select value";
+                setFieldError(myFieldError);
+              } else {
+                const myFieldError = { ...fieldError };
+                myFieldError.season = "";
+                setFieldError(myFieldError);
+                const myValues = { ...values };
+                myValues.season = value;
+                setValues(myValues);
+              }
+            }}
+          />
+          <small style={{ width: "90%" }} className="field-error-msg">
+            {fieldError.season}
+          </small>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -545,7 +699,7 @@ function UpdateProduct(props) {
         type="submit"
         style={{ borderRadius: "5px" }}
       >
-        Update
+        Add Product
       </Button>
     </form>
   );
@@ -553,8 +707,8 @@ function UpdateProduct(props) {
 
 const mapStateToProps = (state) => {
   return {
-    uid: state.id,
+    id: state.id,
   };
 };
 
-export default connect(mapStateToProps)(UpdateProduct);
+export default connect(mapStateToProps)(Addproduct);

@@ -267,6 +267,7 @@ function Products(props) {
       }),
     })
       .then(async (res) => {
+        setShowPagination(false);
         const response = await res.json();
         if (!response.status) {
           setProducts(<h3>No Products found</h3>);
@@ -453,7 +454,7 @@ function Products(props) {
                             />
                             <div>
                               <h4>
-                                From -{" "}
+                                From - z
                                 <span style={{ color: "var(--primary-color)" }}>
                                   ₹ {priceSliderValue[0]}
                                 </span>

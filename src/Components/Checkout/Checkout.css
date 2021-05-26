@@ -4,3 +4,6 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.MuiAccordion-root:before {
+  background-color: transparent !important;
+}

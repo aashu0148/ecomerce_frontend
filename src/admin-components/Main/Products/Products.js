@@ -5,10 +5,10 @@ import AddIcon from "@material-ui/icons/AddBox";
 import CancelIcon from "@material-ui/icons/Cancel";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
-import Spinner from "../../Components/Spinner/Spinner";
+import Spinner from "../../../Components/Spinner/Spinner";
 import AddProduct from "./AddProduct";
 import ProductCard from "./ProductCard";
-import Pagination from "../Pagination/Pagination";
+import Pagination from "../../Pagination/Pagination";
 
 function Products(props) {
   const search = useRef();

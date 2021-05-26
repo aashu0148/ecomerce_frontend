@@ -7,8 +7,8 @@ import { Grid } from "@material-ui/core";
 import Logo from "../../Components/Navbar/Logo/Logo";
 import PreLoader from "../../Components/PreLoader/PreLoader";
 import Sidebar from "../Sidebar/Sidebar";
-import Products from "../Main/Products";
-import Orders from "../Main/Orders";
+import Products from "../Main/Products/Products";
+import Orders from "../Main/Orders/Orders";
 
 function Dashboard(props) {
   const [preloading, setPreloading] = useState(true);

@@ -17,7 +17,6 @@ const updateCart = (cart, id) => {
   clearTimeout(updateCartTimer);
 
   updateCartTimer = setTimeout(() => {
-    console.log("Updating cart to : ", cart);
     fetch(`${process.env.REACT_APP_SERVER}/user/update-cart`, {
       method: "POST",
       headers: {
