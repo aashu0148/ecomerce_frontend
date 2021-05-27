@@ -5,9 +5,6 @@ import SortIcon from "@material-ui/icons/Sort";
 import FilterIcon from "@material-ui/icons/FilterList";
 
 import Card from "../Card/Card";
-import man from "../../assets/svg/man-2.svg";
-import woman from "../../assets/svg/woman-2.svg";
-import Icon from "../Icon";
 import ListItem from "../ListItem/ListItem";
 import CheckListItem from "../ListItem/CheckListItem";
 import Button from "../Button/Button";
@@ -281,20 +278,6 @@ function Products(props) {
           <h1 style={{ whiteSpace: "nowrap" }}>Products</h1>
         </Grid>
         <Grid item className="products_topbar" xs={12} sm={9} lg={9} container>
-          <IconButton style={{ padding: "0", borderRadius: "15px" }}>
-            {" "}
-            <div className="products_topbar_elem">
-              <Icon src={man} />
-              <p>Men</p>
-            </div>
-          </IconButton>
-          <IconButton style={{ padding: "0", borderRadius: "15px" }}>
-            <div className="products_topbar_elem ">
-              <Icon src={woman} />
-              <p>Women</p>
-            </div>
-          </IconButton>
-
           <div
             className="products_topbar_elem"
             onClick={() => setSortBoxOpen(!sortBoxOpen)}
@@ -375,7 +358,7 @@ function Products(props) {
                             />
                             <div>
                               <h4>
-                                From -{" "}
+                                From -
                                 <span style={{ color: "var(--primary-color)" }}>
                                   ₹ {priceSliderValue[0]}
                                 </span>

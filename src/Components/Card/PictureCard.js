@@ -20,6 +20,7 @@ function PictureCard(props) {
         borderRadius: "20px",
       }}
       raised
+      onClick={props.onClick}
     >
       <CardActionArea style={{ color: "#fff" }}>
         <CardMedia

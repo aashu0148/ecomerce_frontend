@@ -4,8 +4,8 @@
   padding: 15px;
   box-shadow: 1px 0 12px rgba(0 0 0 /15%);
   border-radius: 5px;
-  margin: 10px;
+  margin: 10px 4px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 }

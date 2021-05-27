@@ -18,6 +18,7 @@ function NormalCard(props) {
         margin: props.mobileView ? "2px" : "10px",
       }}
       raised
+      onClick={props.onClick}
     >
       <CardActionArea>
         <CardMedia

@@ -6,6 +6,8 @@ import { Grid, Divider } from "@material-ui/core";
 
 import Navbar from "../Navbar/Navbar";
 import Popup from "../SweetPopup/Popup";
+import Sidebar from "../Sidebar/Sidebar";
+import Footer from "../Footer/Footer";
 import Input from "../Field/Input";
 import Button from "../Button/Button";
 
@@ -68,91 +70,109 @@ function Profile(props) {
     <div className="profile">
       <Popup text="updated Succesfully" active={popupActive} />
       <Navbar />
+
       <Grid
         container
         spacing={2}
-        style={{ margin: "0", width: "100%" }}
-        justify="center"
+        style={{
+          margin: 0,
+          width: "100%",
+        }}
       >
-        <Grid item xs={12} md={12} lg={12}>
-          <h1>Profile</h1>
+        <Grid item xs={12} sm={3} lg={3} md={3}>
+          <Sidebar />
         </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          md={10}
-          lg={9}
-          style={{ background: "#fff", padding: "15px" }}
-          alignItems="center"
-        >
-          <Grid item xs={4} lg={4}>
-            <h3 style={{ margin: "10px 0" }}>Name</h3>
-          </Grid>
-          <Grid item xs={8} lg={8}>
-            <Input
-              type="value"
-              style={{ fontWeight: "bold" }}
-              value={nameValue}
-              onChange={(e) => {
-                setNamevalue(e.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ margin: "4px 0" }}>
-            <Divider />
-          </Grid>
-          <Grid item xs={4} lg={4}>
-            <h3 style={{ margin: "10px 0" }}>Email</h3>
-          </Grid>
-          <Grid item xs={8} lg={8}>
-            <Input
-              type="value"
-              disabled
-              style={{ fontWeight: "bold" }}
-              value={props.email}
-            />
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ margin: "4px 0" }}>
-            <Divider />
-          </Grid>
-          <Grid item xs={4} lg={4}>
-            <h3 style={{ margin: "10px 0" }}>Mobile</h3>
-          </Grid>
-          <Grid item xs={8} lg={8}>
-            <Input
-              type="value"
-              maxLength="10"
-              style={{ fontWeight: "bold" }}
-              value={mobileValue}
-              onChange={(e) => {
-                const value = e.target.value;
-                const char = value.slice(-1);
-                if ((char >= "0" && char <= "9") || value === "")
-                  setMobileValue(value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ margin: "4px 0" }}>
-            <Divider />
-          </Grid>
-          <small
-            style={{ fontWeight: "bold", textAlign: "center" }}
-            className="field-error-msg"
+        <Grid item xs={12} sm={9} lg={9} md={9}>
+          <Grid
+            container
+            spacing={2}
+            style={{ margin: "0", width: "100%" }}
+            justify="center"
           >
-            {errorMsg}
-          </small>
-          {valueChanged ? (
-            <Button
-              disabled={updateButtonDisabled}
-              type="button"
-              onClick={submission}
+            <Grid item xs={12} md={12} lg={12}>
+              <h1>Profile</h1>
+            </Grid>
+            <Grid
+              item
+              container
+              xs={12}
+              md={10}
+              lg={9}
+              style={{ background: "#fff", padding: "15px" }}
+              alignItems="center"
             >
-              Update
-            </Button>
-          ) : (
-            ""
-          )}
+              <Grid item xs={4} lg={4}>
+                <h3 style={{ margin: "10px 0" }}>Name</h3>
+              </Grid>
+              <Grid item xs={8} lg={8}>
+                <Input
+                  type="value"
+                  style={{ fontWeight: "bold" }}
+                  value={nameValue}
+                  onChange={(e) => {
+                    setNamevalue(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} md={12} lg={12} style={{ margin: "4px 0" }}>
+                <Divider />
+              </Grid>
+              <Grid item xs={4} lg={4}>
+                <h3 style={{ margin: "10px 0" }}>Email</h3>
+              </Grid>
+              <Grid item xs={8} lg={8}>
+                <Input
+                  type="value"
+                  disabled
+                  style={{ fontWeight: "bold" }}
+                  value={props.email}
+                />
+              </Grid>
+              <Grid item xs={12} md={12} lg={12} style={{ margin: "4px 0" }}>
+                <Divider />
+              </Grid>
+              <Grid item xs={4} lg={4}>
+                <h3 style={{ margin: "10px 0" }}>Mobile</h3>
+              </Grid>
+              <Grid item xs={8} lg={8}>
+                <Input
+                  type="value"
+                  maxLength="10"
+                  style={{ fontWeight: "bold" }}
+                  value={mobileValue}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const char = value.slice(-1);
+                    if ((char >= "0" && char <= "9") || value === "")
+                      setMobileValue(value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} md={12} lg={12} style={{ margin: "4px 0" }}>
+                <Divider />
+              </Grid>
+              <small
+                style={{ fontWeight: "bold", textAlign: "center" }}
+                className="field-error-msg"
+              >
+                {errorMsg}
+              </small>
+              {valueChanged ? (
+                <Button
+                  disabled={updateButtonDisabled}
+                  type="button"
+                  onClick={submission}
+                >
+                  Update
+                </Button>
+              ) : (
+                ""
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={12} lg={12}>
+          <Footer />
         </Grid>
       </Grid>
     </div>

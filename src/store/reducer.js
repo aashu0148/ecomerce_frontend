@@ -9,6 +9,7 @@ const initialState = {
   preloading: true,
   mobileView: false,
   cart: [],
+  filters: {},
 };
 
 let updateCartTimer;
@@ -152,6 +153,14 @@ const reducer = (state = initialState, action) => {
 
       myState.cart = cart;
       updateCart(cart, state.id);
+      return myState;
+    }
+
+    case actionTypes.SET_FILTERS: {
+      const filters = action.filters;
+      const myState = { ...state };
+      myState.filters = filters;
+
       return myState;
     }
 

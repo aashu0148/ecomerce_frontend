@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import * as actionTypes from "../../store/action";
+import { useHistory } from "react-router-dom";
 import { Grid, IconButton } from "@material-ui/core";
 
 import man from "../../assets/svg/man-2.svg";
 import woman from "../../assets/svg/woman-2.svg";
 import Icon from "../Icon";
-// import Card from "../Card/Card";
 import Picturecard from "../Card/PictureCard";
 import TextCard from "../Card/TextCard";
 import "./Main.css";
 
-function Main() {
+function Main(props) {
+  const history = useHistory();
   const [sortBox, setSortBox] = useState(false);
 
   return (
@@ -30,14 +33,30 @@ function Main() {
         <Grid item xs={12} sm={12} lg={12}>
           <div className="main_topbar">
             <h2>New In</h2>
-            <IconButton style={{ padding: "0", borderRadius: "15px" }}>
+            <IconButton
+              style={{ padding: "0", borderRadius: "15px" }}
+              onClick={() => {
+                props.setFiltersAction({
+                  for: ["men"],
+                });
+                history.push("/products");
+              }}
+            >
               {" "}
               <div className="main_topbar_elem">
                 <Icon src={man} />
                 <p>Men</p>
               </div>
             </IconButton>
-            <IconButton style={{ padding: "0", borderRadius: "15px" }}>
+            <IconButton
+              style={{ padding: "0", borderRadius: "15px" }}
+              onClick={() => {
+                props.setFiltersAction({
+                  for: ["women"],
+                });
+                history.push("/products");
+              }}
+            >
               <div className="main_topbar_elem ">
                 <Icon src={woman} />
                 <p>Women</p>
@@ -78,4 +97,15 @@ function Main() {
   );
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setFiltersAction: (filters) =>
+      dispatch({ type: actionTypes.SET_FILTERS, filters: filters }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

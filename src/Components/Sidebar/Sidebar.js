@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import * as actionTypes from "../../store/action";
 import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
@@ -13,6 +15,7 @@ import Icon from "../Icon";
 import "./Sidebar.css";
 
 function Sidebar(props) {
+  const history = useHistory();
   const [burgerActive, setBurgerActive] = useState(false);
 
   return (
@@ -47,10 +50,24 @@ function Sidebar(props) {
           </ListItem>
           </Link> */}
           {props.auth ? <ListItem noHover>Hello {props.name}</ListItem> : ""}
-          <ListItem>
+          <ListItem
+            onClick={() => {
+              props.setFiltersAction({
+                type: ["topwear", "bottomwear"],
+              });
+              history.push("/products");
+            }}
+          >
             <Icon src={cloth} /> <p>Clothing</p>
           </ListItem>
-          <ListItem>
+          <ListItem
+            onClick={() => {
+              props.setFiltersAction({
+                type: ["footwear"],
+              });
+              history.push("/products");
+            }}
+          >
             <Icon src={shoes} /> <p>Footware</p>
           </ListItem>
           <Link
@@ -74,7 +91,10 @@ function Sidebar(props) {
                 >
                   <ListItem>My Orders</ListItem>
                 </Link>
-                <ListItem last>Wishlist</ListItem>
+                <ListItem>Wishlist</ListItem>
+                <ListItem last onClick={props.logoutAction}>
+                  Logout
+                </ListItem>
               </>
             ) : (
               <Link
@@ -101,4 +121,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Sidebar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutAction: () => dispatch({ type: actionTypes.LOGOUT }),
+    setFiltersAction: (filters) =>
+      dispatch({ type: actionTypes.SET_FILTERS, filters: filters }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
