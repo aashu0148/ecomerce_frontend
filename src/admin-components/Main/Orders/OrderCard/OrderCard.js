@@ -1,17 +1,26 @@
 import React, { useState } from "react";
 import { Grid, Chip, Modal } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import DoneIcon from "@material-ui/icons/Done";
+import ClearIcon from "@material-ui/icons/Clear";
 import InfoModal from "./InfoModal";
+import UpdateModal from "./UpdateModal";
 
 function OrderCard(props) {
   const date = new Date(props.data.date);
   const [modalBody, setModalBody] = useState("");
-  const [modalOpen, setModalOpen] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const infoModal = (
     <InfoModal data={props.data} close={() => setModalOpen(false)} />
   );
-  const updateModal = <h1>Update modal </h1>;
+  const updateModal = (
+    <UpdateModal
+      data={props.data}
+      close={() => setModalOpen(false)}
+      refresh={props.refresh}
+    />
+  );
 
   return (
     <Grid
@@ -91,13 +100,19 @@ function OrderCard(props) {
         </h4>
       </Grid>
       <Grid item xs={2} md={2} lg={2} style={{ textAlign: "center" }}>
-        <EditIcon
-          style={{ cursor: "pointer", color: "var(--primary-color)" }}
-          onClick={() => {
-            setModalBody(updateModal);
-            setModalOpen(true);
-          }}
-        />
+        {props.data.isDelivered ? (
+          <DoneIcon style={{ color: "#7cd629" }} />
+        ) : props.data.isCancelled ? (
+          <ClearIcon style={{ color: "coral" }} />
+        ) : (
+          <EditIcon
+            style={{ cursor: "pointer", color: "var(--primary-color)" }}
+            onClick={() => {
+              setModalBody(updateModal);
+              setModalOpen(true);
+            }}
+          />
+        )}
       </Grid>
     </Grid>
   );

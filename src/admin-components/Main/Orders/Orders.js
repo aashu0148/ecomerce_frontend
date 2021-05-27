@@ -6,8 +6,8 @@ import Spinner from "../../../Components/Spinner/Spinner";
 import OrderDistribution from "./OrderDistribution";
 import OrderType from "./OrderType";
 import Sales from "./Sales";
+import OrdersList from "./OrdersList";
 import "./Orders.css";
-import OrderCard from "./OrderCard/OrderCard";
 
 function Orders(props) {
   const [errorMsg, setErrorMsg] = useState("");
@@ -23,7 +23,14 @@ function Orders(props) {
           setErrorMsg(data.message);
           return;
         }
-        setOrders(data.data);
+        const orders = [];
+        const minYear = new Date().getFullYear() - 3;
+        data.data.forEach((item) => {
+          if (new Date(item.date).getFullYear() > minYear) orders.push(item);
+          else return;
+        });
+
+        setOrders(orders);
       })
       .catch((err) => {
         setShowSpinner(false);
@@ -86,9 +93,11 @@ function Orders(props) {
             <h1>Orders</h1>
             <Divider />
           </Grid>
-          {orders.length > 0
-            ? orders.map((item, i) => <OrderCard key={i} data={item} />)
-            : ""}
+          {orders.length > 0 ? (
+            <OrdersList data={orders} />
+          ) : (
+            <h3>No orders present.</h3>
+          )}
         </Grid>
       )}
     </div>
