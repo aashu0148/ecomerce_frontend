@@ -10,7 +10,9 @@ function OrderType(props) {
   let totalSale = 0;
 
   orders.forEach((order) => {
-    monthlySale[order.month - 1] += order.price;
+    if (order.isDelivered) {
+      monthlySale[order.month - 1] += order.price;
+    }
 
     totalSale += order.price;
   });
