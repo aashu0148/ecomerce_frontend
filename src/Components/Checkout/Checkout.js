@@ -65,6 +65,7 @@ function Checkout(props) {
   };
 
   const paymentConfirmHandler = () => {
+    setPaymentOption("")
     const order = props.cart.map((item) => {
       return {
         name: item.title,
