@@ -64,7 +64,7 @@ function InfoModal(props) {
 
             <div style={{ display: "flex", alignItems: "center" }}>
               <h3>Size : </h3>
-              <p>{item.size}</p>
+              <p>{item.size.toUpperCase()}</p>
             </div>
 
             <Divider style={{ width: "100%", margin: "8px 0" }} />

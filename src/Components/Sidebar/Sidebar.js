@@ -91,7 +91,7 @@ function Sidebar(props) {
                 >
                   <ListItem>My Orders</ListItem>
                 </Link>
-                <ListItem>Wishlist</ListItem>
+                {/* <ListItem>Wishlist</ListItem> */}
                 <ListItem last onClick={props.logoutAction}>
                   Logout
                 </ListItem>

@@ -172,7 +172,7 @@ function Navbar(props) {
                 >
                   <ListItem noHover>My Orders</ListItem>
                 </Link>
-                <ListItem noHover>Wishlist</ListItem>
+                {/* <ListItem noHover>Wishlist</ListItem> */}
                 <ListItem
                   noHover
                   last

@@ -5,7 +5,7 @@ import Button from "../../Button/Button";
 
 function OrderCard(props) {
   const [errorMsg, setErrorMsg] = useState("");
-
+  const date = new Date(props.data.date);
   const deleteOrderHandler = () => {
     fetch(`${process.env.REACT_APP_SERVER}/user/cancel-order`, {
       method: "POST",
@@ -38,6 +38,11 @@ function OrderCard(props) {
         container
         spacing={1}
       >
+        <Grid item xs={12} sm={12} md={12} lg={12}>
+          <h3>{`${date.getDate()}-${
+            date.getMonth() + 1
+          }-${date.getFullYear()}`}</h3>
+        </Grid>
         {props.data.items.map((item, i) => (
           <Grid
             key={i}
@@ -59,7 +64,12 @@ function OrderCard(props) {
             >
               {item.name}
             </Grid>
-            <Grid item xs={3} md={3} lg={3}>
+            <Grid item xs={1} md={1} lg={1}>
+              <small style={{ color: "#000", fontWeight: "bold" }}>
+                <span>{item.size.toUpperCase()}</span>
+              </small>
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
               <small style={{ color: "#000", fontWeight: "bold" }}>
                 Qty - <span>{item.qty}</span>
               </small>
