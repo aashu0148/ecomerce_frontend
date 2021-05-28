@@ -13,11 +13,12 @@ function PictureCard(props) {
         boxShadow: "1px -1px 12px rgba(0 0 0 /15%)",
         display: "flex",
         alignItems: "center",
-        justifyContent: props.justify || "start",
+        justifyContent: props.justify || "center",
         margin: "10px",
         background: "#fff",
         textAlign: "center",
         borderRadius: "20px",
+        position: "relative",
       }}
       raised
       onClick={props.onClick}
@@ -46,8 +47,8 @@ function PictureCard(props) {
         <h2
           style={{
             fontFamily: "sans-serif",
-            margin: "10px",
-            color: "#000",
+            margin: "10px auto",
+            textAlign: "center",
           }}
         >
           {props.text}

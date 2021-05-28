@@ -59,9 +59,19 @@ function Sidebar(props) {
               props.changeBox("products");
               setBurgerActive(false);
             }}
-            last={!props.mobileView}
           >
             Products
+          </ListItem>
+          <ListItem
+            selected={selectedItem === 3}
+            onClick={() => {
+              setSelectedItem(3);
+              props.changeBox("home");
+              setBurgerActive(false);
+            }}
+            last={!props.mobileView}
+          >
+            Home
           </ListItem>
         </ul>
       </div>

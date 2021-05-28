@@ -9,6 +9,7 @@ import PreLoader from "../../Components/PreLoader/PreLoader";
 import Sidebar from "../Sidebar/Sidebar";
 import Products from "../Main/Products/Products";
 import Orders from "../Main/Orders/Orders";
+import Home from "../Main/Home/Home";
 
 function Dashboard(props) {
   const [preloading, setPreloading] = useState(true);
@@ -22,6 +23,10 @@ function Dashboard(props) {
       }
       case "orders": {
         setMainBox(<Orders />);
+        break;
+      }
+      case "home": {
+        setMainBox(<Home />);
         break;
       }
       default:
