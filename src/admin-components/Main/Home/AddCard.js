@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import ListItemText from "@material-ui/core/ListItemText";
+import Select from "@material-ui/core/Select";
+import Checkbox from "@material-ui/core/Checkbox";
 import Swal from "sweetalert2";
 
 import PictureCard from "../../../Components/Card/PictureCard";
 import TextCard from "../../../Components/Card/TextCard";
-import Select from "../../../Components/Field/Select";
 import Button from "../../../Components/Button/Button";
 
 function AddCard(props) {
   const [values, setValues] = useState({
     brand: "",
-    for: "",
-    season: "",
-    type: "",
+    for: [],
+    season: [],
+    type: [],
     image: "",
     text: "",
     color: "",
@@ -25,12 +31,9 @@ function AddCard(props) {
   });
 
   const [fieldError, setFieldError] = useState({
-    brand: "",
-    for: "",
-    season: "",
-    type: "",
     image: "",
     text: "",
+    // brand: "",
   });
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -109,10 +112,10 @@ function AddCard(props) {
 
     formData.append("id", props.id);
     const filter = {};
-    if (values.brand) filter.brand = [values.brand]
-    if (values.for) filter.for = [values.for];
-    if (values.type) filter.type = [values.type];
-    if (values.season) filter.season = [values.season];
+    if (values.brand) filter.brand = [values.brand];
+    if (values.for.length > 0) filter.for = values.for;
+    if (values.type.length > 0) filter.type = values.type;
+    if (values.season.length > 0) filter.season = values.season;
     if (values.price.lte || values.price.gte)
       filter.price = {
         lte: values.price.lte,
@@ -233,18 +236,9 @@ function AddCard(props) {
               placeholder="Enter brand"
               onBlur={(e) => {
                 const value = e.target.value.trim();
-                if (!value) {
-                  const myFieldError = { ...fieldError };
-                  myFieldError.brand = "Enter value";
-                  setFieldError(myFieldError);
-                } else {
-                  const myFieldError = { ...fieldError };
-                  myFieldError.brand = "";
-                  setFieldError(myFieldError);
-                  const myValues = { ...values };
-                  myValues.brand = value;
-                  setValues(myValues);
-                }
+                const myValues = { ...values };
+                myValues.brand = value;
+                setValues(myValues);
               }}
             />
             <small style={{ width: "90%" }} className="field-error-msg">
@@ -254,7 +248,7 @@ function AddCard(props) {
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
-          <Select
+          {/* <Select
             label="Select type"
             options={["", "Topwear", "Bottomwear", "Footwear"]}
             onChange={(e) => {
@@ -272,14 +266,47 @@ function AddCard(props) {
                 setValues(myValues);
               }
             }}
-          />
+          /> */}
+          <FormControl
+            style={{
+              minWidth: "300px",
+              width: "90%",
+              padding: "0 15px",
+            }}
+          >
+            <InputLabel style={{ padding: "0 15px" }} id="type-label">
+              Select Type
+            </InputLabel>
+            <Select
+              labelId="type-label"
+              multiple
+              value={values.type}
+              onChange={(e) => {
+                const myValues = { ...values };
+                myValues.type = e.target.value;
+                setValues(myValues);
+              }}
+              input={<Input />}
+              renderValue={(selected) => selected.join(", ")}
+            >
+              {["Topwear", "Bottomwear", "Footwear"].map((name) => (
+                <MenuItem key={name} value={name}>
+                  <Checkbox
+                    checked={values.type.indexOf(name) > -1}
+                    style={{ color: "var(--primary-color)" }}
+                  />
+                  <ListItemText primary={name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <small style={{ width: "90%" }} className="field-error-msg">
             {fieldError.type}
           </small>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
-          <Select
+          {/* <Select
             label="For"
             options={["", "Men", "Women", "children"]}
             onChange={(e) => {
@@ -297,14 +324,47 @@ function AddCard(props) {
                 setValues(myValues);
               }
             }}
-          />
+          /> */}
+          <FormControl
+            style={{
+              minWidth: "300px",
+              width: "90%",
+              padding: "0 15px",
+            }}
+          >
+            <InputLabel style={{ padding: "0 15px" }} id="for-label">
+              Select For
+            </InputLabel>
+            <Select
+              labelId="for-label"
+              multiple
+              value={values.for}
+              onChange={(e) => {
+                const myValues = { ...values };
+                myValues.for = e.target.value;
+                setValues(myValues);
+              }}
+              input={<Input />}
+              renderValue={(selected) => selected.join(", ")}
+            >
+              {["Men", "Women", "Children"].map((name) => (
+                <MenuItem key={name} value={name}>
+                  <Checkbox
+                    checked={values.for.indexOf(name) > -1}
+                    style={{ color: "var(--primary-color)" }}
+                  />
+                  <ListItemText primary={name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <small style={{ width: "90%" }} className="field-error-msg">
             {fieldError.for}
           </small>
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={6}>
-          <Select
+          {/* <Select
             label="Select season"
             options={["", "Winter", "Summer", "Spring"]}
             onChange={(e) => {
@@ -322,7 +382,40 @@ function AddCard(props) {
                 setValues(myValues);
               }
             }}
-          />
+          /> */}
+          <FormControl
+            style={{
+              minWidth: "300px",
+              width: "90%",
+              padding: "0 15px",
+            }}
+          >
+            <InputLabel style={{ padding: "0 15px" }} id="season-label">
+              Select Season
+            </InputLabel>
+            <Select
+              labelId="season-label"
+              multiple
+              value={values.season}
+              onChange={(e) => {
+                const myValues = { ...values };
+                myValues.season = e.target.value;
+                setValues(myValues);
+              }}
+              input={<Input />}
+              renderValue={(selected) => selected.join(", ")}
+            >
+              {["Summer", "Winter", "Spring"].map((name) => (
+                <MenuItem key={name} value={name}>
+                  <Checkbox
+                    checked={values.season.indexOf(name) > -1}
+                    style={{ color: "var(--primary-color)" }}
+                  />
+                  <ListItemText primary={name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <small style={{ width: "90%" }} className="field-error-msg">
             {fieldError.season}
           </small>

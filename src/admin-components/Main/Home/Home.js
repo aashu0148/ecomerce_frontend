@@ -6,6 +6,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import Spinner from "../../../Components/Spinner/Spinner";
 import AddCard from "./AddCard";
 import HomeCard from "./HomeCard";
+import "./Home.css";
 
 function Home() {
   const [addModalOpen, setAddModalOpen] = useState(false);

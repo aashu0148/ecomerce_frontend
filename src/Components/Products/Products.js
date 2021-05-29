@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as actionTypes from "../../store/action";
 import { Link } from "react-router-dom";
 import { Grid, IconButton, Divider, Slider } from "@material-ui/core";
-import SortIcon from "@material-ui/icons/Sort";
+// import SortIcon from "@material-ui/icons/Sort";
 import FilterIcon from "@material-ui/icons/FilterList";
 
 import Card from "../Card/Card";
@@ -417,7 +417,7 @@ function Products(props) {
           <h1 style={{ whiteSpace: "nowrap" }}>Products</h1>
         </Grid>
         <Grid item className="products_topbar" xs={12} sm={9} lg={9} container>
-          <div
+          {/* <div
             className="products_topbar_elem"
             onClick={() => setSortBoxOpen(!sortBoxOpen)}
             style={{ position: "relative" }}
@@ -438,7 +438,7 @@ function Products(props) {
                 Popularity
               </ListItem>
             </div>
-          </div>
+          </div> */}
 
           <div
             className="products_topbar_elem"
