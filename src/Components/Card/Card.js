@@ -13,7 +13,7 @@ function NormalCard(props) {
   return (
     <Card
       style={{
-        width: props.mobileView ? "160px" : "250px",
+        width: props.mobileView ? "165px" : "250px",
         boxShadow: "0px 1px 12px rgba(0 0 0 /10%)",
         margin: props.mobileView ? "2px" : "10px",
       }}

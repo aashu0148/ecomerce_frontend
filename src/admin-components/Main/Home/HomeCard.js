@@ -21,7 +21,12 @@ function HomeCard(props) {
     />
   );
   return (
-    <Grid container spacing={2} style={{ margin: "0", width: "100%" }}>
+    <Grid
+      container
+      spacing={2}
+      style={{ margin: "0", width: "100%" }}
+      alignItems="center"
+    >
       <Modal
         open={modalOpen}
         onClose={() => {
@@ -68,7 +73,7 @@ function HomeCard(props) {
           setModalOpen(true);
         }}
       >
-        <h3>Card {props.number}</h3>
+        <h3 style={{ whiteSpace: "nowrap" }}>Card {props.number}</h3>
       </Grid>
       <Grid
         item

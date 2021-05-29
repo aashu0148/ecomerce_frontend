@@ -463,6 +463,20 @@ function AddCard(props) {
             />
           </div>
         </Grid>
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Background Color value</label>
+            <input
+              type="text"
+              placeholder="Enter background color"
+              onBlur={(e) => {
+                const myValues = { ...values };
+                myValues.background = e.target.value;
+                setValues(myValues);
+              }}
+            />
+          </div>
+        </Grid>
       </Grid>
 
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
