@@ -529,7 +529,7 @@ function AddCard(props) {
         type="submit"
         style={{ borderRadius: "5px" }}
       >
-        Add Product
+        Add Card
       </Button>
     </form>
   );
