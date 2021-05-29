@@ -263,6 +263,7 @@ function SigninForm(props) {
             render={(renderProps) => (
               <Button
                 outline
+                type="button"
                 onClick={renderProps.onClick}
                 style={{
                   color: "#000",
