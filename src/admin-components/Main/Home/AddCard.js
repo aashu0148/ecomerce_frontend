@@ -20,6 +20,7 @@ function AddCard(props) {
     for: [],
     season: [],
     type: [],
+    tags: [],
     image: "",
     text: "",
     color: "",
@@ -91,14 +92,15 @@ function AddCard(props) {
     if (
       !(
         values.brand ||
-        values.for ||
-        values.type ||
-        values.season ||
+        values.for.length > 0 ||
+        values.type.length > 0 ||
+        values.tags.length > 0 ||
+        values.season.length > 0 ||
         values.price.lte ||
         values.price.gte
       )
     ) {
-      setErrorMsg("Enter atleast one from Brand, For, Type, Season,Price");
+      setErrorMsg("Enter atleast one from Brand, For, Type, Season,Price,tags");
       return;
     }
 
@@ -116,6 +118,7 @@ function AddCard(props) {
     if (values.for.length > 0) filter.for = values.for;
     if (values.type.length > 0) filter.type = values.type;
     if (values.season.length > 0) filter.season = values.season;
+    if (values.tags.length > 0) filter.tags = values.tags;
     if (values.price.lte || values.price.gte)
       filter.price = {
         lte: values.price.lte,
@@ -159,7 +162,6 @@ function AddCard(props) {
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <h2>Add Card</h2>
         </Grid>
-
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Text</label>
@@ -227,7 +229,6 @@ function AddCard(props) {
             </small>
           </div>
         </Grid>
-
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Brand</label>
@@ -246,7 +247,22 @@ function AddCard(props) {
             </small>
           </div>
         </Grid>
-
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Tags</label>
+            <input
+              type="text"
+              maxLength="100"
+              placeholder="Enter Tags"
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                const myValues = { ...values };
+                myValues.tags = value.split(" ");
+                setValues(myValues);
+              }}
+            />
+          </div>
+        </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6}>
           {/* <Select
             label="Select type"
@@ -304,7 +320,6 @@ function AddCard(props) {
             {fieldError.type}
           </small>
         </Grid>
-
         <Grid item xs={12} sm={6} md={6} lg={6}>
           {/* <Select
             label="For"
@@ -362,7 +377,6 @@ function AddCard(props) {
             {fieldError.for}
           </small>
         </Grid>
-
         <Grid item xs={12} sm={6} md={6} lg={6}>
           {/* <Select
             label="Select season"
@@ -436,20 +450,6 @@ function AddCard(props) {
           </div>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6}>
-          <div className="field-form-elem">
-            <label>Text Color</label>
-            <input
-              type="color"
-              onChange={(e) => {
-                const myValues = { ...values };
-                myValues.color = e.target.value;
-                setValues(myValues);
-              }}
-              style={{ padding: "3px", minHeight: "30px" }}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem" style={{ position: "relative" }}>
             <label>Background Color</label>
             <input
@@ -463,6 +463,22 @@ function AddCard(props) {
             />
           </div>
         </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <div className="field-form-elem">
+            <label>Text Color</label>
+            <input
+              type="color"
+              onChange={(e) => {
+                const myValues = { ...values };
+                myValues.color = e.target.value;
+                setValues(myValues);
+              }}
+              style={{ padding: "3px", minHeight: "30px" }}
+            />
+          </div>
+        </Grid>
+
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <div className="field-form-elem">
             <label>Background Color value</label>
