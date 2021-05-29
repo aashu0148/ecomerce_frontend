@@ -4,9 +4,12 @@ import * as actionTypes from "../../../store/action";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import jwt from "jsonwebtoken";
+import GoogleLogin from "react-google-login";
+import googleLogo from "../../../assets/svg/google.svg";
 
 import secretKey from "../../../secret";
 import Button from "../../Button/Button";
+import Spinner from "../../Spinner/Spinner";
 import "./form.css";
 
 function SigninForm(props) {
@@ -83,8 +86,8 @@ function SigninForm(props) {
         localStorage.setItem("vastr-token", JSON.stringify(token));
 
         props.loginAction({
+          id: data.data._id,
           name: data.data.name,
-          id:data.data._id,
           email: data.data.email,
           mobile: data.data.mobile,
           cart: props.cart.concat(data.data.cart || []),
@@ -93,6 +96,56 @@ function SigninForm(props) {
       })
       .catch(() => {
         setSigninButtonDisabled(false);
+        setErrorMessage("Enable to connect to server.");
+      });
+  };
+
+  const onGoogleSignin = (res) => {
+    const name = res.profileObj.name;
+    const email = res.profileObj.email;
+    const password = res.profileObj.googleId;
+
+    setErrorMessage(<Spinner />);
+
+    fetch(`${process.env.REACT_APP_SERVER}/user/google-signin`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+      }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!data.status) {
+          setErrorMessage(data.message);
+          return;
+        }
+        setErrorMessage("");
+
+        const token = jwt.sign(
+          {
+            email: email,
+            password: password,
+          },
+          secretKey,
+          {
+            expiresIn: "6d",
+          }
+        );
+
+        localStorage.setItem("vastr-token", JSON.stringify(token));
+        props.loginAction({
+          id: data.data._id,
+          name: data.data.name,
+          email: data.data.email,
+          mobile: data.data.mobile,
+          cart: props.cart.concat(data.data.cart || []),
+        });
+        props.history.push("/");
+      })
+      .catch(() => {
         setErrorMessage("Enable to connect to server.");
       });
   };
@@ -190,21 +243,12 @@ function SigninForm(props) {
           </div>
           <small className="field-error-msg">{fieldError.password}</small>
         </div>
-
-        <Button
-          raised={!signinButtonDisabled}
-          disabled={signinButtonDisabled}
-          type="submit"
-        >
-          Sign in
-        </Button>
         <small
           style={{
             fontSize: "0.9rem",
             color: "#ff4500",
             fontWeight: "bolder",
             display: "block",
-            transform: "translateY(-10px)",
             maxWidth: "290px",
             textAlign: "center",
             margin: "auto",
@@ -212,6 +256,44 @@ function SigninForm(props) {
         >
           {errorMessage}
         </small>
+
+        <div style={{ display: "flex" }}>
+          <GoogleLogin
+            clientId="380286908369-0vpu801bt869hkr36jqhpbq7tkk1m26o.apps.googleusercontent.com"
+            render={(renderProps) => (
+              <Button
+                outline
+                onClick={renderProps.onClick}
+                style={{
+                  color: "#000",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "5px 10px",
+                }}
+              >
+                <img
+                  src={googleLogo}
+                  style={{ height: "24px", width: "24px", margin: "0 4px 0 0" }}
+                  alt="Google signin"
+                />
+                Google Signin
+              </Button>
+            )}
+            onSuccess={(res) => onGoogleSignin(res)}
+            onFailure={(res) => {
+              setErrorMessage(res.error);
+            }}
+            cookiePolicy="single_host_origin"
+          />
+
+          <Button
+            raised={!signinButtonDisabled}
+            disabled={signinButtonDisabled}
+            type="submit"
+          >
+            Sign in
+          </Button>
+        </div>
       </form>
       <br />
       <p className="signin_footer-text">
@@ -244,7 +326,7 @@ const mapDispatchToProps = (dispatch) => {
         email: data.email,
         mobile: data.mobile,
         cart: data.cart,
-        id:data.id
+        id: data.id,
       }),
   };
 };
