@@ -17,7 +17,7 @@ function PictureCard(props) {
         margin: "10px",
         background: "#fff",
         textAlign: "center",
-        borderRadius: "20px",
+        borderRadius: "15px",
         position: "relative",
       }}
       raised

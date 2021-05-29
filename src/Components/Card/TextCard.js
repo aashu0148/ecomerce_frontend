@@ -17,7 +17,7 @@ function TextCard(props) {
           props.background ||
           "linear-gradient(to top left, var(--primary-color), var(--secondary-color))",
         color: props.color || "#000",
-        borderRadius: "20px",
+        borderRadius: "15px",
       }}
       raised
       onClick={props.onClick}

@@ -13,7 +13,7 @@ function NormalCard(props) {
   return (
     <Card
       style={{
-        width: props.mobileView ? "180px" : "250px",
+        width: props.mobileView ? "160px" : "250px",
         boxShadow: "0px 1px 12px rgba(0 0 0 /10%)",
         margin: props.mobileView ? "2px" : "10px",
       }}
@@ -26,7 +26,7 @@ function NormalCard(props) {
           image={props.image || notFound}
           title={props.imageTitle}
           style={{
-            height: props.mobileView ? "255px" : "300px",
+            height: props.mobileView ? "220px" : "300px",
             objectFit: props.image ? "cover" : "contain",
           }}
         />
