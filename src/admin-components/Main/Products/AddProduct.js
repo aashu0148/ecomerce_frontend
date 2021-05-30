@@ -14,20 +14,20 @@ function Addproduct(props) {
     xl: "",
     xxl: "",
     xxxl: "",
+    s6: "",
+    s7: "",
+    s8: "",
+    s9: "",
+    s10: "",
+    s11: "",
+    s12: "",
+    s13: "",
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const [values, setValues] = useState({
     title: "",
-    price: {
-      s: "",
-      m: "",
-      l: "",
-      xl: "",
-      xxl: "",
-      xxxl: "",
-    },
     desc: "",
     tags: [],
     thumbnail: "",
@@ -101,12 +101,20 @@ function Addproduct(props) {
 
     if (
       !(
-        values.price.s ||
-        values.price.m ||
-        values.price.l ||
-        values.price.xl ||
-        values.price.xxl ||
-        values.price.xxxl
+        priceValue.s ||
+        priceValue.m ||
+        priceValue.l ||
+        priceValue.xl ||
+        priceValue.xxl ||
+        priceValue.xxxl ||
+        priceValue.s6 ||
+        priceValue.s7 ||
+        priceValue.s8 ||
+        priceValue.s9 ||
+        priceValue.s10 ||
+        priceValue.s11 ||
+        priceValue.s12 ||
+        priceValue.s13
       )
     ) {
       const myFieldError = { ...fieldError };
@@ -157,7 +165,7 @@ function Addproduct(props) {
     const price = {};
     Object.keys(priceValue).forEach((item) => {
       if (priceValue[item]) {
-        price[item] = priceValue[item];
+        price[item.slice(1)] = priceValue[item];
       }
     });
     formData.append("price", JSON.stringify(price));
@@ -446,39 +454,47 @@ function Addproduct(props) {
               />
             </div>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={6}
-            lg={6}
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <p
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
+
+          {[6, 7, 8, 9, 10, 11, 12, 13].map((item, i) => (
+            <Grid
+              item
+              xs={6}
+              sm={3}
+              md={3}
+              lg={3}
+              style={{ display: "flex", alignItems: "center" }}
+              key={i}
             >
-              <span style={{ padding: "2px 10px" }}>XXXL</span>
-            </p>
-            <div className="field-form-elem" style={{ width: "100%" }}>
-              <input
-                type="tel"
-                placeholder="Enter price"
-                value={priceValue.xxxl}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  const char = value.slice(-1);
-                  if ((char >= "0" && char <= "9") || value === "") {
-                    const myPValue = { ...priceValue };
-                    myPValue.xxxl = value;
-                    setPriceValue(myPValue);
-                  }
+              <p
+                style={{
+                  display: "flex",
+                  alignItems: "center",
                 }}
-              />
-            </div>
-          </Grid>
+              >
+                <span style={{ padding: "2px 10px" }}>{item}</span>
+              </p>
+              <div
+                className="field-form-elem field-form-elem_no-width"
+                style={{ width: "100%", overflowX: "hidden" }}
+              >
+                <input
+                  type="tel"
+                  placeholder="Enter price"
+                  value={priceValue[`s${item}`]}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const char = value.slice(-1);
+                    if ((char >= "0" && char <= "9") || value === "") {
+                      const myPValue = { ...priceValue };
+                      myPValue[`s${item}`] = value;
+                      setPriceValue(myPValue);
+                    }
+                  }}
+                />
+              </div>
+            </Grid>
+          ))}
+
           <small style={{ width: "90%" }} className="field-error-msg">
             {fieldError.price}
           </small>

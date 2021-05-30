@@ -14,20 +14,20 @@ function UpdateProduct(props) {
     xl: props.data.price.xl || "",
     xxl: props.data.price.xxl || "",
     xxxl: props.data.price.xxxl || "",
+    s6: props.data.price["6"] || "",
+    s7: props.data.price["7"] || "",
+    s8: props.data.price["8"] || "",
+    s9: props.data.price["9"] || "",
+    s10: props.data.price["10"] || "",
+    s11: props.data.price["11"] || "",
+    s12: props.data.price["12"] || "",
+    s13: props.data.price["13"] || "",
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const [values, setValues] = useState({
     title: props.data.title,
-    price: {
-      s: props.data.price.s || "",
-      m: props.data.price.m || "",
-      l: props.data.price.l || "",
-      xl: props.data.price.xl || "",
-      xxl: props.data.price.xxl || "",
-      xxxl: props.data.price.xxxl || "",
-    },
     desc: props.data.desc,
     thumbnail: "",
     image1: "",
@@ -112,11 +112,14 @@ function UpdateProduct(props) {
     formData.append("uid", props.uid);
     formData.append("pid", props.pid);
     if (values.title) formData.append("title", values.title);
-    if (values.price) {
+
+    if (priceValue) {
       const price = {};
       Object.keys(priceValue).forEach((item) => {
         if (priceValue[item]) {
-          price[item] = priceValue[item];
+          if (item.length > 1 && item.slice(0, 1) === "s")
+            price[item.slice(1)] = Number.parseInt(priceValue[item]);
+          else price[item] = Number.parseInt(priceValue[item]);
         }
       });
       formData.append("price", JSON.stringify(price));
@@ -128,7 +131,6 @@ function UpdateProduct(props) {
     if (values.image3) formData.append("image3", values.image3);
 
     setSubmitButtonDisabled(true);
-
     fetch(`${process.env.REACT_APP_SERVER}/product/update`, {
       method: "POST",
       body: formData,
@@ -422,6 +424,45 @@ function UpdateProduct(props) {
               />
             </div>
           </Grid>
+          {[6, 7, 8, 9, 10, 11, 12, 13].map((item, i) => (
+            <Grid
+              item
+              xs={6}
+              sm={3}
+              md={3}
+              lg={3}
+              style={{ display: "flex", alignItems: "center" }}
+              key={i}
+            >
+              <p
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ padding: "2px 10px" }}>{item}</span>
+              </p>
+              <div
+                className="field-form-elem field-form-elem_no-width"
+                style={{ width: "100%", overflowX: "hidden" }}
+              >
+                <input
+                  type="tel"
+                  placeholder="Enter price"
+                  value={priceValue[`s${item}`]}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const char = value.slice(-1);
+                    if ((char >= "0" && char <= "9") || value === "") {
+                      const myPValue = { ...priceValue };
+                      myPValue[`s${item}`] = value;
+                      setPriceValue(myPValue);
+                    }
+                  }}
+                />
+              </div>
+            </Grid>
+          ))}
           <small style={{ width: "90%" }} className="field-error-msg">
             {fieldError.price}
           </small>
