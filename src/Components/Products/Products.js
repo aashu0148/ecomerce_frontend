@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/action";
 import { Link } from "react-router-dom";
-import { Grid, IconButton, Divider, Slider } from "@material-ui/core";
+import { Grid, IconButton, Divider } from "@material-ui/core";
 // import SortIcon from "@material-ui/icons/Sort";
 import FilterIcon from "@material-ui/icons/FilterList";
 
+import Slide from "./Slider";
 import Card from "../Card/Card";
 import ListItem from "../ListItem/ListItem";
 import CheckListItem from "../ListItem/CheckListItem";
@@ -480,24 +481,13 @@ function Products(props) {
                             key={Date.now() + i}
                             style={{ margin: "30px auto", maxWidth: "80%" }}
                           >
-                            <Slider
-                              style={{ color: "var(--primary-color)" }}
+                            <Slide
                               value={priceSliderValue}
-                              min={0}
-                              max={20000}
-                              step={100}
-                              onChange={(event, newValue) => {
-                                setPriceSliderValue(newValue);
-                              }}
-                              valueLabelDisplay="auto"
-                              aria-labelledby="range-slider"
-                              getAriaValueText={(value) => {
-                                return `₹ ${value}`;
-                              }}
+                              onChanged={(value) => setPriceSliderValue(value)}
                             />
                             <div>
                               <h4>
-                                From - 
+                                From -
                                 <span style={{ color: "var(--primary-color)" }}>
                                   ₹ {priceSliderValue[0]}
                                 </span>
